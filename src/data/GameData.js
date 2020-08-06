@@ -10,10 +10,10 @@ export const DataReducer = React.createContext()
 
 export default function GameData() {
   const initialData = {
-    id: '',
     uid: '',
-    solution: {},
-    questions: [],
+    solution: null,
+    inputs: [],
+    startTime: '',
   }
   const [data, setData] = useReducer(gameDataReducer, initialData)
 

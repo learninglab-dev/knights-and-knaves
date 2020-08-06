@@ -5,9 +5,7 @@ import {
   Switch
 } from 'react-router-dom'
 import Start from './setup/Start'
-import Create from './setup/Create'
-import Join from './setup/Join'
-import Game from './gameplay/Game'
+import Play from './Play'
 
 
 export default function Routes() {
@@ -17,20 +15,8 @@ export default function Routes() {
         <Route exact path='/'>
           <Start />
         </Route>
-        <Route exact path='/create'>
-          <Create />
-        </Route>
-        <Route exact path='/create/:id'>
-          <Create />
-        </Route>
-        <Route exact path='/join'>
-          <Join />
-        </Route>
-        <Route path='/join/:id'>
-          <Join />
-        </Route>
-        <Route exact path='/play/:id'>
-          <Game />
+        <Route exact path='/:id'>
+          <Play />
         </Route>
       </Switch>
     </Router>

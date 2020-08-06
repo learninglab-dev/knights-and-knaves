@@ -5,9 +5,8 @@ import chooseRoles from '../setup/chooseRoles'
 export default function gameDataReducer(data, action) {
   switch (action.type) {
     case 'CREATE':
-      const uid = firebase.database().ref(`/`).push().key
-      firebase.database().ref(`${uid}`).set({id: action.id})
-      return {...data, id: action.id, uid: uid}
+      firebase.database().ref(`/`).update({[action.uid]: true})
+      return {...data, uid: action.uid}
     case 'ROLES':
       const roles = chooseRoles(action.names)
       firebase.database().ref(`/${data.uid}`).update({solution: roles})
