@@ -5,12 +5,16 @@ import Game from '../gameplay/Game'
 
 export default function Join() {
   const { id } = useParams()
+  if (id) {
+    return (
+      <div>
+        character creator viewer goes here
+      </div>
+    )
+  }
   return (
     <div>
-    {id !== 'null' ?
-      <Game id={id} />
-      : <div>sorry, we couldn't find a game with that name</div>
-    }
+      please enter a game name to join the game!
     </div>
   )
 }

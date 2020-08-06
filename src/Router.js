@@ -20,7 +20,7 @@ export default function Routes() {
         <Route exact path='/create'>
           <Create />
         </Route>
-        <Route exact path='/create/:game'>
+        <Route exact path='/create/:id'>
           <Create />
         </Route>
         <Route exact path='/join'>

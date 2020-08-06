@@ -13,7 +13,7 @@ export default function Start() {
       </Link>
       <div>
         <input type='text' placeholder='game id' onChange={e => setId(e.target.value)}></input>
-        <Link to={`/join/${id}`}>
+        <Link to={!id ? `/join` : `/join/${id}`}>
           <button>join</button>
         </Link>
       </div>

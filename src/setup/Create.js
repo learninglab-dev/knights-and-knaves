@@ -4,12 +4,11 @@ import { DataReducer } from '../data/GameData'
 
 
 export default function Create() {
-  const [id, setId] = useState(null)
+  const [name, setName] = useState(null)
   const setData = useContext(DataReducer)
-  const { game } = useParams()
-  console.log(game)
+  const { id } = useParams()
 
-  if (game) {
+  if (id) {
     return (
       <div>
         character creator goes here
@@ -20,10 +19,10 @@ export default function Create() {
   return (
     <div>
       <p>enter a name for your game here:</p>
-      <input type='text' placeholder='game id' onChange={e => setId(e.target.value)}></input>
+      <input type='text' placeholder='game id' onChange={e => setName(e.target.value)}></input>
       <p>click go! to launch then </p>
       <p>send this game name to your teammates so they can join</p>
-      <Link to={`/create/${id}`}>
+      <Link to={`/create/${name}`}>
         <button onClick={() => setData({type: 'CREATE', id: id})}>go!</button>
       </Link>
     </div>
