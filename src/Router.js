@@ -4,7 +4,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import Start from './setup/Start'
+import Start from './Start'
 import Play from './Play'
 
 
@@ -23,4 +23,4 @@ export default function Routes() {
   )
 }
 
-// QUESTION: do we want to validate game ids as part of the routing and then send the user to /create if it doesn't exist?
+// QUESTION: do we want to validate game ids as part of the routing and then send the user to / if it doesn't exist?

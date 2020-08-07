@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import chooseRoles from '../setup/chooseRoles'
+import chooseRoles from '../chooseRoles'
 
 
 export default function gameDataReducer(data, action) {
@@ -7,12 +7,20 @@ export default function gameDataReducer(data, action) {
     case 'CREATE':
       firebase.database().ref(`/`).update({[action.uid]: true})
       return {...data, uid: action.uid}
+    case 'CREATEREAD':
+      return {...data, uid: action.uid}
     case 'ROLES':
       const roles = chooseRoles(action.names)
       firebase.database().ref(`/${data.uid}`).update({solution: roles})
       return {...data, solution: roles}
-    case 'ASK':
-    case 'SOLVE':
+    case 'ROLESREAD':
+      return {...data, solution: action.solution}
+    case 'TURN':
+      const nextKey = data.turns.length
+      firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set(action.question)
+      return {...data, turns: {...data.turns, nextKey: action.question}}
+    case 'TURNREAD':
+      return {...data, turns: [...data.turns, action.turn]}
     default:
       alert('error updating game data')
   }

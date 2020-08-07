@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { DataReducer, Data } from '../data/GameData'
+import { DataReducer, Data } from './data/GameData'
 
 
 export default function Start() {
@@ -25,8 +25,8 @@ export default function Start() {
           <button onClick={() => createGame()}>create</button>
           <div>
             <input type='text' placeholder='game id' onChange={e => setId(e.target.value)}></input>
-            <Link to={!id ? `/join` : `/join/${id}`}>
-              <button>join</button>
+            <Link to={!id ? `/` : `/${id}`}>
+              <button onClick={() => startNewGame({type: 'CREATEREAD', uid: id})}>join</button>
             </Link>
           </div>
         </>

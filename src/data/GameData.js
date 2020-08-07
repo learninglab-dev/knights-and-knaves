@@ -12,7 +12,7 @@ export default function GameData() {
   const initialData = {
     uid: '',
     solution: null,
-    inputs: [],
+    turns: [],
     startTime: '',
   }
   const [data, setData] = useReducer(gameDataReducer, initialData)
