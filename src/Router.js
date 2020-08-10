@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +8,9 @@ import {
 } from 'react-router-dom'
 import firebase from 'firebase'
 import Start from './Start'
-import Play from './Play'
+import Interface from './Interface'
+import CharacterBuilder from './CharacterBuilder'
+import { Data, DataReducer } from './data/GameData'
 
 
 export default function Routes() {
@@ -31,6 +33,9 @@ export default function Routes() {
 
 function ValidateGameId() {
   const { id } = useParams()
+  const gameData = useContext(Data)
+  console.log(Promise.resolve(gameData))
+  const updateGame = useContext(DataReducer)
   const [snapshot, setSnapshot] = useState('init')
   useEffect(() => {
     if (firebase.apps.length === 0) {
@@ -39,11 +44,15 @@ function ValidateGameId() {
       firebase.database().ref(`/${id}`).once('value').then(data => {
         if (data.val() === null) {
           sessionStorage.setItem('invalid', true)
+          return setSnapshot(null)
         }
-        setSnapshot(data.val())
+        if (!gameData.uid) {
+          updateGame({type: 'JOIN', uid: id, solution: data.val().solution, turns: data.val().turns})
+        }
+        return setSnapshot('exists')
       })
     }
-  },[id, snapshot])
+  },[id, snapshot, gameData.uid, updateGame])
   switch (snapshot) {
     case 'loading':
     case 'init':
@@ -51,6 +60,13 @@ function ValidateGameId() {
     case null:
       return <Redirect to='/' />
     default:
-      return <Play />
+      return (
+        <>
+        { gameData.solution ?
+          <Interface /> :
+          <CharacterBuilder />
+        }
+      </>
+    )
   }
 }

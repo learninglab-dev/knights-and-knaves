@@ -10,20 +10,6 @@ export default function Play() {
   const updateGame = useContext(DataReducer)
   console.log(gameData)
 
-  useEffect(() => {
-    firebase.database().ref(`/${gameData.uid}`).on('value', snapshot => {
-    const update = snapshot.val()
-    if (!gameData.solution) {
-      const solution = update.solution ? update.solution : null
-      updateGame({type: 'ROLESREAD', solution: solution})
-    } else {
-      const turn = update.turns[update.turns.length-1]
-      updateGame({type: 'TURNREAD', turn: turn})
-    }
-    })
-    return () => firebase.database().ref(`/${gameData.uid}`).off()
-  }, [gameData.uid, gameData.solution, updateGame])
-
   if (gameData.solution) {
     return <Interface />
   }

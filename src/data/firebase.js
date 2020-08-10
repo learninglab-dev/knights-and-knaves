@@ -6,21 +6,32 @@ export default function gameDataReducer(data, action) {
   switch (action.type) {
     case 'CREATE':
       firebase.database().ref(`/`).update({[action.uid]: true})
+      firebase.database().ref(`/${action.uid}`).on('value', snapshot => {
+      const update = snapshot.val()
+      if (!data.solution) {
+        const solution = update.solution ? update.solution : []
+        return {...data, solution: solution}
+      } else {
+        const turns = update.turns ? update.turns : []
+        return {...data, turns: turns}
+      }
+      })
       return {...data, uid: action.uid}
-    case 'CREATEREAD':
-      return {...data, uid: action.uid}
+    case 'JOIN':
+      return {...data, uid: action.uid, solution: action.solution, turns: action.turns}
     case 'ROLES':
       const roles = chooseRoles(action.names)
       firebase.database().ref(`/${data.uid}`).update({solution: roles})
       return {...data, solution: roles}
     case 'ROLESREAD':
-      return {...data, solution: action.solution}
+      console.log('rolesread');
+      console.log(action.turns);
+      console.log(data);
+      return {...data, turns: action.turns}
     case 'TURN':
       const nextKey = data.turns.length
       firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set(action.question)
-      return {...data, turns: {...data.turns, nextKey: action.question}}
-    case 'TURNREAD':
-      return {...data, turns: [...data.turns, action.turn]}
+      return data
     default:
       alert('error updating game data')
   }

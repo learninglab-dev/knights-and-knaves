@@ -18,7 +18,7 @@ export default function Start() {
   }
   const joinGame = () => {
     sessionStorage.removeItem('invalid')
-    updateGame({type: 'CREATEREAD', uid: id})
+    updateGame({type: 'JOIN', uid: id})
   }
 
   return (
