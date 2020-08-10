@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  useParams,
+  Redirect
 } from 'react-router-dom'
+import firebase from 'firebase'
 import Start from './Start'
 import Play from './Play'
 
@@ -13,14 +16,37 @@ export default function Routes() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          <Start />
+          <div>
+            <Start />
+          </div>
         </Route>
         <Route exact path='/:id'>
-          <Play />
+          <ValidateGameId />
         </Route>
       </Switch>
     </Router>
   )
 }
 
-// QUESTION: do we want to validate game ids as part of the routing and then send the user to / if it doesn't exist?
+// TODO: add a test in here to see if the user has hit refresh on '/:id' and reinitialize firebase or move the initalize function into router?
+
+function ValidateGameId() {
+  const { id } = useParams()
+  const [snapshot, setSnapshot] = useState('loading')
+  useEffect(() => {
+    firebase.database().ref(`/${id}`).once('value').then(data => {
+      if (data.val() === null) {
+        sessionStorage.setItem('invalid', true)
+      }
+      setSnapshot(data.val())
+    })
+  }, [id])
+  switch (snapshot) {
+    case 'loading':
+      return <h2>Loading...</h2>
+    case null:
+      return <Redirect to='/' />
+    default:
+      return <Play />
+  }
+}

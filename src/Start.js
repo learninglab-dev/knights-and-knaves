@@ -6,18 +6,24 @@ import { DataReducer, Data } from './data/GameData'
 export default function Start() {
   const [id, setId] = useState(null)
   const [displayUid, setDisplayUid] = useState(false)
-  const startNewGame = useContext(DataReducer)
+  const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
   const history = useHistory()
 
   const createGame = () => {
+    sessionStorage.removeItem('invalid')
     const id = Math.random().toString(36).substr(2, 6)
-    startNewGame({type: 'CREATE', uid: id})
+    updateGame({type: 'CREATE', uid: id})
     setDisplayUid(true)
+  }
+  const joinGame = () => {
+    sessionStorage.removeItem('invalid')
+    updateGame({type: 'CREATEREAD', uid: id})
   }
 
   return (
     <div>
+      {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
       <h2>Knights & Knaves the Game</h2>
       {!displayUid &&
         <>
@@ -26,7 +32,7 @@ export default function Start() {
           <div>
             <input type='text' placeholder='game id' onChange={e => setId(e.target.value)}></input>
             <Link to={!id ? `/` : `/${id}`}>
-              <button onClick={() => startNewGame({type: 'CREATEREAD', uid: id})}>join</button>
+              <button onClick={() => joinGame()}>join</button>
             </Link>
           </div>
         </>
