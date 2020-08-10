@@ -22,7 +22,7 @@ export default function Play() {
     }
     })
     return () => firebase.database().ref(`/${gameData.uid}`).off()
-  }, [])
+  }, [gameData.uid, gameData.solution, updateGame])
 
   if (gameData.solution) {
     return <Interface />

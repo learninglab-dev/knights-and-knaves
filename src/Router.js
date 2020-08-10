@@ -4,7 +4,7 @@ import {
   Route,
   Switch,
   useParams,
-  Redirect
+  Redirect,
 } from 'react-router-dom'
 import firebase from 'firebase'
 import Start from './Start'
@@ -28,21 +28,25 @@ export default function Routes() {
   )
 }
 
-// TODO: add a test in here to see if the user has hit refresh on '/:id' and reinitialize firebase or move the initalize function into router?
 
 function ValidateGameId() {
   const { id } = useParams()
-  const [snapshot, setSnapshot] = useState('loading')
+  const [snapshot, setSnapshot] = useState('init')
   useEffect(() => {
-    firebase.database().ref(`/${id}`).once('value').then(data => {
-      if (data.val() === null) {
-        sessionStorage.setItem('invalid', true)
-      }
-      setSnapshot(data.val())
-    })
-  }, [id])
+    if (firebase.apps.length === 0) {
+      setSnapshot('loading')
+    } else {
+      firebase.database().ref(`/${id}`).once('value').then(data => {
+        if (data.val() === null) {
+          sessionStorage.setItem('invalid', true)
+        }
+        setSnapshot(data.val())
+      })
+    }
+  },[id, snapshot])
   switch (snapshot) {
     case 'loading':
+    case 'init':
       return <h2>Loading...</h2>
     case null:
       return <Redirect to='/' />
