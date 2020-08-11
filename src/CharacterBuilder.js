@@ -1,11 +1,22 @@
-import React, { useState, useContext } from 'react'
-import { DataReducer } from './data/GameData'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
+import firebase from 'firebase'
+import { DataReducer, Data } from './data/GameData'
 
 
 export default function CharacterBuilder() {
-  const setCharacters = useContext(DataReducer)
+  const updateGame = useCallback(useContext(DataReducer), [])
+  const gameData = useContext(Data)
   const [num, setNum] = useState(null)
   const [names, setNames] = useState({})
+
+  useEffect(() => {
+    firebase.database().ref(`/${gameData.uid}/solution`).on('value', snapshot => {
+    const update = snapshot.val()
+    updateGame({type: 'SETSOLUTION', solution: update})
+    })
+    return () => firebase.database().ref(`/${gameData.uid}/solution`).off()
+  }, [])
+
   let characters = []
   for (let i = 0; i < num; i++) {
     characters.push(
@@ -31,7 +42,7 @@ export default function CharacterBuilder() {
       </div>
       <p>let's name your islanders</p>
       {characters}
-      <button onClick={() => setCharacters({type: 'ROLES', names: names})}>start the game</button>
+      <button onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}>start the game</button>
     </div>
   )
 }

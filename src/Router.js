@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback
+} from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -13,7 +18,7 @@ import CharacterBuilder from './CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
 
 
-export default function Routes() {
+export default function Routes({ fbInstance }) {
   return (
     <Router>
       <Switch>
@@ -23,7 +28,7 @@ export default function Routes() {
           </div>
         </Route>
         <Route exact path='/:id'>
-          <ValidateGameId />
+          <ValidateGameId fbInstance={fbInstance}/>
         </Route>
       </Switch>
     </Router>
@@ -31,42 +36,41 @@ export default function Routes() {
 }
 
 
-function ValidateGameId() {
+function ValidateGameId({ fbInstance }) {
   const { id } = useParams()
-  const gameData = useContext(Data)
-  console.log(Promise.resolve(gameData))
-  const updateGame = useContext(DataReducer)
-  const [snapshot, setSnapshot] = useState('init')
+  const uid = useContext(Data).uid
+  const solution = useContext(Data).solution
+  const updateGame = useCallback(useContext(DataReducer), [])
+  const [status, setStatus] = useState(uid ? 'characters' : 'loading')
   useEffect(() => {
-    if (firebase.apps.length === 0) {
-      setSnapshot('loading')
-    } else {
+    if (solution) {
+      setStatus('ready')
+    }
+    if (uid && !solution) {
+      setStatus('characters')
+    }
+  },[solution, uid])
+  useEffect(() => {
+    if (!uid && fbInstance) {
       firebase.database().ref(`/${id}`).once('value').then(data => {
         if (data.val() === null) {
           sessionStorage.setItem('invalid', true)
-          return setSnapshot(null)
+          return setStatus('invalid')
         }
-        if (!gameData.uid) {
-          updateGame({type: 'JOIN', uid: id, solution: data.val().solution, turns: data.val().turns})
-        }
-        return setSnapshot('exists')
+        updateGame({type: 'JOIN', uid: id, solution: data.val().solution, turns: data.val().turns})
       })
     }
-  },[id, snapshot, gameData.uid, updateGame])
-  switch (snapshot) {
+  }, [uid, id, updateGame, fbInstance])
+  switch (status) {
     case 'loading':
-    case 'init':
       return <h2>Loading...</h2>
-    case null:
+    case 'invalid':
       return <Redirect to='/' />
+    case 'characters':
+      return <CharacterBuilder />
+    case 'ready':
+      return <Interface />
     default:
-      return (
-        <>
-        { gameData.solution ?
-          <Interface /> :
-          <CharacterBuilder />
-        }
-      </>
-    )
+      return alert('sorry! we are having trouble loading your game')
   }
 }

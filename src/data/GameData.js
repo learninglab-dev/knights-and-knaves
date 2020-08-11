@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useState } from 'react'
 import firebase from 'firebase'
 import { firebaseConfig } from './config'
 import gameDataReducer from './firebase'
@@ -9,6 +9,7 @@ export const DataReducer = React.createContext()
 
 
 export default function GameData() {
+  const [instance, setInstance] = useState(null)
   const initialData = {
     uid: '',
     solution: null,
@@ -20,12 +21,15 @@ export default function GameData() {
   useEffect(() => {
     firebase.initializeApp(firebaseConfig)
     firebase.analytics()
+    firebase.auth().onAuthStateChanged(() => {
+      setInstance('ready')
+    })
   }, [])
 
   return (
     <Data.Provider value={data}>
       <DataReducer.Provider value={setData}>
-        <Router />
+        <Router fbInstance={instance}/>
       </DataReducer.Provider>
     </Data.Provider>
   )

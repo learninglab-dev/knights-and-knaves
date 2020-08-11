@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import firebase from 'firebase'
 import { DataReducer, Data } from './data/GameData'
 
 
@@ -18,7 +19,9 @@ export default function Start() {
   }
   const joinGame = () => {
     sessionStorage.removeItem('invalid')
-    updateGame({type: 'JOIN', uid: id})
+    firebase.database().ref(`/${id}`).once('value').then(data => {
+      return updateGame({type: 'JOIN', uid: id, solution: data.val().solution, turns: data.val().turns})
+    })
   }
 
   return (
