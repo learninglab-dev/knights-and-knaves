@@ -1,21 +1,27 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useCallback
+} from 'react'
 import firebase from 'firebase'
 import { DataReducer, Data } from './data/GameData'
 
 
 export default function CharacterBuilder() {
   const updateGame = useCallback(useContext(DataReducer), [])
-  const gameData = useContext(Data)
+  const uid = useContext(Data).uid
   const [num, setNum] = useState(null)
   const [names, setNames] = useState({})
 
+  // TODO: add error handling
   useEffect(() => {
-    firebase.database().ref(`/${gameData.uid}/solution`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/solution`).on('value', snapshot => {
     const update = snapshot.val()
     updateGame({type: 'SETSOLUTION', solution: update})
     })
-    return () => firebase.database().ref(`/${gameData.uid}/solution`).off()
-  }, [])
+    return () => firebase.database().ref(`/${uid}/solution`).off()
+  }, [updateGame, uid])
 
   let characters = []
   for (let i = 0; i < num; i++) {

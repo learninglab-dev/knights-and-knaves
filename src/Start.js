@@ -27,7 +27,7 @@ export default function Start() {
   return (
     <div>
       {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
-      <h2>Knights & Knaves the Game</h2>
+      <h2>Knights & Knaves: A Logic Game</h2>
       {!displayUid &&
         <>
           <p>create a new game or join one in progress</p>

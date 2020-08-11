@@ -26,4 +26,4 @@ export default function gameDataReducer(data, action) {
   }
 }
 
-// TODO: add some error handling, or else force routing back to start if no uid exists for this session
+// TODO: add some error handling

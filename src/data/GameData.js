@@ -24,6 +24,7 @@ export default function GameData() {
     firebase.auth().onAuthStateChanged(() => {
       setInstance('ready')
     })
+    return () => firebase.delete()
   }, [])
 
   return (
