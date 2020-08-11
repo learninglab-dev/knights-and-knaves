@@ -24,7 +24,7 @@ export default function Interface() {
       <button onClick={() => {updateGame({type: 'TAKETURN', question: mockTurn})}}>submit turn</button>
       <div>
         <h2>list of turns:</h2>
-        {gameData.turns?.map(turn => <p key={turn}>{turn}</p>)}
+        {gameData.turns?.map((turn, i) => <p key={i}>{turn}</p>)}
       </div>
     </div>
   )
