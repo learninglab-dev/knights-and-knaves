@@ -1,5 +1,7 @@
 import firebase from 'firebase'
+import oracle from 'logic-oracle'
 import chooseRoles from '../chooseRoles'
+import checkSolution from '../checkSolution'
 
 
 export default function gameDataReducer(data, action) {
@@ -17,7 +19,9 @@ export default function gameDataReducer(data, action) {
       return {...data, solution: action.solution}
     case 'TAKETURN':
       const nextKey = data.turns?.length || 0
-      firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set(action.question)
+      const subKeys = action.turnType === 'question' ? ['question', 'response'] : ['solution', 'correct']
+      const result = action.turnType === 'question' ? oracle(action.turn) : checkSolution(action.turn, data.solution)
+      firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set({[subKeys[0]]: action.turn, [subKeys[1]]: result})
       return data
     case 'GETTURNS':
         return {...data, turns: action.turns}
