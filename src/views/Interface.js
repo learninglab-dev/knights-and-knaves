@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useContext, useEffect, useCallback, useState } from 'react'
 import firebase from 'firebase'
-import { Data, DataReducer } from './data/GameData'
+import { Data, DataReducer } from '../data/GameData'
 import Solve from './Solve'
+import Ask from './Ask'
 
 
 export default function Interface() {
   const gameData = useContext(Data)
   const updateGame = useCallback(useContext(DataReducer), [])
-  const [mockTurn, setMockTurn] = useState('')
-  const [checked, setChecked] = useState(false)
+  const [solved, setSolved] = useState(false)
 
   // TODO: add error handling
   useEffect(() => {
@@ -18,20 +18,21 @@ export default function Interface() {
     })
     return () => firebase.database().ref(`/${gameData.uid}/solution`).off()
   }, [updateGame, gameData.uid])
+  useEffect(() => {
+    firebase.database().ref(`/${gameData.uid}/solved`).on('value', snapshot => {
+      if (snapshot.val()) {
+        setSolved(true)
+      }
+    })
+    return () => firebase.database().ref(`/${gameData.uid}/solved`).off()
+  }, [gameData.uid])
 
   return (
     <div>
-      <h2>mock game interface. type something to take a turn</h2>
-      <input value={mockTurn} onChange={e => setMockTurn(e.target.value)}></input>
-      <input type="checkbox" onChange={e => setChecked(!checked)}></input>
-      <button
-        onClick={() => {
-          updateGame({type: 'TAKETURN', turn: mockTurn, turnType: 'solve'})
-          setMockTurn('')
-        }}
-      >
-        submit turn
-      </button>
+      { solved && <h1>you win!!!</h1>}
+      <div>
+        <Ask />
+      </div>
       <div>
         <Solve />
       </div>

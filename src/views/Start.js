@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
-import { DataReducer, Data } from './data/GameData'
+import { DataReducer, Data } from '../data/GameData'
 
 
 export default function Start() {

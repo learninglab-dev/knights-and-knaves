@@ -12,9 +12,9 @@ import {
   Redirect,
 } from 'react-router-dom'
 import firebase from 'firebase'
-import Start from './Start'
-import Interface from './Interface'
-import CharacterBuilder from './CharacterBuilder'
+import Start from './views/Start'
+import Interface from './views/Interface'
+import CharacterBuilder from './views/CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
 
 

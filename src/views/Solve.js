@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Data, DataReducer } from './data/GameData'
+import { Data, DataReducer } from '../data/GameData'
 
 
 export default function Solve() {

@@ -5,7 +5,7 @@ import React, {
   useCallback
 } from 'react'
 import firebase from 'firebase'
-import { DataReducer, Data } from './data/GameData'
+import { DataReducer, Data } from '../data/GameData'
 
 
 export default function CharacterBuilder() {
