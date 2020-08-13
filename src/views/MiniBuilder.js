@@ -3,7 +3,7 @@ import { Box, Flex } from 'rebass'
 import Select from 'react-select'
 import { DataReducer } from '../data/GameData'
 
-export default function MiniBuilder({names, handleConjunct}) {
+export default function MiniBuilder({names, answerer}) {
   const initialState = {
     disableNames: false,
     disableQuantifier: false,
@@ -192,7 +192,7 @@ export default function MiniBuilder({names, handleConjunct}) {
     <p>{state.names} {state.quantifier} {state.number} {state.predicate} {state.connective}</p>
     <button
       onClick={() => {
-        updateGame({type: 'TAKETURN', turn: statement, turnType: 'question'})
+        updateGame({type: 'TAKETURN', turn: statement, turnType: 'question', answerer: answerer})
       }}
     >
       submit turn

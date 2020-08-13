@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
@@ -10,6 +10,10 @@ export default function Start() {
   const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
   const history = useHistory()
+
+  useEffect(() => {
+    updateGame({type: 'RESET'})
+  }, [updateGame])
 
   const createGame = () => {
     sessionStorage.removeItem('invalid')

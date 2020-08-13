@@ -6,6 +6,13 @@ import checkSolution from '../utils/checkSolution'
 
 export default function gameDataReducer(data, action) {
   switch (action.type) {
+    case 'RESET':
+      return {
+        uid: '',
+        solution: null,
+        turns: [],
+        startTime: '',
+      }
     case 'CREATE':
       firebase.database().ref(`/`).update({[action.uid]: true})
       return {...data, uid: action.uid}
@@ -21,7 +28,7 @@ export default function gameDataReducer(data, action) {
       console.log(action.turn);
       const nextKey = data.turns?.length || 0
       const subKeys = action.turnType === 'question' ? ['question', 'response'] : ['solution', 'correct']
-      const result = action.turnType === 'question' ? oracle(data.solution, "A", action.turn) : checkSolution(action.turn, data.solution)
+      const result = action.turnType === 'question' ? oracle(data.solution, action.answerer, action.turn) : checkSolution(action.turn, data.solution)
       firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set({[subKeys[0]]: action.turn, [subKeys[1]]: result})
       if (result && subKeys[0] === 'solution') {
         firebase.database().ref(`/${data.uid}/solved`).set(true)
