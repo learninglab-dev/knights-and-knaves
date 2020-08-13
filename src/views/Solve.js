@@ -11,8 +11,8 @@ export default function Solve() {
   return (
     <>
     {
-      names.map(name =>
-        <div key={name}>
+      names.map((name, i) =>
+        <div key={i}>
           <label>{name}</label>
           <select value={input[name]} onChange={e => setInput({...input, [name]: e.target.value})}>
             <option value="" defaultValue>Select a role...</option>

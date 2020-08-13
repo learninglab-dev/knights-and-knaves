@@ -21,6 +21,7 @@ export default function MiniBuilder({names, answerer}) {
   }
   const updateGame = useContext(DataReducer)
   const [sentence, updateSentence] = useReducer(sentenceBuilder, initialState)
+  console.log(sentence.predicate)
 
   const numberOptions = names.map( (name, i) => {
     return {value: i+1, label: i+1}
@@ -38,12 +39,12 @@ export default function MiniBuilder({names, answerer}) {
                               {value: 'more', label: 'More than'},
                             ]
   const predicateOptions =  [
-                              {value: 'Knight', label: 'is a Knight'},
+                              {value: 'Knight', label: 'Knight'},
                               {value: 'Knave', label: 'is a Knave'},
                               {value: 'Dragon', label: 'is a Dragon'},
                               {value: 'Monk', label: 'is a Monk'},
-                              {value: 'same', label: 'are the Same'},
-                              {value: 'different', label: ' are Different'},
+                              {value: 'Same', label: 'are the Same'},
+                              {value: 'Different', label: ' are Different'},
                             ]
   const connectiveOptions = [
                               {value: 'AND', label: 'And'},
@@ -62,18 +63,18 @@ export default function MiniBuilder({names, answerer}) {
       >
         <Select
           name='predicate'
-          defaultValue = {[]}
+          value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
           isClearable={true}
           options={predicateOptions}
           onChange={(e) => {
-            updateSentence({ type: 'predicate', value: e ? e.value : null })
+            updateSentence({ type: 'predicate', value: e.value })
             updateSentence({type: 'ORACLESPEAK'})
           }}
         />
         {!sentence.disableNames &&
             <Select
             name='names'
-            defaultValue={[]}
+            value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
             isMulti
             options={nameOptions}
@@ -89,6 +90,7 @@ export default function MiniBuilder({names, answerer}) {
         {!sentence.disableQuantifier &&
           <Select
             name='quantifier'
+            value={sentence.quantifier ? {value: sentence.quantifier, label: sentence.quantifier} : null}
             defaultValue={null}
             isDisabled={sentence.disableQuantifier}
             isClearable={true}
@@ -102,6 +104,7 @@ export default function MiniBuilder({names, answerer}) {
         {!sentence.disableNumber &&
           <Select
             name='number'
+            value={sentence.number ? {value: sentence.number, label: sentence.number} : null}
             defaultValue={null}
             isDisabled={sentence.disableNumber}
             isClearable={true}
