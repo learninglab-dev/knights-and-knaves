@@ -33,7 +33,7 @@ export default function Interface() {
       <div>
         <Ask />
       </div>
-      <div>
+      <div style={{marginTop: '25px', marginBottom: '25px'}}>
         <Solve />
       </div>
       <div>

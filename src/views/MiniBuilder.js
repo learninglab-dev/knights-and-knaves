@@ -1,108 +1,33 @@
-import React, { useContext, useEffect, useState, useReducer } from 'react';
+import React, {
+  useContext,
+  useReducer
+} from 'react'
 import { Box, Flex } from 'rebass'
 import Select from 'react-select'
 import { DataReducer } from '../data/GameData'
+import sentenceBuilder from '../utils/sentenceBuilder'
+
 
 export default function MiniBuilder({names, answerer}) {
   const initialState = {
     disableNames: false,
     disableQuantifier: false,
     disableNumber: true,
-    names:null,
-    quantifier:null,
-    number:null,
-    predicate:null,
-    connective:null,
+    names: null,
+    quantifier: null,
+    number: null,
+    predicate: null,
+    connective: null,
   }
   const updateGame = useContext(DataReducer)
-  const [statement, setStatement] = useState(null)
+  const [sentence, updateSentence] = useReducer(sentenceBuilder, initialState)
 
-  const reducer = (state, action) => {
-    switch(action.type){
-      case 'names':
-        const result = action.value ? action.value.map(x => x.value) : []
-        return {
-          ...state,
-          names: result,
-        }
-      case 'quantifier':
-        switch(action.value){
-          case null:
-            return {
-              ...state,
-              disableNames: false,
-              disableNumber: true,
-              quantifier: action.value,
-              number: null,
-            }
-          case 'least':
-          case 'most':
-          case 'less':
-          case 'more':
-            return {
-              ...state,
-              disableNames: true,
-              disableNumber: false,
-              quantifier: action.value,
-            }
-          case 'all':
-          case 'some':
-          case 'none':
-            return {
-              ...state,
-              disableNames: true,
-              disableNumber: true,
-              quantifier: action.value,
-              number: null,
-            }
-          }
-      case 'number':
-        return {
-          ...state,
-          number: action.value,
-        }
-      case 'predicate':
-        return {
-          ...state,
-          predicate: action.value,
-        }
-      case 'connective':
-        return {
-          ...state,
-          connective: action.value,
-        }
-      default:
-        return {
-          initialState
-        }
-
-    }
-  }
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  const numberOptions = names.map( (x, index) => {
-    const result = {}
-    result['value'] = index+1
-    result['label'] = index+1
-    return result
+  const numberOptions = names.map( (name, i) => {
+    return {value: i+1, label: i+1}
     })
-  const nameOptions = names.map( (x) => {
-    const result = {}
-    result['value'] = x
-    result['label'] = x
-    return result
+  const nameOptions = names.map( name => {
+    return {value: name, label: name}
     })
-
-  useEffect(()=> {
-    const statement = state.names ?
-          [state.predicate, state.names] :
-          state.number? [state.predicate, [state.quantifier, state.number]] :
-          [state.predicate, [state.quantifier]]
-    console.log(JSON.stringify(statement));
-    setStatement(statement)
-  },[state])
-
-
   const quantifierOptions = [
                               {value: 'all', label: 'All'},
                               {value: 'some', label: 'Some'},
@@ -112,26 +37,20 @@ export default function MiniBuilder({names, answerer}) {
                               {value: 'less', label: 'Less than'},
                               {value: 'more', label: 'More than'},
                             ]
-  const roleOptions =     [
-                            {value: 'Knight', label: 'Knight'},
-                            {value: 'Knave', label: 'Knave'},
-                            {value: 'Dragon', label: 'Dragon'},
-                            {value: 'Monk', label: 'Monk'},
-                          ]
-  const adjectiveOptions =  [
-                              {value: 'same', label: 'Same'},
-                              {value: 'different', label: 'Different'},
+  const predicateOptions =  [
+                              {value: 'Knight', label: 'is a Knight'},
+                              {value: 'Knave', label: 'is a Knave'},
+                              {value: 'Dragon', label: 'is a Dragon'},
+                              {value: 'Monk', label: 'is a Monk'},
+                              {value: 'same', label: 'are the Same'},
+                              {value: 'different', label: ' are Different'},
                             ]
-  const groupedPredicateOptions =    [
-                              {label: 'Roles', options: roleOptions},
-                              {label: 'Adjectives', options: adjectiveOptions},
-                            ]
-  const connectiveOptions =  [
-                              {value: 'AND', label: 'AND'},
-                              {value: 'OR', label: 'OR'},
-                              {value: 'NOT', label: 'NOT'},
-                              {value: 'IF', label: 'IF'},
-                              {value: 'IFF', label: 'IFF'},
+  const connectiveOptions = [
+                              {value: 'AND', label: 'And'},
+                              {value: 'OR', label: 'Or'},
+                              {value: 'NOT', label: 'Not'},
+                              {value: 'IF', label: 'If'},
+                              {value: 'IFF', label: 'If and only if'},
                             ]
   return (
     <Box>
@@ -145,63 +64,71 @@ export default function MiniBuilder({names, answerer}) {
           name='predicate'
           defaultValue = {[]}
           isClearable={true}
-          options={groupedPredicateOptions}
-          onChange={(e) => dispatch({ type: 'predicate', value: e ? e.value : null })}
+          options={predicateOptions}
+          onChange={(e) => {
+            updateSentence({ type: 'predicate', value: e ? e.value : null })
+            updateSentence({type: 'ORACLESPEAK'})
+          }}
         />
-        {!state.disableNames &&
+        {!sentence.disableNames &&
             <Select
             name='names'
             defaultValue={[]}
-            isDisabled={state.disableNames}
+            isDisabled={sentence.disableNames}
             isMulti
             options={nameOptions}
-            onChange={(e) => dispatch({ type: 'names', value: e ? e : [] })}
+            onChange={(e) => {
+              updateSentence({ type: 'names', value: e ? e : [] })
+              updateSentence({type: 'ORACLESPEAK'})
+            }}
             styles={{
               width:'500px',
             }}
           />
         }
-        {!state.disableQuantifier &&
+        {!sentence.disableQuantifier &&
           <Select
             name='quantifier'
             defaultValue={null}
-            isDisabled={state.disableQuantifier}
+            isDisabled={sentence.disableQuantifier}
             isClearable={true}
             options={quantifierOptions}
-            onChange={(e) => dispatch({ type: 'quantifier', value: e ? e.value : null })}
+            onChange={(e) => {
+              updateSentence({ type: 'quantifier', value: e ? e.value : null })
+              updateSentence({type: 'ORACLESPEAK'})
+            }}
           />
         }
-        {!state.disableNumber &&
+        {!sentence.disableNumber &&
           <Select
             name='number'
             defaultValue={null}
-            isDisabled={state.disableNumber}
+            isDisabled={sentence.disableNumber}
             isClearable={true}
             options={numberOptions}
-            onChange={(e) => dispatch({ type: 'number', value: e ? e.value : null })}
+            onChange={(e) => {
+              updateSentence({ type: 'number', value: e ? e.value : null })
+              updateSentence({type: 'ORACLESPEAK'})
+            }}
           />
         }
       </Flex>
-      <Select
+      {false && <Select
         name='connective'
         defaultValue = {null}
         isClearable={true}
         options={connectiveOptions}
-        onChange={(e) => dispatch({ type: 'connective', value: e ? e.value : null })}
-      />
-    <p>{state.names} {state.quantifier} {state.number} {state.predicate} {state.connective}</p>
+        onChange={(e) => updateSentence({ type: 'connective', value: e ? e.value : null })}
+      />}
+    <p>{sentence.predicate} {sentence.names} {sentence.quantifier} {sentence.number}</p>
     <button
       onClick={() => {
-        updateGame({type: 'TAKETURN', turn: statement, turnType: 'question', answerer: answerer})
+        updateGame({type: 'TAKETURN', turn: sentence.oracleSpeak, turnType: 'question', answerer: answerer})
+        updateSentence({type: 'RESET'})
       }}
     >
       submit turn
     </button>
-    </Box>
+  </Box>
   )
 }
-
-// ['Knight', ['A']]
-// all atleast none
-// checkbox to negate?
-// use react selkect

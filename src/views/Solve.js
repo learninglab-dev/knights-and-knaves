@@ -29,6 +29,7 @@ export default function Solve() {
         updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
         setInput(Object.fromEntries(names.map(name => [name, ''])))
       }}
+      style={{marginTop: '15px'}}
       >
       attempt to solve
     </button>
