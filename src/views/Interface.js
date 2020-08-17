@@ -34,10 +34,19 @@ export default function Interface() {
       <p>
         You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.
       </p>
-      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '42vw'}}>
-        <Ask />
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw'}}>
+          <Ask />
+        </div>
+        <div style={{border: '2px solid black', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', width: '30vw', marginLeft: '30px'}}>
+          <h3>islander key</h3>
+          <p>Knights always tell the truth</p>
+          <p>Knaves always lie</p>
+          <p>Dragons tell the truth except in the presence of a Knight</p>
+          <p>Monks say whatever they like</p>
+        </div>
       </div>
-      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '42vw', marginTop: '25px'}}>
+      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw', marginTop: '25px'}}>
         <Solve />
       </div>
       <div>
