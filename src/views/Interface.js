@@ -42,8 +42,8 @@ export default function Interface() {
       </div>
       <div>
         <h2>turns:</h2>
-        {
-          Object.values(gameData.turns)?.map((turn, i) =>
+        {gameData.turns &&
+          Object.values(gameData.turns).map((turn, i) =>
           {
             const color = turn.response || turn.correct ? 'green' : 'red'
             return <p key={i} style={{color: color}}>{i+1}. {JSON.stringify(turn, null, 2)}</p>

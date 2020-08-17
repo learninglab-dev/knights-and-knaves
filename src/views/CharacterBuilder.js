@@ -34,21 +34,21 @@ export default function CharacterBuilder() {
   }
   if (!num) {
     return (
-      <div>
-        <p>how many islanders will you meet today?</p>
+      <div style={{marginLeft: '20px'}}>
+        <p style={{paddingTop: '20px'}}>how many islanders will you meet today?</p>
         <input type='text' onChange={e => setNum(e.target.value)}></input>
       </div>
     )
   }
   return (
-    <div>
+    <div style={{marginLeft: '20px'}}>
       <div>
-        <p>how many islanders will you meet today?</p>
+        <p style={{paddingTop: '20px'}}>how many islanders will you meet today?</p>
         <input type='text' onChange={e => setNum(e.target.value)} value={num}></input>
       </div>
       <p>let's name your islanders</p>
       {characters}
-      <button onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}>start the game</button>
+      <button style={{marginTop: '20px'}} onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}>start the game</button>
     </div>
   )
 }
