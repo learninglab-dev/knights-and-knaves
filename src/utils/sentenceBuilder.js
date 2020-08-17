@@ -49,7 +49,9 @@ export default function sentenceBuilder(sentence, action) {
             quantifier: action.value,
             number: null,
           }
+          default: alert('error in minibuilder. help!')
         }
+        return
     case 'number':
       return {
         ...sentence,
