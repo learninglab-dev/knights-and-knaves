@@ -25,12 +25,15 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
-      console.log(action.turn);
-      const nextKey = data.turns?.length || 0
-      const subKeys = action.turnType === 'question' ? ['question', 'response'] : ['solution', 'correct']
-      const result = action.turnType === 'question' ? oracle(data.solution, action.answerer, action.turn) : checkSolution(action.turn, data.solution)
-      firebase.database().ref(`/${data.uid}/turns/${nextKey}`).set({[subKeys[0]]: action.turn, [subKeys[1]]: result})
-      if (result && subKeys[0] === 'solution') {
+      console.log(action);
+      if (action.turnType === 'question') {
+        const result = oracle(data.solution, action.answerer, action.turn)
+        firebase.database().ref(`/${data.uid}/turns`).push().set({answerer: action.answerer, question: action.turn, response: result})
+        return data
+      }
+      const result = checkSolution(action.turn, data.solution)
+      firebase.database().ref(`/${data.uid}/turns`).push().set({solution: action.turn, correct: result})
+      if (result) {
         firebase.database().ref(`/${data.uid}/solved`).set(true)
       }
       return data

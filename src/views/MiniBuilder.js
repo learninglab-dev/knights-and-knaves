@@ -21,7 +21,10 @@ export default function MiniBuilder({names, answerer}) {
   }
   const updateGame = useContext(DataReducer)
   const [sentence, updateSentence] = useReducer(sentenceBuilder, initialState)
-  console.log(sentence.predicate)
+  const plural = sentence.names ?
+    sentence.names.length === 1 ? 'is a' : 'are' :
+    sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
+    sentence.quantifier ? 'is a' : null
 
   const numberOptions = names.map( (name, i) => {
     return {value: i+1, label: i+1}
@@ -33,18 +36,18 @@ export default function MiniBuilder({names, answerer}) {
                               {value: 'all', label: 'All'},
                               {value: 'some', label: 'Some'},
                               {value: 'none', label: 'None'},
-                              {value: 'least', label: 'At least'},
-                              {value: 'most', label: 'At most'},
-                              {value: 'less', label: 'Less than'},
-                              {value: 'more', label: 'More than'},
+                              {value: 'least', label: 'At least '},
+                              {value: 'most', label: 'At most '},
+                              {value: 'less', label: 'Less than '},
+                              {value: 'more', label: 'More than '},
                             ]
   const predicateOptions =  [
                               {value: 'Knight', label: 'Knight'},
-                              {value: 'Knave', label: 'is a Knave'},
-                              {value: 'Dragon', label: 'is a Dragon'},
-                              {value: 'Monk', label: 'is a Monk'},
-                              {value: 'Same', label: 'are the Same'},
-                              {value: 'Different', label: ' are Different'},
+                              {value: 'Knave', label: 'Knave'},
+                              {value: 'Dragon', label: 'Dragon'},
+                              {value: 'Monk', label: 'Monk'},
+                              {value: 'Same', label: 'Same'},
+                              {value: 'Different', label: 'Different'},
                             ]
   const connectiveOptions = [
                               {value: 'AND', label: 'And'},
@@ -57,14 +60,16 @@ export default function MiniBuilder({names, answerer}) {
     <Box>
       <Flex
         sx={{
-          width:'100vw',
+          width:'40vw',
           flexDirection:'column'
         }}
       >
+        <p style={{marginTop: 0}}>build your question:</p>
         <Select
           name='predicate'
           value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
           isClearable={true}
+          placeholder="Predicate..."
           options={predicateOptions}
           onChange={(e) => {
             updateSentence({ type: 'predicate', value: e.value })
@@ -76,6 +81,7 @@ export default function MiniBuilder({names, answerer}) {
             name='names'
             value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
+            placeholder="Names..."
             isMulti
             options={nameOptions}
             onChange={(e) => {
@@ -93,6 +99,7 @@ export default function MiniBuilder({names, answerer}) {
             value={sentence.quantifier ? {value: sentence.quantifier, label: sentence.quantifier} : null}
             defaultValue={null}
             isDisabled={sentence.disableQuantifier}
+            placeholder="OR Quantifier..."
             isClearable={true}
             options={quantifierOptions}
             onChange={(e) => {
@@ -123,14 +130,29 @@ export default function MiniBuilder({names, answerer}) {
         options={connectiveOptions}
         onChange={(e) => updateSentence({ type: 'connective', value: e ? e.value : null })}
       />}
-    <p>{sentence.predicate} {sentence.names} {sentence.quantifier} {sentence.number}</p>
+    <p style={{fontWeight: 'bold'}}>
+      {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
+        if (i+1 < sentence.names.length) {
+          return `${name} and `
+        }
+        return name
+      }) : sentence.names}
+      { quantifierOptions.map(option => {
+        if (option.value === sentence.quantifier) {
+          return option.label
+        }
+        return ''
+      })
+      }
+      {sentence.number} {plural} {sentence.predicate}?
+    </p>
     <button
       onClick={() => {
         updateGame({type: 'TAKETURN', turn: sentence.oracleSpeak, turnType: 'question', answerer: answerer})
         updateSentence({type: 'RESET'})
       }}
     >
-      submit turn
+      ask!
     </button>
   </Box>
   )

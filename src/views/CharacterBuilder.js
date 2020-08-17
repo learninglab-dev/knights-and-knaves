@@ -27,7 +27,7 @@ export default function CharacterBuilder() {
   for (let i = 0; i < num; i++) {
     characters.push(
       <div key={i}>
-        name:
+        <label>name: </label>
         <input type='text' onChange={e => setNames({...names, [i]: e.target.value})}></input>
       </div>
     )

@@ -30,15 +30,25 @@ export default function Interface() {
   return (
     <div>
       { solved && <h1>you win!!!</h1>}
-      <div>
+      <h2>mock game interface</h2>
+      <p>
+        You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.
+      </p>
+      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '42vw'}}>
         <Ask />
       </div>
-      <div style={{marginTop: '25px', marginBottom: '25px'}}>
+      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '42vw', marginTop: '25px'}}>
         <Solve />
       </div>
       <div>
-        <h2>list of turns:</h2>
-        {gameData.turns?.map((turn, i) => <p key={i}>{JSON.stringify(turn, null, 2)}</p>)}
+        <h2>turns:</h2>
+        {
+          Object.values(gameData.turns)?.map((turn, i) =>
+          {
+            const color = turn.response || turn.correct ? 'green' : 'red'
+            return <p key={i} style={{color: color}}>{i+1}. {JSON.stringify(turn, null, 2)}</p>
+          }
+        )}
       </div>
     </div>
   )

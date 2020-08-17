@@ -10,9 +10,9 @@ export default function Ask() {
 
   return (
     <>
-      <h2>mock game interface. type something to take a turn</h2>
       <div style={{marginTop: '25px', marginBottom: '25px'}}>
-        <label>who are you asking?</label>
+        <h3>ask a Question</h3>
+        <label>who are you asking? </label>
         <select onChange={e => setAnswerer(e.target.value)}>
           <option value='' key={'empty'}>select a character...</option>
           {names.map(name => <option value={name} key={name}>{name}</option>)}

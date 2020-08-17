@@ -15,9 +15,21 @@ export default function sentenceBuilder(sentence, action) {
       return {...sentence, oracleSpeak: [sentence.predicate, sentence.names? sentence.names : sentence.number ? [sentence.quantifier, sentence.number] : [sentence.quantifier]]}
     case 'names':
       const result = action.value ? action.value.map(x => x.value) : []
+      if (result.length === 0) {
+        return {
+          ...sentence,
+          names: result,
+          disableNames: false,
+          disableNumber: true,
+          disableQuantifier: false,
+        }
+      }
       return {
         ...sentence,
         names: result,
+        disableNames: false,
+        disableNumber: true,
+        disableQuantifier: true,
       }
     case 'quantifier':
       switch(action.value){
@@ -38,6 +50,7 @@ export default function sentenceBuilder(sentence, action) {
             disableNames: true,
             disableNumber: false,
             quantifier: action.value,
+            names: null
           }
         case 'all':
         case 'some':
@@ -48,6 +61,7 @@ export default function sentenceBuilder(sentence, action) {
             disableNumber: true,
             quantifier: action.value,
             number: null,
+            names: null
           }
           default: alert('error in minibuilder. help!')
         }

@@ -7,13 +7,15 @@ export default function Solve() {
   const solution = useContext(Data).solution
   const names = Object.keys(solution)
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
+  console.log(input)
 
   return (
     <>
+    <h3>attempt to Solve</h3>
     {
       names.map((name, i) =>
         <div key={i}>
-          <label>{name}</label>
+          <label>{name} </label>
           <select value={input[name]} onChange={e => setInput({...input, [name]: e.target.value})}>
             <option value="" defaultValue>Select a role...</option>
             <option value="K">Knight</option>
