@@ -27,8 +27,15 @@ export default function CharacterBuilder() {
   }, [updateGame, uid])
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/numChars`).on('value', snapshot => {
-    const update = snapshot.val()
+    const update = snapshot.val() ? snapshot.val() : ''
     liveUpdate({type: 'SETNUMCHARS', num: update, uid: uid})
+    })
+    return () => firebase.database().ref(`/${uid}/live/numChars`).off()
+  }, [liveUpdate, uid])
+  useEffect(() => {
+    firebase.database().ref(`/${uid}/live/names`).on('value', snapshot => {
+    const update = snapshot.val() ? snapshot.val() : {}
+    liveUpdate({type: 'SETNAMES', names: update, uid: uid})
     })
     return () => firebase.database().ref(`/${uid}/live/numChars`).off()
   }, [liveUpdate, uid])
@@ -37,13 +44,25 @@ export default function CharacterBuilder() {
       setNum(live.numChars)
     }
   }, [live.numChars])
+  useEffect(() => {
+    if (live.names) {
+      setNames(live.names)
+    }
+  }, [live.names])
 
   let characters = []
   for (let i = 0; i < num; i++) {
     characters.push(
       <div key={i}>
         <label>name: </label>
-        <input type='text' onChange={e => setNames({...names, [i]: e.target.value})}></input>
+        <input
+          type='text'
+          value={names[i] || ''}
+          onChange={e => {
+            setNames({...names, [i]: e.target.value})
+            liveUpdate({type: 'NAMES', uid: uid, i: i, value: e.target.value})
+          }}
+        ></input>
       </div>
     )
   }
