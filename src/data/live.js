@@ -12,6 +12,11 @@ export default function liveUpdatesReducer(state, action) {
       return {...state, names: {...state.names, [action.i]: action.value}}
     case 'SETNAMES':
       return {...state, names: action.names}
+    case 'SELECTROLE':
+      firebase.database().ref(`${action.uid}/live/roles/${action.name}`).set(action.role)
+      return {...state, roles: {...state.roles, [action.name]: action.role}}
+    case 'SETROLES':
+      return {...state, roles: action.roles}
     default:
       alert('error updating live data')
   }

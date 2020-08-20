@@ -37,7 +37,7 @@ export default function CharacterBuilder() {
     const update = snapshot.val() ? snapshot.val() : {}
     liveUpdate({type: 'SETNAMES', names: update, uid: uid})
     })
-    return () => firebase.database().ref(`/${uid}/live/numChars`).off()
+    return () => firebase.database().ref(`/${uid}/live/names`).off()
   }, [liveUpdate, uid])
   useEffect(() => {
     if (live.numChars) {
