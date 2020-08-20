@@ -1,14 +1,10 @@
-import React, {
-  useContext,
-  useReducer
-} from 'react'
+import React, { useReducer } from 'react'
 import { Box, Flex } from 'rebass'
 import Select from 'react-select'
-import { DataReducer } from '../data/GameData'
 import sentenceBuilder from '../utils/sentenceBuilder'
 
 
-export default function MiniBuilder({names, answerer}) {
+export default function MiniBuilder({names, answerer, setConjunct, i}) {
   const initialState = {
     disableNames: false,
     disableQuantifier: false,
@@ -19,7 +15,6 @@ export default function MiniBuilder({names, answerer}) {
     predicate: null,
     connective: null,
   }
-  const updateGame = useContext(DataReducer)
   const [sentence, updateSentence] = useReducer(sentenceBuilder, initialState)
   const plural = sentence.names ?
     sentence.names.length === 1 ? 'is a' : 'are' :
@@ -73,7 +68,7 @@ export default function MiniBuilder({names, answerer}) {
           options={predicateOptions}
           onChange={(e) => {
             updateSentence({ type: 'predicate', value: e.value })
-            updateSentence({type: 'ORACLESPEAK'})
+            updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
           }}
         />
         {!sentence.disableNames &&
@@ -86,7 +81,7 @@ export default function MiniBuilder({names, answerer}) {
             options={nameOptions}
             onChange={(e) => {
               updateSentence({ type: 'names', value: e ? e : [] })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
             }}
             styles={{
               width:'500px',
@@ -104,7 +99,7 @@ export default function MiniBuilder({names, answerer}) {
             options={quantifierOptions}
             onChange={(e) => {
               updateSentence({ type: 'quantifier', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
             }}
           />
         }
@@ -118,7 +113,7 @@ export default function MiniBuilder({names, answerer}) {
             options={numberOptions}
             onChange={(e) => {
               updateSentence({ type: 'number', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
             }}
           />
         }
@@ -146,14 +141,6 @@ export default function MiniBuilder({names, answerer}) {
       }
       {sentence.number} {plural} {sentence.predicate}?
     </p>
-    <button
-      onClick={() => {
-        updateGame({type: 'TAKETURN', turn: sentence.oracleSpeak, turnType: 'question', answerer: answerer})
-        updateSentence({type: 'RESET'})
-      }}
-    >
-      ask!
-    </button>
   </Box>
   )
 }

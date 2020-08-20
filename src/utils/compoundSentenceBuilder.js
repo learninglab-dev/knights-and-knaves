@@ -2,17 +2,11 @@ export default function sentenceBuilder(sentence, action) {
   switch(action.type){
     case 'RESET':
       return {
-        disableNames: false,
-        disableQuantifier: false,
-        disableNumber: true,
-        names: null,
-        quantifier: null,
-        number: null,
-        predicate: null,
-        connective: null,
+        1: '',
+        2: '',
+        c: ''
       }
     case 'ORACLESPEAK':
-      action.setConjunct([sentence.predicate, sentence.names? sentence.names : sentence.number ? [sentence.quantifier, sentence.number] : [sentence.quantifier]], action.i)
       return {...sentence, oracleSpeak: [sentence.predicate, sentence.names? sentence.names : sentence.number ? [sentence.quantifier, sentence.number] : [sentence.quantifier]]}
     case 'names':
       const result = action.value ? action.value.map(x => x.value) : []

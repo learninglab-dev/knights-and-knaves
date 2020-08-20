@@ -1,12 +1,22 @@
 import React, { useState, useContext } from 'react'
-import { Data } from '../data/GameData'
+import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
 
 
 export default function Ask() {
   const gameData = useContext(Data)
+  const updateGame = useContext(DataReducer)
   const names = Object.keys(gameData.solution)
   const [answerer, setAnswerer] = useState('')
+  const [compoundSentence, setCompound] = useState({1: '', 2: '', c: ''})
+  const connectives = ['AND', 'OR', 'NOT', 'IF', 'IFF']
+
+  const setConjunct = (sentence, i) => {
+    console.log('in setConjunct')
+    setCompound({...compoundSentence, [i]: sentence})
+    return
+  }
+  console.log(compoundSentence)
 
   return (
     <>
@@ -18,7 +28,23 @@ export default function Ask() {
           {names.map(name => <option value={name} key={name}>{name}</option>)}
         </select>
       </div>
-      <MiniBuilder names={names} answerer={answerer}/>
+      <MiniBuilder key={1} i={1} names={names} answerer={answerer} setConjunct={setConjunct}/>
+      <select
+        value={compoundSentence.c}
+        onChange={e => setCompound({...compoundSentence, c: e.target.value})}
+        >
+        <option value='' key={'empty'}>add a connective?</option>
+        {connectives.map(connective => <option value={connective} key={connective}>{connective}</option>)}
+      </select>
+      {compoundSentence.c && <MiniBuilder key={2} i={2} names={names} answerer={answerer}setConjunct={setConjunct}/> }
+      <button
+        onClick={() => {
+          updateGame({type: 'TAKETURN', turn: compoundSentence, turnType: 'question', answerer: answerer})
+          setCompound({1: '', 2: '', c: ''})
+        }}
+      >
+        ask!
+      </button>
     </>
   )
 }
