@@ -25,6 +25,10 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
+      if (!action.answerer) {
+        alert('looks like you forgot to choose a character to ask')
+        return data
+      }
       if (action.turnType === 'question') {
         const questions = {...action.turn}
         console.log(JSON.stringify(questions, null, 2));

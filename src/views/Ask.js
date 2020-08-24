@@ -3,6 +3,7 @@ import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
 
 
+// TODO: clear builders after clicking ask 
 export default function Ask() {
   const gameData = useContext(Data)
   const updateGame = useContext(DataReducer)
