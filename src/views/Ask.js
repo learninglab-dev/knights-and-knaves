@@ -9,14 +9,12 @@ export default function Ask() {
   const names = Object.keys(gameData.solution)
   const [answerer, setAnswerer] = useState('')
   const [compoundSentence, setCompound] = useState({1: '', 2: '', c: ''})
-  const connectives = ['AND', 'OR', 'NOT', 'IF', 'IFF']
+  const connectives = ['AND', 'OR', 'IF', 'IFF']
 
   const setConjunct = (sentence, i) => {
-    console.log('in setConjunct')
     setCompound({...compoundSentence, [i]: sentence})
     return
   }
-  console.log(compoundSentence)
 
   return (
     <>
@@ -39,7 +37,12 @@ export default function Ask() {
       {compoundSentence.c && <MiniBuilder key={2} i={2} names={names} answerer={answerer}setConjunct={setConjunct}/> }
       <button
         onClick={() => {
-          updateGame({type: 'TAKETURN', turn: compoundSentence, turnType: 'question', answerer: answerer})
+          updateGame({
+            type: 'TAKETURN',
+            turn: compoundSentence.c ? compoundSentence : compoundSentence[1],
+            turnType: 'question',
+            answerer: answerer
+          })
           setCompound({1: '', 2: '', c: ''})
         }}
       >

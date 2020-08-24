@@ -67,7 +67,7 @@ export default function MiniBuilder({names, answerer, setConjunct, i}) {
           placeholder="Predicate..."
           options={predicateOptions}
           onChange={(e) => {
-            updateSentence({ type: 'predicate', value: e.value })
+            updateSentence({ type: 'predicate', value: e ? e.value : '' })
             updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
           }}
         />
