@@ -12,8 +12,19 @@ export default function Ask() {
   const connectives = ['AND', 'OR', 'IF', 'IFF']
 
   const setConjunct = (sentence, i) => {
+    if (compoundSentence[i].c) {
+      setCompound({...compoundSentence, [i]: {...compoundSentence[i], 1: sentence}})
+      return
+    }
     setCompound({...compoundSentence, [i]: sentence})
     return
+  }
+  const setNegation = i => {
+    if (compoundSentence[i].c) {
+      setCompound({...compoundSentence, [i]: compoundSentence[i][1]})
+      return
+    }
+    setCompound({...compoundSentence, [i]: {1: compoundSentence[i], c: 'NOT'}})
   }
 
   return (
@@ -26,6 +37,9 @@ export default function Ask() {
           {names.map(name => <option value={name} key={name}>{name}</option>)}
         </select>
       </div>
+      <p style={{marginTop: 0}}>build your question:</p>
+      <label>NOT</label>
+      <input type='checkbox' onChange={() => setNegation(1)}/>
       <MiniBuilder key={1} i={1} names={names} answerer={answerer} setConjunct={setConjunct}/>
       <select
         value={compoundSentence.c}
@@ -34,7 +48,13 @@ export default function Ask() {
         <option value='' key={'empty'}>add a connective?</option>
         {connectives.map(connective => <option value={connective} key={connective}>{connective}</option>)}
       </select>
-      {compoundSentence.c && <MiniBuilder key={2} i={2} names={names} answerer={answerer}setConjunct={setConjunct}/> }
+      {compoundSentence.c &&
+        <div>
+          <label>NOT</label>
+          <input type='checkbox' onChange={() => setNegation(2)}/>
+          <MiniBuilder key={2} i={2} names={names} answerer={answerer} setConjunct={setConjunct}/>
+        </div>
+      }
       <button
         onClick={() => {
           updateGame({

@@ -25,12 +25,9 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
-      console.log(JSON.stringify(action, null, 2));
-      console.log(JSON.stringify(action.turn, null, 2));
       if (action.turnType === 'question') {
-        console.log(JSON.stringify(action.turn, null, 2));
         const questions = {...action.turn}
-        console.log(JSON.stringify(questions));
+        console.log(JSON.stringify(questions, null, 2));
         const result = oracle(data.solution, action.answerer, action.turn)
         firebase.database().ref(`/${data.uid}/turns`).push().set({answerer: action.answerer, question: questions, response: result})
         return data

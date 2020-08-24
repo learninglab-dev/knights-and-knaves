@@ -59,7 +59,6 @@ export default function MiniBuilder({names, answerer, setConjunct, i}) {
           flexDirection:'column'
         }}
       >
-        <p style={{marginTop: 0}}>build your question:</p>
         <Select
           name='predicate'
           value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
