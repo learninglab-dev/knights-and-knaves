@@ -1,5 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Data, DataReducer, Live, LiveReducer } from '../data/GameData'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
+import { Data, DataReducer } from '../data/GameData'
+import liveUpdate from '../utils/live'
 import firebase from 'firebase'
 
 
@@ -7,23 +8,16 @@ export default function Solve() {
   const updateGame = useContext(DataReducer)
   const solution = useContext(Data).solution
   const uid = useContext(Data).uid
-  const liveUpdate = useContext(LiveReducer)
-  const live = useContext(Live)
-  const names = Object.keys(solution)
+  const names = useMemo(() => Object.keys(solution), [solution])
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
 
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/roles`).on('value', snapshot => {
-    const update = snapshot.val() ? snapshot.val() : {}
-    liveUpdate({type: 'SETROLES', roles: update})
+    const update = snapshot.val() ? snapshot.val() : Object.fromEntries(names.map(name => [name, '']))
+    setInput(update)
     })
     return () => firebase.database().ref(`/${uid}/live/roles`).off()
-  }, [liveUpdate, uid])
-  useEffect(() => {
-    if (live.roles) {
-      setInput(live.roles)
-    }
-  }, [live.roles])
+  }, [uid, names])
 
   return (
     <>
@@ -36,7 +30,7 @@ export default function Solve() {
             value={input[name]}
             onChange={e => {
               setInput({...input, [name]: e.target.value})
-              liveUpdate({type: 'SELECTROLE', uid: uid, name: name, role: e.target.value})
+              liveUpdate({type: 'ROLES', uid: uid, name: name, role: e.target.value})
             }}
             >
             <option value="" defaultValue>Select a role...</option>
@@ -51,6 +45,7 @@ export default function Solve() {
     <button
       onClick={() => {
         updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
+        liveUpdate({type: 'RESET', uid: uid})
         setInput(Object.fromEntries(names.map(name => [name, ''])))
       }}
       style={{marginTop: '15px'}}

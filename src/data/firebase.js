@@ -25,10 +25,13 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
-      console.log(action);
       if (action.turnType === 'question') {
+        if (!action.answerer) {
+          alert('looks like you forgot to choose a character to ask')
+          return data
+        }
         const result = oracle(data.solution, action.answerer, action.turn)
-        firebase.database().ref(`/${data.uid}/turns`).push().set({answerer: action.answerer, question: action.turn, response: result})
+        firebase.database().ref(`/${data.uid}/turns`).push().set({answerer: action.answerer, question: action.copy, response: result})
         return data
       }
       const result = checkSolution(action.turn, data.solution)

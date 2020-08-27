@@ -1,27 +1,40 @@
-import React, {
-  useContext,
-  useReducer
-} from 'react'
+import React, { useContext } from 'react'
 import { Box, Flex } from 'rebass'
 import Select from 'react-select'
-import { DataReducer } from '../data/GameData'
-import sentenceBuilder from '../utils/sentenceBuilder'
+import liveUpdate from '../utils/live'
 
 
-export default function MiniBuilder({names, answerer}) {
-  const initialState = {
-    disableNames: false,
-    disableQuantifier: false,
-    disableNumber: true,
-    names: null,
-    quantifier: null,
-    number: null,
-    predicate: null,
-    connective: null,
-  }
-  const updateGame = useContext(DataReducer)
-  const [sentence, updateSentence] = useReducer(sentenceBuilder, initialState)
-  const plural = sentence.names ?
+const quantifierOptions = [
+                            {value: 'all', label: 'All'},
+                            {value: 'some', label: 'Some'},
+                            {value: 'none', label: 'None'},
+                            {value: 'least', label: 'At least '},
+                            {value: 'most', label: 'At most '},
+                            {value: 'less', label: 'Less than '},
+                            {value: 'more', label: 'More than '},
+                          ]
+const predicateOptions =  [
+                            {value: 'Knight', label: 'Knight'},
+                            {value: 'Knave', label: 'Knave'},
+                            {value: 'Dragon', label: 'Dragon'},
+                            {value: 'Monk', label: 'Monk'},
+                            {value: 'Same', label: 'Same'},
+                            {value: 'Different', label: 'Different'},
+                          ]
+
+
+
+export default function MiniBuilder(props) {
+  const {
+    names,
+    setConjunct,
+    i,
+    uid,
+    updateSentence,
+    sentence
+  } = props
+
+  const plural = sentence?.names ?
     sentence.names.length === 1 ? 'is a' : 'are' :
     sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
     sentence.quantifier ? 'is a' : null
@@ -32,30 +45,7 @@ export default function MiniBuilder({names, answerer}) {
   const nameOptions = names.map( name => {
     return {value: name, label: name}
     })
-  const quantifierOptions = [
-                              {value: 'all', label: 'All'},
-                              {value: 'some', label: 'Some'},
-                              {value: 'none', label: 'None'},
-                              {value: 'least', label: 'At least '},
-                              {value: 'most', label: 'At most '},
-                              {value: 'less', label: 'Less than '},
-                              {value: 'more', label: 'More than '},
-                            ]
-  const predicateOptions =  [
-                              {value: 'Knight', label: 'Knight'},
-                              {value: 'Knave', label: 'Knave'},
-                              {value: 'Dragon', label: 'Dragon'},
-                              {value: 'Monk', label: 'Monk'},
-                              {value: 'Same', label: 'Same'},
-                              {value: 'Different', label: 'Different'},
-                            ]
-  const connectiveOptions = [
-                              {value: 'AND', label: 'And'},
-                              {value: 'OR', label: 'Or'},
-                              {value: 'NOT', label: 'Not'},
-                              {value: 'IF', label: 'If'},
-                              {value: 'IFF', label: 'If and only if'},
-                            ]
+
   return (
     <Box>
       <Flex
@@ -64,7 +54,6 @@ export default function MiniBuilder({names, answerer}) {
           flexDirection:'column'
         }}
       >
-        <p style={{marginTop: 0}}>build your question:</p>
         <Select
           name='predicate'
           value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
@@ -72,8 +61,9 @@ export default function MiniBuilder({names, answerer}) {
           placeholder="Predicate..."
           options={predicateOptions}
           onChange={(e) => {
-            updateSentence({ type: 'predicate', value: e.value })
-            updateSentence({type: 'ORACLESPEAK'})
+            updateSentence({ type: 'predicate', value: e ? e.value : '' })
+            updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
+            liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', value: e ? e.value : ''})
           }}
         />
         {!sentence.disableNames &&
@@ -85,8 +75,9 @@ export default function MiniBuilder({names, answerer}) {
             isMulti
             options={nameOptions}
             onChange={(e) => {
-              updateSentence({ type: 'names', value: e ? e : [] })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'names', value: e ? e : [] })
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', value: e ? e : []})
             }}
             styles={{
               width:'500px',
@@ -103,8 +94,9 @@ export default function MiniBuilder({names, answerer}) {
             isClearable={true}
             options={quantifierOptions}
             onChange={(e) => {
-              updateSentence({ type: 'quantifier', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'quantifier', value: e ? e.value : null })
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
             }}
           />
         }
@@ -118,18 +110,12 @@ export default function MiniBuilder({names, answerer}) {
             options={numberOptions}
             onChange={(e) => {
               updateSentence({ type: 'number', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK'})
+              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
             }}
           />
         }
       </Flex>
-      {false && <Select
-        name='connective'
-        defaultValue = {null}
-        isClearable={true}
-        options={connectiveOptions}
-        onChange={(e) => updateSentence({ type: 'connective', value: e ? e.value : null })}
-      />}
     <p style={{fontWeight: 'bold'}}>
       {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
         if (i+1 < sentence.names.length) {
@@ -146,14 +132,6 @@ export default function MiniBuilder({names, answerer}) {
       }
       {sentence.number} {plural} {sentence.predicate}?
     </p>
-    <button
-      onClick={() => {
-        updateGame({type: 'TAKETURN', turn: sentence.oracleSpeak, turnType: 'question', answerer: answerer})
-        updateSentence({type: 'RESET'})
-      }}
-    >
-      ask!
-    </button>
   </Box>
   )
 }
