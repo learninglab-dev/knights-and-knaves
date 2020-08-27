@@ -1,9 +1,7 @@
-import React, { useReducer, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Box, Flex } from 'rebass'
 import Select from 'react-select'
-import firebase from 'firebase'
-import sentenceBuilder from '../utils/sentenceBuilder'
-import { LiveReducer } from '../data/GameData'
+import liveUpdate from '../utils/live'
 
 
 const quantifierOptions = [
@@ -23,13 +21,7 @@ const predicateOptions =  [
                             {value: 'Same', label: 'Same'},
                             {value: 'Different', label: 'Different'},
                           ]
-const connectiveOptions = [
-                            {value: 'AND', label: 'And'},
-                            {value: 'OR', label: 'Or'},
-                            {value: 'NOT', label: 'Not'},
-                            {value: 'IF', label: 'If'},
-                            {value: 'IFF', label: 'If and only if'},
-                          ]
+
 
 
 export default function MiniBuilder(props) {
@@ -41,7 +33,6 @@ export default function MiniBuilder(props) {
     updateSentence,
     sentence
   } = props
-  const liveUpdate = useContext(LiveReducer)
 
   const plural = sentence?.names ?
     sentence.names.length === 1 ? 'is a' : 'are' :
@@ -125,13 +116,6 @@ export default function MiniBuilder(props) {
           />
         }
       </Flex>
-      {false && <Select
-        name='connective'
-        defaultValue = {null}
-        isClearable={true}
-        options={connectiveOptions}
-        onChange={(e) => updateSentence({ type: 'connective', value: e ? e.value : null })}
-      />}
     <p style={{fontWeight: 'bold'}}>
       {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
         if (i+1 < sentence.names.length) {

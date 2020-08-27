@@ -5,17 +5,18 @@ import React, {
   useCallback
 } from 'react'
 import firebase from 'firebase'
-import { DataReducer, Data, Live, LiveReducer } from '../data/GameData'
+import {
+  DataReducer,
+  Data,
+} from '../data/GameData'
+import liveUpdate from '../utils/live'
 
 
 export default function CharacterBuilder() {
   const updateGame = useCallback(useContext(DataReducer), [])
   const uid = useContext(Data).uid
-  const live = useContext(Live)
-  const liveUpdate = useContext(LiveReducer)
   const [num, setNum] = useState('')
   const [names, setNames] = useState({})
-
 
   // TODO: add error handling
   useEffect(() => {
@@ -28,27 +29,17 @@ export default function CharacterBuilder() {
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/numChars`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
-    liveUpdate({type: 'SETNUMCHARS', num: update, uid: uid})
+    setNum(update)
     })
-    return () => firebase.database().ref(`/${uid}/live/numChars`).off()
-  }, [liveUpdate, uid])
-  useEffect(() => {
     firebase.database().ref(`/${uid}/live/names`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : {}
-    liveUpdate({type: 'SETNAMES', names: update, uid: uid})
+    setNames(update)
     })
-    return () => firebase.database().ref(`/${uid}/live/names`).off()
-  }, [liveUpdate, uid])
-  useEffect(() => {
-    if (live.numChars) {
-      setNum(live.numChars)
+    return () => {
+      firebase.database().ref(`/${uid}/live/numChars`).off()
+      firebase.database().ref(`/${uid}/live/names`).off()
     }
-  }, [live.numChars])
-  useEffect(() => {
-    if (live.names) {
-      setNames(live.names)
-    }
-  }, [live.names])
+  }, [uid])
 
   let characters = []
   for (let i = 0; i < num; i++) {
