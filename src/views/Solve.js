@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useMemo } from 'react'
 import { Data, DataReducer } from '../data/GameData'
 import liveUpdate from '../utils/live'
 import firebase from 'firebase'
@@ -8,16 +8,16 @@ export default function Solve() {
   const updateGame = useContext(DataReducer)
   const solution = useContext(Data).solution
   const uid = useContext(Data).uid
-  const names = Object.keys(solution)
+  const names = useMemo(() => Object.keys(solution), [solution])
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
 
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/roles`).on('value', snapshot => {
-    const update = snapshot.val() ? snapshot.val() : {}
+    const update = snapshot.val() ? snapshot.val() : Object.fromEntries(names.map(name => [name, '']))
     setInput(update)
     })
     return () => firebase.database().ref(`/${uid}/live/roles`).off()
-  }, [uid])
+  }, [uid, names])
 
   return (
     <>
@@ -45,6 +45,7 @@ export default function Solve() {
     <button
       onClick={() => {
         updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
+        liveUpdate({type: 'RESET', uid: uid})
         setInput(Object.fromEntries(names.map(name => [name, ''])))
       }}
       style={{marginTop: '15px'}}
