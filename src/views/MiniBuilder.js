@@ -43,7 +43,7 @@ export default function MiniBuilder(props) {
   } = props
   const liveUpdate = useContext(LiveReducer)
 
-  const plural = sentence.names ?
+  const plural = sentence?.names ?
     sentence.names.length === 1 ? 'is a' : 'are' :
     sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
     sentence.quantifier ? 'is a' : null
@@ -84,7 +84,7 @@ export default function MiniBuilder(props) {
             isMulti
             options={nameOptions}
             onChange={(e) => {
-              updateSentence({ type: 'names', value: e ? e : [] })
+              updateSentence({type: 'names', value: e ? e : [] })
               updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', value: e ? e : []})
             }}
@@ -103,7 +103,7 @@ export default function MiniBuilder(props) {
             isClearable={true}
             options={quantifierOptions}
             onChange={(e) => {
-              updateSentence({ type: 'quantifier', value: e ? e.value : null })
+              updateSentence({type: 'quantifier', value: e ? e.value : null })
               updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
             }}

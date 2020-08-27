@@ -21,12 +21,11 @@ const mbDefault = {
   connective: null,
 }
 
-// TODO: clear builders after clicking ask
+
 export default function Ask() {
   const gameData = useContext(Data)
   const uid = gameData.uid
   const updateGame = useContext(DataReducer)
-  const live = useContext(Live)
   const liveUpdate = useContext(LiveReducer)
   const names = Object.keys(gameData.solution)
   const [answerer, setAnswerer] = useState('')
@@ -54,18 +53,14 @@ export default function Ask() {
   }
 
   useEffect(() => {
+    firebase.database().ref(`/${uid}/live/answerer`).on('value', snapshot => {
+    const update = snapshot.val() ? snapshot.val() : ''
+    setAnswerer(update)
+    })
     firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
-    liveUpdate({type: 'SETCONNECTIVE', connective: update, uid: uid})
+    setCompound(compoundSentence => {return {...compoundSentence, c: update}})
     })
-    return () => firebase.database().ref(`/${uid}/live/connective`).off()
-  }, [liveUpdate, uid])
-  useEffect(() => {
-    if (live.connective) {
-      setCompound(compoundSentence => {return {...compoundSentence, c: live.connective}})
-    }
-  }, [live.connective])
-  useEffect(() => {
     firebase.database().ref(`/${uid}/live/builders/${1}/predicate`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb1({type: 'predicate', value: update})
@@ -82,23 +77,25 @@ export default function Ask() {
     const update = snapshot.val() ? snapshot.val() : []
     updateMb2({type: 'names', value: update})
     })
-    // firebase.database().ref(`/${uid}/live/builders/${1}/quantifier`).on('value', snapshot => {
-    // const update = snapshot.val() ? snapshot.val() : ''
-    // updateMb1({type: 'quantifier', value: update})
-    // })
-    // firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).on('value', snapshot => {
-    // const update = snapshot.val() ? snapshot.val() : ''
-    // updateMb2({type: 'quantifier', value: update})
-    // })
-    // firebase.database().ref(`/${uid}/live/builders/${1}/number`).on('value', snapshot => {
-    // const update = snapshot.val() ? snapshot.val() : ''
-    // updateMb1({type: 'number', value: update})
-    // })
-    // firebase.database().ref(`/${uid}/live/builders/${2}/number`).on('value', snapshot => {
-    // const update = snapshot.val() ? snapshot.val() : ''
-    // updateMb2({type: 'number', value: update})
-    // })
+    firebase.database().ref(`/${uid}/live/builders/${1}/quantifier`).on('value', snapshot => {
+    const update = snapshot.val()
+    updateMb1({type: 'quantifier', value: update})
+    })
+    firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).on('value', snapshot => {
+    const update = snapshot.val()
+    updateMb2({type: 'quantifier', value: update})
+    })
+    firebase.database().ref(`/${uid}/live/builders/${1}/number`).on('value', snapshot => {
+    const update = snapshot.val()
+    updateMb1({type: 'number', value: update})
+    })
+    firebase.database().ref(`/${uid}/live/builders/${2}/number`).on('value', snapshot => {
+    const update = snapshot.val()
+    updateMb2({type: 'number', value: update})
+    })
     return () => {
+      firebase.database().ref(`/${uid}/live/answerer`).off()
+      firebase.database().ref(`/${uid}/live/connective`).off()
       firebase.database().ref(`/${uid}/live/builders/${1}/predicate`).off()
       firebase.database().ref(`/${uid}/live/builders/${2}/predicate`).off()
       firebase.database().ref(`/${uid}/live/builders/${1}/names`).off()
@@ -117,7 +114,13 @@ export default function Ask() {
       <div style={{marginTop: '25px', marginBottom: '25px'}}>
         <h3>ask a Question</h3>
         <label>who are you asking? </label>
-        <select onChange={e => setAnswerer(e.target.value)}>
+        <select
+          onChange={e => {
+            setAnswerer(e.target.value)
+            liveUpdate({type: 'ANSWERER', answerer: e.target.value, uid: uid})
+          }}
+          value={answerer}
+          >
           <option value='' key={'empty'}>select a character...</option>
           {names.map(name => <option value={name} key={name}>{name}</option>)}
         </select>
@@ -138,7 +141,7 @@ export default function Ask() {
         value={compoundSentence.c}
         onChange={e => {
           setCompound({...compoundSentence, c: e.target.value})
-          liveUpdate({type: 'SELECTCONNECTIVE', connective: e.target.value, uid: uid})
+          liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
         }}
         >
         <option value='' key={'empty'}>add a connective?</option>
@@ -168,7 +171,7 @@ export default function Ask() {
             answerer: answerer
           })
           setCompound({1: '', 2: '', c: ''})
-          liveUpdate({type: 'SELECTCONNECTIVE', connective: '', uid: uid})
+          liveUpdate({type: 'RESET', uid: uid})
           updateMb1({type: 'RESET'})
           updateMb2({type: 'RESET'})
         }}
