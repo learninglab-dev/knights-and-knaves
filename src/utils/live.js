@@ -12,7 +12,13 @@ export default function liveUpdate(action) {
       firebase.database().ref(`${action.uid}/live/names/${action.i}`).set(action.value)
       return
     case 'ANSWERER':
-      firebase.database().ref(`${action.uid}/live/answerer`).set(action.answerer)
+      firebase.database().ref(`${action.uid}/live/answerer`)
+        .set(action.answerer, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
       return
     case 'BUILDER':
       firebase.database().ref(`${action.uid}/live/builders/${action.i}/${action.property}`).set(action.value)

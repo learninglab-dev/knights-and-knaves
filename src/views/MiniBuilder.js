@@ -27,7 +27,6 @@ const predicateOptions =  [
 export default function MiniBuilder(props) {
   const {
     names,
-    setConjunct,
     i,
     uid,
     updateSentence,
@@ -62,7 +61,6 @@ export default function MiniBuilder(props) {
           options={predicateOptions}
           onChange={(e) => {
             updateSentence({ type: 'predicate', value: e ? e.value : '' })
-            updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
             liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', value: e ? e.value : ''})
           }}
         />
@@ -76,7 +74,6 @@ export default function MiniBuilder(props) {
             options={nameOptions}
             onChange={(e) => {
               updateSentence({type: 'names', value: e ? e : [] })
-              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', value: e ? e : []})
             }}
             styles={{
@@ -95,7 +92,6 @@ export default function MiniBuilder(props) {
             options={quantifierOptions}
             onChange={(e) => {
               updateSentence({type: 'quantifier', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
             }}
           />
@@ -110,7 +106,6 @@ export default function MiniBuilder(props) {
             options={numberOptions}
             onChange={(e) => {
               updateSentence({ type: 'number', value: e ? e.value : null })
-              updateSentence({type: 'ORACLESPEAK', setConjunct: setConjunct, i: i})
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
             }}
           />

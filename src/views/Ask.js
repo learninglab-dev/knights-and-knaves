@@ -30,20 +30,11 @@ export default function Ask() {
   const updateGame = useContext(DataReducer)
   const names = Object.keys(gameData.solution)
   const [answerer, setAnswerer] = useState('')
-  const [compoundSentence, setCompound] = useState({1: '', 2: '', c: ''})
   const [nots, setNots] = useState({1: false, 2: false})
-  const connectives = ['AND', 'OR', 'IF', 'IFF']
+  const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
   const [mb2, updateMb2] = useReducer(sentenceBuilder, mbDefault)
 
-  const setConjunct = (sentence, i) => {
-    if (compoundSentence[i].c) {
-      setCompound({...compoundSentence, [i]: {...compoundSentence[i], 1: sentence}})
-      return
-    }
-    setCompound({...compoundSentence, [i]: sentence})
-    return
-  }
   const setNegation = useCallback((i, update) => {
     setNots(nots => {return {...nots, [i]: update}})
   }, [])
@@ -55,7 +46,7 @@ export default function Ask() {
     })
     firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
-    setCompound(compoundSentence => {return {...compoundSentence, c: update}})
+    setConnective(update)
     })
     firebase.database().ref(`/${uid}/live/builders/${1}/not`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : false
@@ -113,6 +104,60 @@ export default function Ask() {
     }
   }, [uid, setNegation])
 
+  const oracleSpeak = () => {
+    const p = [mb1.predicate, mb1.names? mb1.names : mb1.number ? [mb1.quantifier, mb1.number] : [mb1.quantifier]]
+    const q = [mb2.predicate, mb2.names? mb2.names : mb2.number ? [mb2.quantifier, mb2.number] : [mb2.quantifier]]
+    const negations = nots[1] ? nots[2] ? 'BOTH' : 'ONE' : nots[2] ? 'TWO' : 'NEITHER'
+    if (!connective) {
+      if (negations === 'ONE') {
+        return {
+          1: p,
+          c: 'NOT'
+        }
+      }
+      return p
+    }
+    switch (negations) {
+    case 'NEITHER':
+      return {
+        1: p,
+        2: q,
+        c: connective
+      }
+    case 'BOTH':
+      return {
+        1: {
+          1: p,
+          c: 'NOT'
+        },
+        2: {
+          1: q,
+          c: 'NOT'
+        },
+        c: connective
+      }
+    case 'ONE':
+      return {
+        1: {
+          1: p,
+          c: 'NOT'
+        },
+        2: q,
+        c: connective
+      }
+    case 'TWO':
+      return {
+        1: p,
+        2: {
+          1: q,
+          c: 'NOT'
+        },
+        c: connective
+      }
+    default:
+      return
+    }
+  }
 
   return (
     <>
@@ -144,21 +189,20 @@ export default function Ask() {
         i={1}
         names={names}
         uid={uid}
-        setConjunct={setConjunct}
         updateSentence={updateMb1}
         sentence={mb1}
         />
       <select
-        value={compoundSentence.c}
+        value={connective}
         onChange={e => {
-          setCompound({...compoundSentence, c: e.target.value})
+          setConnective(e.target.value)
           liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
         }}
         >
         <option value='' key={'empty'}>add a connective?</option>
-        {connectives.map(connective => <option value={connective} key={connective}>{connective}</option>)}
+        {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
       </select>
-      {compoundSentence.c &&
+      {connective &&
         <div>
           <label>NOT</label>
           <input
@@ -172,7 +216,6 @@ export default function Ask() {
             i={2}
             names={names}
             uid={uid}
-            setConjunct={setConjunct}
             updateSentence={updateMb2}
             sentence={mb2}
             />
@@ -180,66 +223,13 @@ export default function Ask() {
       }
       <button
         onClick={() => {
-          const turn = () => {
-            let combo
-            if (nots[1]) {
-              if (nots[2]) {
-                combo = 'BOTH'
-              } else {
-                combo = 'ONE'
-              }
-            } else {
-              if (nots[2]) {
-                combo = 'TWO'
-              } else {
-                combo = 'NEITHER'
-              }
-            }
-            switch (combo) {
-            case 'NEITHER':
-              return compoundSentence
-            case 'BOTH':
-              return {
-                1: {
-                  1: compoundSentence[1],
-                  c: 'NOT'
-                },
-                2: {
-                  1: compoundSentence[2],
-                  c: 'NOT'
-                },
-                c: compoundSentence.c
-              }
-            case 'ONE':
-              return {
-                1: {
-                  1: compoundSentence[1],
-                  c: 'NOT'
-                },
-                2: compoundSentence[2],
-                c: compoundSentence.c
-              }
-            case 'TWO':
-              return {
-                1: compoundSentence[1],
-                2: {
-                  1: compoundSentence[2],
-                  c: 'NOT'
-                },
-                c: compoundSentence.c
-              }
-            default:
-              return
-            }
-          }
           updateGame({
             type: 'TAKETURN',
-            turn: turn().c ? turn() : turn()[1],
-            copy: turn().c ? turn() : turn()[1],
+            turn: oracleSpeak(),
+            copy: oracleSpeak(),
             turnType: 'question',
             answerer: answerer
           })
-          setCompound({1: '', 2: '', c: ''})
           liveUpdate({type: 'RESET', uid: uid})
           updateMb1({type: 'RESET'})
           updateMb2({type: 'RESET'})
