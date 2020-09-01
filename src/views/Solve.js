@@ -10,6 +10,7 @@ export default function Solve() {
   const uid = useContext(Data).uid
   const names = useMemo(() => Object.keys(solution), [solution])
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
+  console.log(JSON.stringify(input))
 
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/roles`).on('value', snapshot => {
@@ -44,6 +45,7 @@ export default function Solve() {
     }
     <button
       onClick={() => {
+        console.log(JSON.stringify(input))
         updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
         liveUpdate({type: 'RESET', uid: uid})
         setInput(Object.fromEntries(names.map(name => [name, ''])))

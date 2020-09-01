@@ -50,11 +50,11 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
-      if (action.turn === 'invalid') {
-        alert('your question is not valid. check your inputs and try again.')
-        return data
-      }
       if (action.turnType === 'question') {
+        if (action.turn === 'invalid') {
+          alert('your question is not valid. check your inputs and try again.')
+          return data
+        }
         if (!action.answerer) {
           alert('looks like you forgot to choose a character to ask')
           return data
@@ -69,6 +69,20 @@ export default function gameDataReducer(data, action) {
               return data
             }
           })
+        return data
+      }
+      const nonEmpty = () => {
+        const names = Object.keys(data.solution)
+        console.log(names);
+        const inputs = Object.keys(action.turn)
+        console.log(inputs);
+        if (!(names.length === inputs.length)) {
+          return false
+        }
+        return true
+      }
+      if (!nonEmpty()) {
+        alert('oops... you forgot to enter a role for one of your characters. try again.')
         return data
       }
       const result = checkSolution(action.turn, data.solution)
