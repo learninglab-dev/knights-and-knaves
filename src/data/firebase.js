@@ -73,9 +73,7 @@ export default function gameDataReducer(data, action) {
       }
       const nonEmpty = () => {
         const names = Object.keys(data.solution)
-        console.log(names);
         const inputs = Object.keys(action.turn)
-        console.log(inputs);
         if (!(names.length === inputs.length)) {
           return false
         }

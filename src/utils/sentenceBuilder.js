@@ -65,7 +65,6 @@ export default function sentenceBuilder(sentence, action) {
             names: null
           }
           default:
-          console.log('err in quantifier')
           alert('error in minibuilder. help!')
         }
         return
