@@ -1,11 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import {Flex, Box, Text, Heading, Button} from 'rebass'
+import { Input } from '@rebass/forms'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
+import Modal from './Modal'
+import About from './About'
+import Popover, {ArrowContainer} from 'react-tiny-popover'
 
 
 export default function Start() {
   const [id, setId] = useState(null)
+  const [isPopover, setIsPopover] = useState(null)
   const [displayUid, setDisplayUid] = useState(false)
   const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
@@ -29,43 +35,77 @@ export default function Start() {
   }
 
   return (
-    <div>
-      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+      <Flex
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: '100%'
+        }}>
         {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
-        <h2>Knights & Knaves: A Logic Game</h2>
-        {!displayUid &&
-          <>
-            <p>create a new game or join one in progress</p>
-            <button onClick={() => createGame()} style={{marginBottom: '15px'}}>create</button>
-            <div>
-              <input type='text' placeholder='game id' onChange={e => setId(e.target.value)}></input>
-              <Link to={!id ? `/` : `/${id}`}>
-                <button onClick={() => joinGame()}>join</button>
-              </Link>
-            </div>
-          </>
-        }
-        {displayUid &&
-          <>
-            <p>here's your game id. send it to your teammates so they can join!</p>
-            <h3>{gameData.uid}</h3>
-            <p>then click go! to start the game</p>
-            <button onClick={() => {history.push(`/${gameData.uid}`)}}>go!</button>
-          </>
-        }
-      </div>
-      <h3 style={{marginTop: '25px'}}>about this alpha</h3>
-      <p>
-        For those unfamiliar, <a href="https://en.wikipedia.org/wiki/Knights_and_Knaves" target="_blank" rel="noopener noreferrer">Knights & Knaves</a> is a type of logic puzzle in which you, the puzzle solver find yourself on an island with four types of inhabitants: Knights, Knaves, Dragons, and Monks. You encounter a group of islanders passing by and must determine their identities from only what they say. Knights always speak the truth; Knaves always lie; Dragons speak the truth unless a Knight is present, in which case they only lie; and Monks say whatever they please. In this game version of Knights & Knaves, you can specify how many islanders you encounter, with number of islanders serving as a rough proxy of difficulty.
-      </p>
-      <p>
-        Unlike in some versions of the puzzles, these islanders are silent until you ask them yes-no questions. For now, you can only ask questions that contain one predicate. Connectives are coming soon. Also for now, you can choose freely which islander to direct your questions to. Your goal is to solve the puzzle, i.e. determine your characters' identities, by asking as few questions as possible. So choose carefully!
-      </p>
-      <p>
-        We also imagine other versions of the game in which certain mechanics force your hand, e.g. a limit on the number of questions you can ask each character, or only a random subset of the predicates are available to you each turn. For anyone playtesting, we'd love your feedback on these sorts of modes and how to strike a balance between a pure test of logic skills and continuous challenge and replayability.
-      </p>
-      <p>
-        This game is designed to be played as a team (although you can certainly play alone), and it is intended to be played while your team is in contact, likely via a voice or video call. Each player will receive live updates but only at the end of each turn, so you may find that screenshare is handy. We hope to add live updates as players type, but that isn't happening yet. Thus, your team will need to either assign a scribe or coordinate who is taking each turn. This is particularly important on the next screen where you will number and name your islanders. Only the first submission will be accepted by the game. As soon as the first teammate hits submit, your whole team will be redirected to the game interface.</p>
-    </div>
+        <Text
+          sx={{
+            fontFamily:'heading',
+            color:'primary',
+            fontSize: '100px',
+            display:'block',
+            width: '50%'
+          }}
+        >Knights & Knaves: A Logic Game</Text>
+          <Flex
+            sx={{
+              flexDirection:'column'
+            }}
+          >
+            {!displayUid &&
+              <Flex
+                sx={{
+                  flexDirection: 'column'
+                }}>
+                <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game or join one in progress!</Text>
+                <Button variant='tertiary' onClick={() => createGame()}><Heading>create</Heading></Button>
+                <Flex sx={{flexDirection:'row', m:10}}>
+                  <Input sx={{mr:10}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
+                  <Link to={!id ? `/` : `/${id}`}>
+                    <Button variant='tertiary' onClick={() => joinGame()}><Heading>join</Heading></Button>
+                  </Link>
+                </Flex>
+                <Popover
+                  isOpen={isPopover}
+                  position={'left'}
+                  padding={5}
+                  onClickOutside={e => setIsPopover(!isPopover)}
+                  transitionDuration={0.25}
+                  containerStyle={{width:'60%'}}
+                  content={({ position, targetRect, popoverRect }) => (
+                    <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+                      position={position}
+                      targetRect={targetRect}
+                      popoverRect={popoverRect}
+                      arrowColor={'#54345B'}
+                      arrowSize={10}
+                      style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+                    >
+                    <About />
+                    </ArrowContainer>
+                  )}
+                >
+                  <Button variant='outline' onClick={() => setIsPopover(!isPopover)}>
+                    <Heading>about this alpha</Heading>
+                  </Button>
+                </Popover>
+              </Flex>
+            }
+            {displayUid &&
+              <>
+                <p>here's your game id. send it to your teammates so they can join!</p>
+                <h3>{gameData.uid}</h3>
+                <p>then click go! to start the game</p>
+                <button onClick={() => {history.push(`/${gameData.uid}`)}}>go!</button>
+              </>
+            }
+          </Flex>
+
+      </Flex>
   )
 }
