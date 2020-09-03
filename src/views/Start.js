@@ -65,7 +65,8 @@ export default function Start() {
         We also imagine other versions of the game in which certain mechanics force your hand, e.g. a limit on the number of questions you can ask each character, or only a random subset of the predicates are available to you each turn. For anyone playtesting, we'd love your feedback on these sorts of modes and how to strike a balance between a pure test of logic skills and continuous challenge and replayability.
       </p>
       <p>
-        This game is designed to be played as a team (although you can certainly play alone), and it is intended to be played while your team is in contact, likely via a voice or video call. Each player will receive live updates but only at the end of each turn, so you may find that screenshare is handy. We hope to add live updates as players type, but that isn't happening yet. Thus, your team will need to either assign a scribe or coordinate who is taking each turn. This is particularly important on the next screen where you will number and name your islanders. Only the first submission will be accepted by the game. As soon as the first teammate hits submit, your whole team will be redirected to the game interface.</p>
+        This game is designed to be played as a team (although you can certainly play alone), and it is intended to be played while your team is in contact, likely via a voice or video call. Each player will receive live updates as other players type or input questions, but you can overwrite each other if you're not careful. Thus, your team will need to either assign a scribe or coordinate who is taking each turn. This is particularly important on the next screen where you will number and name your islanders. Only the first submission will be accepted by the game. As soon as the first teammate hits submit, your whole team will be redirected to the game interface.</p>
+      <p>Have fun!</p>
     </div>
   )
 }
