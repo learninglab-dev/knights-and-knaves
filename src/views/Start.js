@@ -30,6 +30,11 @@ export default function Start() {
   const joinGame = () => {
     sessionStorage.removeItem('invalid')
     firebase.database().ref(`/${id}`).once('value').then(data => {
+      if (data.val() === null) {
+        sessionStorage.setItem('invalid', true)
+        history.push('/null')
+        return
+      }
       return updateGame({type: 'JOIN', uid: id, solution: data.val().solution, turns: data.val().turns})
     })
   }
