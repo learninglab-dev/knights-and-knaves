@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Box, Flex } from 'rebass'
 import Select from 'react-select'
 import liveUpdate from '../utils/live'
