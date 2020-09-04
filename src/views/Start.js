@@ -43,68 +43,88 @@ export default function Start() {
           width: '100%'
         }}>
         {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
-        <Text
+        <Flex
           sx={{
-            fontFamily:'heading',
-            color:'primary',
-            fontSize: '100px',
-            display:'block',
-            width: '50%'
-          }}
-        >Knights & Knaves: A Logic Game</Text>
-          <Flex
+            flexDirection:'column',
+            mr:40,
+            width: '33%'
+          }}>
+          <Text
             sx={{
-              flexDirection:'column'
+              fontFamily:'heading',
+              color:'primary',
+              fontSize: '80px',
+              textAlign: 'right'
             }}
-          >
-            {!displayUid &&
-              <Flex
-                sx={{
-                  flexDirection: 'column'
-                }}>
-                <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game or join one in progress!</Text>
-                <Button variant='tertiary' onClick={() => createGame()}><Heading>create</Heading></Button>
-                <Flex sx={{flexDirection:'row', m:10}}>
-                  <Input sx={{mr:10}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
-                  <Link to={!id ? `/` : `/${id}`}>
-                    <Button variant='tertiary' onClick={() => joinGame()}><Heading>join</Heading></Button>
-                  </Link>
-                </Flex>
-                <Popover
-                  isOpen={isPopover}
-                  position={'left'}
-                  padding={5}
-                  onClickOutside={e => setIsPopover(!isPopover)}
-                  transitionDuration={0.25}
-                  containerStyle={{width:'60%'}}
-                  content={({ position, targetRect, popoverRect }) => (
-                    <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
-                      position={position}
-                      targetRect={targetRect}
-                      popoverRect={popoverRect}
-                      arrowColor={'#54345B'}
-                      arrowSize={10}
-                      style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
-                    >
-                    <About />
-                    </ArrowContainer>
-                  )}
-                >
-                  <Button variant='outline' onClick={() => setIsPopover(!isPopover)}>
-                    <Heading>about this alpha</Heading>
-                  </Button>
-                </Popover>
+          >Knights & Knaves:</Text>
+          <Text
+            sx={{
+              fontFamily:'heading',
+              color:'primary',
+              fontSize: '80px',
+              textAlign: 'right'
+            }}
+          >A Logic Game</Text>
+        </Flex>
+        <Flex
+          sx={{
+            flexDirection:'column',
+            width: '33%'
+          }}
+        >
+          {!displayUid &&
+            <Flex
+              sx={{
+                flexDirection: 'column'
+              }}>
+              <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game or join one in progress!</Text>
+              <Button variant='tertiary' onClick={() => createGame()}><Heading>create</Heading></Button>
+              <Flex sx={{flexDirection:'row', m:10}}>
+                <Input sx={{mr:10, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
+                <Link to={!id ? `/` : `/${id}`}>
+                  <Button variant='tertiary' onClick={() => joinGame()}><Heading>join</Heading></Button>
+                </Link>
               </Flex>
-            }
-            {displayUid &&
-              <>
-                <p>here's your game id. send it to your teammates so they can join!</p>
-                <h3>{gameData.uid}</h3>
-                <p>then click go! to start the game</p>
-                <button onClick={() => {history.push(`/${gameData.uid}`)}}>go!</button>
-              </>
-            }
-          </Flex>
+              <Popover
+                isOpen={isPopover}
+                position={'left'}
+                padding={5}
+                onClickOutside={e => setIsPopover(!isPopover)}
+                transitionDuration={0.25}
+                containerStyle={{width:'60%'}}
+                content={({ position, targetRect, popoverRect }) => (
+                  <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+                    position={position}
+                    targetRect={targetRect}
+                    popoverRect={popoverRect}
+                    arrowColor={'#54345B'}
+                    arrowSize={10}
+                    style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+                  >
+                  <About />
+                  </ArrowContainer>
+                )}
+              >
+                <Button variant='outline' onClick={() => setIsPopover(!isPopover)}>
+                  <Heading>about this alpha</Heading>
+                </Button>
+              </Popover>
+            </Flex>
+          }
+          {displayUid &&
+            <Flex
+              sx={{
+              flexDirection: 'column',
+              alignItems:'center',
+              justifyContent:'center'
+              }}>
+              <Text sx={{fontFamily:'body',color:'text', m:10, textAlign:'center'}}>Here's your game id. send it to your teammates so they can join!
+              <Heading sx={{m:10,fontSize:40}}>{gameData.uid}</Heading>
+              Then click go! to start the game</Text>
+              <Button variant='tertiary' onClick={() => {history.push(`/${gameData.uid}`)}}><Heading>go!</Heading></Button>
+            </Flex>
+          }
+        </Flex>
 
       </Flex>
   )

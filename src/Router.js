@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom'
 import { ThemeProvider } from 'emotion-theming';
 import firebase from 'firebase'
-import {Box} from 'rebass'
+import {Box, Heading} from 'rebass'
 import theme from './theme'
 import Start from './views/Start'
 import Interface from './views/Interface'
@@ -71,7 +71,7 @@ function ValidateGameId({ fbInstance }) {
   }, [uid, id, updateGame, fbInstance])
   switch (status) {
     case 'loading':
-      return <h2>Loading...</h2>
+      return <Heading sx={{fontSize:40}}>Loading...</Heading>
     case 'invalid':
       return <Redirect to='/' />
     case 'characters':
