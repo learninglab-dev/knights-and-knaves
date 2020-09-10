@@ -34,7 +34,7 @@ export default function sentenceBuilder(sentence, action) {
       }
     case 'quantifier':
       switch(action.value){
-        case null:
+        case '':
           return {
             ...sentence,
             disableNames: false,

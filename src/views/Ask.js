@@ -76,19 +76,19 @@ export default function Ask({answerer}) {
     updateMb2({type: 'names', value: update})
     })
     firebase.database().ref(`/${uid}/live/builders/${1}/quantifier`).on('value', snapshot => {
-    const update = snapshot.val()
+    const update = snapshot.val() ? snapshot.val() : ''
     updateMb1({type: 'quantifier', value: update})
     })
     firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).on('value', snapshot => {
-    const update = snapshot.val()
+    const update = snapshot.val() ? snapshot.val() : ''
     updateMb2({type: 'quantifier', value: update})
     })
     firebase.database().ref(`/${uid}/live/builders/${1}/number`).on('value', snapshot => {
-    const update = snapshot.val()
+    const update = snapshot.val() ? snapshot.val() : ''
     updateMb1({type: 'number', value: update})
     })
     firebase.database().ref(`/${uid}/live/builders/${2}/number`).on('value', snapshot => {
-    const update = snapshot.val()
+    const update = snapshot.val() ? snapshot.val() : ''
     updateMb2({type: 'number', value: update})
     })
     return () => {

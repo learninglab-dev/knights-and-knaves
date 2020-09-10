@@ -5,13 +5,13 @@ import liveUpdate from '../utils/live'
 
 
 const quantifierOptions = [
-                            {value: 'all', label: 'All'},
-                            {value: 'some', label: 'Some'},
-                            {value: 'none', label: 'None'},
-                            {value: 'least', label: 'At least '},
-                            {value: 'most', label: 'At most '},
-                            {value: 'less', label: 'Less than '},
-                            {value: 'more', label: 'More than '},
+                            {value: 'all', label: 'all'},
+                            {value: 'some', label: 'some'},
+                            {value: 'none', label: 'none'},
+                            {value: 'least', label: 'least '},
+                            {value: 'most', label: 'most'},
+                            {value: 'less', label: 'less'},
+                            {value: 'more', label: 'more'},
                           ]
 const predicateOptions =  [
                             {value: 'Knight', label: 'Knight'},
@@ -32,11 +32,6 @@ export default function MiniBuilder(props) {
     updateSentence,
     sentence
   } = props
-
-  const plural = sentence?.names ?
-    sentence.names.length === 1 ? 'is a' : 'are' :
-    sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
-    sentence.quantifier ? 'is a' : null
 
   const numberOptions = names.map( (name, i) => {
     return {value: i+1, label: i+1}
@@ -117,21 +112,33 @@ export default function MiniBuilder(props) {
         }
       </Flex>
     <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
-      {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
+      Is it true that {englishify(sentence)}?
+    </Heading>
+  </Box>
+  )
+}
+
+const englishify = sentence => {
+  const subject = sentence.names ?
+    sentence.names.length > 1 ?
+      sentence.names.map((name, i) => {
         if (i+1 < sentence.names.length) {
           return `${name} and `
         }
         return name
-      }) : sentence.names}
-      { quantifierOptions.map(option => {
-        if (option.value === sentence.quantifier) {
-          return option.label
-        }
-        return ''
-      })
+      }) :
+    sentence.names :
+    quantifierOptions.map(option => {
+      if (option.value === sentence.quantifier) {
+        return `${option.label} ${sentence.number ? sentence.number : ''} of you`
       }
-      {sentence.number} {plural} {sentence.predicate}?
-    </Heading>
-  </Box>
-  )
+      return ''
+    })
+  const plural = sentence?.names ?
+    sentence.names.length === 1 ? 'is a' : 'are' :
+    sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
+    sentence.quantifier ? 'is a' : null
+    //add some are and all are in here
+  const predicate = plural === 'are' ? `${plural} ${sentence.predicate}s` : ` ${plural} ${sentence.predicate}`
+  return `${subject.join('')} ${predicate}`
 }
