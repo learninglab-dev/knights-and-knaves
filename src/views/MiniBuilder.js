@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Flex } from 'rebass'
+import { Box, Flex, Heading, Text } from 'rebass'
 import Select from 'react-select'
 import liveUpdate from '../utils/live'
 
@@ -59,6 +59,7 @@ export default function MiniBuilder(props) {
           isClearable={true}
           placeholder="Predicate..."
           options={predicateOptions}
+          closeMenuOnSelect={false}
           onChange={(e) => {
             updateSentence({ type: 'predicate', value: e ? e.value : '' })
             liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', value: e ? e.value : ''})
@@ -70,6 +71,8 @@ export default function MiniBuilder(props) {
             value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
             placeholder="Names..."
+            closeMenuOnSelect={false}
+            blurInputOnSelect={false}
             isMulti
             options={nameOptions}
             onChange={(e) => {
@@ -90,6 +93,7 @@ export default function MiniBuilder(props) {
             placeholder="OR Quantifier..."
             isClearable={true}
             options={quantifierOptions}
+            closeMenuOnSelect={false}
             onChange={(e) => {
               updateSentence({type: 'quantifier', value: e ? e.value : null })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
@@ -104,6 +108,7 @@ export default function MiniBuilder(props) {
             isDisabled={sentence.disableNumber}
             isClearable={true}
             options={numberOptions}
+            closeMenuOnSelect={false}
             onChange={(e) => {
               updateSentence({ type: 'number', value: e ? e.value : null })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
@@ -111,7 +116,7 @@ export default function MiniBuilder(props) {
           />
         }
       </Flex>
-    <p style={{fontWeight: 'bold'}}>
+    <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
       {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
         if (i+1 < sentence.names.length) {
           return `${name} and `
@@ -126,7 +131,7 @@ export default function MiniBuilder(props) {
       })
       }
       {sentence.number} {plural} {sentence.predicate}?
-    </p>
+    </Heading>
   </Box>
   )
 }

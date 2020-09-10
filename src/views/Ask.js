@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import firebase from 'firebase'
 import {Flex, Box, Text, Heading, Button} from 'rebass'
+import { Select, Checkbox, Label } from '@rebass/forms'
 import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
 import Character from './Character'
@@ -26,12 +27,12 @@ const mbDefault = {
 }
 
 
-export default function Ask() {
+export default function Ask({answerer}) {
   const gameData = useContext(Data)
   const uid = gameData.uid
   const updateGame = useContext(DataReducer)
   const names = Object.keys(gameData.solution)
-  const [answerer, setAnswerer] = useState('')
+  // const [answerer, setAnswerer] = useState('')
   const [nots, setNots] = useState({1: false, 2: false})
   const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
@@ -42,10 +43,10 @@ export default function Ask() {
   }, [])
 
   useEffect(() => {
-    firebase.database().ref(`/${uid}/live/answerer`).on('value', snapshot => {
-    const update = snapshot.val() ? snapshot.val() : ''
-    setAnswerer(update)
-    })
+    // firebase.database().ref(`/${uid}/live/answerer`).on('value', snapshot => {
+    // const update = snapshot.val() ? snapshot.val() : ''
+    // setAnswerer(update)
+    // })
     firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     setConnective(update)
@@ -170,22 +171,15 @@ export default function Ask() {
   }
 
   return (
-    <>
-        <Flex
-          sx={{
-            width:'100%',
-            flexDirection:'row',
-            flexWrap:'wrap',
-            justifyContent:'space-evenly',
-          }}>
-          {names.map(name =>
-            <Character type='mystery'>
-              <Heading sx={{fontSize:'large', color:'secondary', mb:'30%'}}>
-                {name}
-              </Heading>
-            </Character>)}
-        </Flex>
-        <select
+    <Flex sx={{
+      flexDirection:'column',
+      justifyContent:'center',
+      alignItems:'center',
+      height: '100%',
+      width:'100%',
+      p: 10
+    }}>
+        {/*<select
           onChange={e => {
             setAnswerer(e.target.value)
             liveUpdate({type: 'ANSWERER', answerer: e.target.value, uid: uid})
@@ -194,43 +188,54 @@ export default function Ask() {
           >
           <option value='' key={'empty'}>select a character...</option>
           {names.map(name => <option value={name} key={name}>{name}</option>)}
-        </select>
-      <p style={{marginTop: 0}}>build your question:</p>
-      <label>NOT</label>
-      <input
-        type='checkbox'
-        checked={nots[1]}
-        onChange={() => {
-          liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
-          }}
-        />
-      <MiniBuilder
-        key={1}
-        i={1}
-        names={names}
-        uid={uid}
-        updateSentence={updateMb1}
-        sentence={mb1}
-        />
-      <select
-        value={connective}
-        onChange={e => {
-          setConnective(e.target.value)
-          liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
-        }}
-        >
-        <option value='' key={'empty'}>add a connective?</option>
-        {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
-      </select>
+        </select>*/}
+      <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
+      <Flex sx={{flexDirection:'row'}}>
+        <MiniBuilder
+          key={1}
+          i={1}
+          names={names}
+          uid={uid}
+          updateSentence={updateMb1}
+          sentence={mb1}
+          />
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', ml:4}}>
+          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:3}}>
+            not
+            <Checkbox
+              sx={{ml:3, bg:'secondary'}}
+              checked={nots[1]}
+              onChange={() => {
+                liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
+                }}
+              />
+          </Label>
+          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>
+            + connective
+            <Select
+              sx={{
+                ml: 3,
+                bg:'white',
+                fontFamily:'body',
+                color:'text',
+                textAlign:'center',
+                fontSize:'tiny',
+                width: 60,
+              }}
+              value={connective}
+              onChange={e => {
+                setConnective(e.target.value)
+                liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
+              }}
+              >
+              <option value='' key={'empty'}>...</option>
+              {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
+            </Select>
+          </Label>
+        </Flex>
+      </Flex>
       {connective &&
-        <div>
-          <label>NOT</label>
-          <input
-            type='checkbox'
-            checked={nots[2]}
-            onChange={() => {
-              liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
-            }}/>
+        <Flex sx={{flexDirection:'column'}}>
           <MiniBuilder
             key={2}
             i={2}
@@ -239,9 +244,20 @@ export default function Ask() {
             updateSentence={updateMb2}
             sentence={mb2}
             />
-        </div>
+          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:3}}>
+            not
+            <Checkbox
+              sx={{ml:3, bg:'secondary'}}
+              checked={nots[2]}
+              onChange={() => {
+                liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
+                }}
+              />
+          </Label>
+        </Flex>
       }
-      <button
+
+      <Button
         onClick={() => {
           updateGame({
             type: 'TAKETURN',
@@ -256,8 +272,8 @@ export default function Ask() {
         }}
       >
         ask!
-      </button>
-    </>
+      </Button>
+    </Flex>
   )
 }
 

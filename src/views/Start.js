@@ -58,7 +58,7 @@ export default function Start() {
             sx={{
               fontFamily:'heading',
               color:'primary',
-              fontSize: '80px',
+              fontSize: 'colossal',
               textAlign: 'right'
             }}
           >Knights & Knaves:</Text>
@@ -66,7 +66,7 @@ export default function Start() {
             sx={{
               fontFamily:'heading',
               color:'primary',
-              fontSize: '80px',
+              fontSize: 'colossal',
               textAlign: 'right'
             }}
           >A Logic Game</Text>
@@ -83,11 +83,11 @@ export default function Start() {
                 flexDirection: 'column'
               }}>
               <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game or join one in progress!</Text>
-              <Button variant='tertiary' onClick={() => createGame()}><Heading>create</Heading></Button>
+              <Button variant='tertiary' onClick={() => createGame()}><Heading sx={{fontSize:'medium'}}>create</Heading></Button>
               <Flex sx={{flexDirection:'row', m:10}}>
                 <Input sx={{mr:10, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
                 <Link to={!id ? `/` : `/${id}`}>
-                  <Button variant='tertiary' onClick={() => joinGame()}><Heading>join</Heading></Button>
+                  <Button variant='tertiary' onClick={() => joinGame()}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
                 </Link>
               </Flex>
               <Popover
@@ -111,7 +111,7 @@ export default function Start() {
                 )}
               >
                 <Button variant='outline' onClick={() => setIsPopover(!isPopover)}>
-                  <Heading>about this alpha</Heading>
+                  <Heading sx={{fontSize:'medium'}}>about this alpha</Heading>
                 </Button>
               </Popover>
             </Flex>
@@ -124,9 +124,9 @@ export default function Start() {
               justifyContent:'center'
               }}>
               <Text sx={{fontFamily:'body',color:'text', m:10, textAlign:'center'}}>Here's your game id. send it to your teammates so they can join!
-              <Heading sx={{m:10,fontSize:40}}>{gameData.uid}</Heading>
+              <Heading sx={{m:10,fontSize:'large'}}>{gameData.uid}</Heading>
               Then click go! to start the game</Text>
-              <Button variant='tertiary' onClick={() => {history.push(`/${gameData.uid}`)}}><Heading>go!</Heading></Button>
+              <Button variant='tertiary' onClick={() => {history.push(`/${gameData.uid}`)}}><Heading sx={{fontSize:'medium'}}>go!</Heading></Button>
             </Flex>
           }
         </Flex>

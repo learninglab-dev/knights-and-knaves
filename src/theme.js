@@ -4,11 +4,12 @@ export default {
     heading: '"Germania One", cursive',
   },
   fontSizes: {
-        'tiny': 10,
-        'small': 16,
+        'tiny': 14,
+        'small': 18,
         'medium': 24,
         'large': 48,
-        'huge': 64
+        'huge': 64,
+        'colossal': 96,
     },
     fontWeights: {
     body: 400,
@@ -25,8 +26,11 @@ export default {
     foreground: '#ffffff',
     primary: '#54345B',
     secondary: '#F58B00',
+    tertiary: '#96749E',
     lightgreen: '#B8E06E',
-    darkgreen: '#5FB923'
+    darkgreen: '#5FB923',
+    lightred: '#F96989',
+    darkred: '#6F1321'
   },
   space: [0, 4, 8, 16, 32, 48],
   breakpoints: ['40em', '64em', '80em'],

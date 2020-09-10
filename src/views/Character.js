@@ -21,7 +21,7 @@ export default function Character({children, type}) {
         margin: '10px',
         flexDirection:'column',
         alignItems:'center',
-        justifyContent:'flex-end',
+        justifyContent:'flex-start',
         height:'36vh',
         width:'15vh',
         backgroundImage:`url(${charPng})`,

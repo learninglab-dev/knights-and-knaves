@@ -115,7 +115,7 @@ export default function CharacterBuilder() {
             }}>
             {characters}
           </Flex>
-          <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}><Heading>start the game</Heading></Button>
+          <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
         </>
       }
     </Flex>
