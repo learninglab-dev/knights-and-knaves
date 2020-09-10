@@ -6,10 +6,8 @@ import React, {
   useCallback
 } from 'react'
 import firebase from 'firebase'
-import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
-import Character from './Character'
 import sentenceBuilder from '../utils/sentenceBuilder'
 import liveUpdate from '../utils/live'
 
@@ -171,20 +169,9 @@ export default function Ask() {
 
   return (
     <>
-        <Flex
-          sx={{
-            width:'100%',
-            flexDirection:'row',
-            flexWrap:'wrap',
-            justifyContent:'space-evenly',
-          }}>
-          {names.map(name =>
-            <Character type='mystery'>
-              <Heading sx={{fontSize:'large', color:'secondary', mb:'30%'}}>
-                {name}
-              </Heading>
-            </Character>)}
-        </Flex>
+      <div style={{marginTop: '25px', marginBottom: '25px'}}>
+        <h3>ask a Question</h3>
+        <label>who are you asking? </label>
         <select
           onChange={e => {
             setAnswerer(e.target.value)
@@ -195,6 +182,7 @@ export default function Ask() {
           <option value='' key={'empty'}>select a character...</option>
           {names.map(name => <option value={name} key={name}>{name}</option>)}
         </select>
+      </div>
       <p style={{marginTop: 0}}>build your question:</p>
       <label>NOT</label>
       <input

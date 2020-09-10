@@ -25,7 +25,7 @@ import island from './assets/island.png'
 export default function Routes({ fbInstance }) {
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{height: '100vh', width: '100vw', backgroundImage: `url(${island})`, backgroundSize: 'cover'}}>
+      <Box sx={{height: '100vh', width: '100vw', backgroundImage: `url(${island})`, backgroundSize: 'cover', backgroundPosition:'center center'}}>
         <Frame>
           <Router>
             <Switch>

@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react'
 import firebase from 'firebase'
+import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Data, DataReducer } from '../data/GameData'
 import Solve from './Solve'
 import Ask from './Ask'
+import Hints from './Hints'
+import Popover, {ArrowContainer} from 'react-tiny-popover'
+
 
 
 export default function Interface() {
+  const [isHint, setIsHint] = useState(null)
   const gameData = useContext(Data)
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
@@ -28,24 +33,41 @@ export default function Interface() {
   }, [gameData.uid])
 
   return (
-    <div>
+    <Flex
+      sx={{
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'flex-start',
+        pt:'10vh',
+        width:'60%',
+        height:'100%',
+      }}>
       { solved && <h1>you win!!!</h1>}
-      <h2>mock game interface</h2>
-      <p>
-        You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.
-      </p>
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw'}}>
-          <Ask />
-        </div>
-        <div style={{border: '2px solid black', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', width: '30vw', marginLeft: '30px'}}>
-          <h3>islander key</h3>
-          <p>Knights always tell the truth</p>
-          <p>Knaves always lie</p>
-          <p>Dragons tell the truth except in the presence of a Knight</p>
-          <p>Monks say whatever they like</p>
-        </div>
-      </div>
+      <Ask />
+      <Popover
+        isOpen={isHint}
+        position={'left'}
+        padding={5}
+        onClickOutside={e => setIsHint(!isHint)}
+        transitionDuration={0.25}
+        containerStyle={{width:'60%'}}
+        content={({ position, targetRect, popoverRect }) => (
+          <ArrowContainer
+            position={position}
+            targetRect={targetRect}
+            popoverRect={popoverRect}
+            arrowColor={'#54345B'}
+            arrowSize={10}
+            style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+          >
+          <Hints />
+          </ArrowContainer>
+        )}
+      >
+        <Button variant='outline' onClick={() => setIsHint(!isHint)}>
+          <Heading>?</Heading>
+        </Button>
+      </Popover>
       <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw', marginTop: '25px'}}>
         <Solve />
       </div>
@@ -59,6 +81,6 @@ export default function Interface() {
           }
         )}
       </div>
-    </div>
+    </Flex>
   )
 }

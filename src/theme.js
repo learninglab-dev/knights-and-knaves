@@ -3,7 +3,13 @@ export default {
     body: 'Roboto, sans-serif',
     heading: '"Germania One", cursive',
   },
-  fontSizes: [12, 14, 16, 20, 24, 32, 48],
+  fontSizes: {
+        'tiny': 10,
+        'small': 16,
+        'medium': 24,
+        'large': 48,
+        'huge': 64
+    },
     fontWeights: {
     body: 400,
     heading: 700,
@@ -37,7 +43,7 @@ export default {
       cursor: 'pointer'
     },
     outline: {
-      bg: 'white',
+      bg: 'lightgreen',
       color: 'darkgreen',
       border: '3px solid',
       borderColor: 'darkgreen',

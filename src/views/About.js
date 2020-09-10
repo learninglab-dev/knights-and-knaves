@@ -8,7 +8,6 @@ export default function About() {
         color: 'foreground',
         fontFamily: 'body',
         lineHeight: 'body'
-
       }}
     >
       <p>

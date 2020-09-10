@@ -1,0 +1,24 @@
+const d1 = require('./dragon1_px.png');
+const d2 = require('./dragon2_px.png');
+const d3 = require('./dragon3_px.png');
+const d4 = require('./dragon4_px.png');
+const v1 = require('./knave1_px.png');
+const v2 = require('./knave2_px.png');
+const v3 = require('./knave3_px.png');
+const v4 = require('./knave4_px.png');
+const k1 = require('./knight1_px.png');
+const k2 = require('./knight2_px.png');
+const k3 = require('./knight3_px.png');
+const k4 = require('./knight4_px.png');
+const m1 = require('./monk1_px.png');
+const m2 = require('./monk2_px.png');
+const m3 = require('./monk3_px.png');
+const m4 = require('./monk4_px.png');
+const y1 = require('./mystery1_px.png');
+const y2 = require('./mystery2_px.png');
+
+export const dragons = [d1,d2,d3,d4]
+export const knaves = [v1,v2,v3,v4]
+export const knights = [k1,k2,k3,k4]
+export const monks = [m1,m2,m3,m4]
+export const mysteries = [y1,y2]
