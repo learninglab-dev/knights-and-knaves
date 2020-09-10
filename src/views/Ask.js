@@ -34,6 +34,8 @@ export default function Ask({answerer}) {
   const names = Object.keys(gameData.solution)
   // const [answerer, setAnswerer] = useState('')
   const [nots, setNots] = useState({1: false, 2: false})
+  const not1Color = nots[1] ? '#B8E06E' : '#F96989'
+  const not2Color = nots[2] ? '#B8E06E' : '#F96989'
   const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
   const [mb2, updateMb2] = useReducer(sentenceBuilder, mbDefault)
@@ -191,6 +193,9 @@ export default function Ask({answerer}) {
         </select>*/}
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
       <Flex sx={{flexDirection:'row'}}>
+        <Button sx={{height:36}} onClick={() => {
+          liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
+        }}><Heading sx={{color: not1Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
         <MiniBuilder
           key={1}
           i={1}
@@ -199,41 +204,29 @@ export default function Ask({answerer}) {
           updateSentence={updateMb1}
           sentence={mb1}
           />
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', ml:4}}>
-          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:3}}>
-            not
-            <Checkbox
-              sx={{ml:3, bg:'secondary'}}
-              checked={nots[1]}
-              onChange={() => {
-                liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
-                }}
-              />
-          </Label>
-          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>
-            + connective
-            <Select
-              sx={{
-                ml: 3,
-                bg:'white',
-                fontFamily:'body',
-                color:'text',
-                textAlign:'center',
-                fontSize:'tiny',
-                width: 60,
-              }}
-              value={connective}
-              onChange={e => {
-                setConnective(e.target.value)
-                liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
-              }}
-              >
-              <option value='' key={'empty'}>...</option>
-              {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
-            </Select>
-          </Label>
-        </Flex>
       </Flex>
+      <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>
+        + connective
+        <Select
+          sx={{
+            ml: 3,
+            bg:'white',
+            fontFamily:'body',
+            color:'text',
+            textAlign:'center',
+            fontSize:'tiny',
+            width: 60,
+          }}
+          value={connective}
+          onChange={e => {
+            setConnective(e.target.value)
+            liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
+          }}
+          >
+          <option value='' key={'empty'}>...</option>
+          {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
+        </Select>
+      </Label>
       {connective &&
         <Flex sx={{flexDirection:'column'}}>
           <MiniBuilder
