@@ -26,8 +26,9 @@ export default function Lineup() {
       }
       return [name, false]
     })
+    liveUpdate({type: 'RESET', uid: uid})
     return Object.fromEntries(update)
-  }, [names])
+  }, [names, uid])
 
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/answerer`).on('value', snapshot => {

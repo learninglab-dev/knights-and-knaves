@@ -3,7 +3,7 @@ import firebase from 'firebase'
 export default function liveUpdate(action) {
   switch (action.type) {
     case 'RESET':
-      firebase.database().ref(`${action.uid}/live`)
+      firebase.database().ref(`${action.uid}/live/builders`)
         .set(true, err => {
           if (err) {
             console.log(err)
