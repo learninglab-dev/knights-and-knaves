@@ -10,6 +10,13 @@ export default function liveUpdate(action) {
             return
           }
         })
+        firebase.database().ref(`${action.uid}/live/roles`)
+          .set(true, err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
       return
     case 'NUMCHARS':
       firebase.database().ref(`${action.uid}/live`)
