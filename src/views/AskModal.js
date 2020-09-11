@@ -4,7 +4,6 @@ import Popover, {ArrowContainer} from 'react-tiny-popover'
 import { Data } from '../data/GameData'
 import Character from './Character'
 import Ask from './Ask'
-import liveUpdate from '../utils/live'
 
 export default function AskModal({name, show, setShow}) {
 
@@ -36,7 +35,7 @@ export default function AskModal({name, show, setShow}) {
         </ArrowContainer>
       )}
     >
-      <Button variant='tertiary' onClick={() => setShow()} sx={{mt:-80}}>
+      <Button variant='tertiary' onClick={setShow} sx={{mt:-80}}>
         <Heading sx={{fontSize:'large'}}>{name}</Heading>
       </Button>
     </Popover>

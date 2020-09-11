@@ -43,10 +43,6 @@ export default function Ask({answerer}) {
   }, [])
 
   useEffect(() => {
-    // firebase.database().ref(`/${uid}/live/answerer`).on('value', snapshot => {
-    // const update = snapshot.val() ? snapshot.val() : ''
-    // setAnswerer(update)
-    // })
     firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     setConnective(update)
@@ -92,7 +88,6 @@ export default function Ask({answerer}) {
     updateMb2({type: 'number', value: update})
     })
     return () => {
-      firebase.database().ref(`/${uid}/live/answerer`).off()
       firebase.database().ref(`/${uid}/live/connective`).off()
       firebase.database().ref(`/${uid}/live/builders/${1}/not`).off()
       firebase.database().ref(`/${uid}/live/builders/${2}/not`).off()
