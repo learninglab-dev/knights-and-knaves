@@ -13,6 +13,7 @@ import MiniBuilder from './MiniBuilder'
 import Character from './Character'
 import sentenceBuilder from '../utils/sentenceBuilder'
 import liveUpdate from '../utils/live'
+import { englishify } from '../utils/englishify'
 
 
 const mbDefault = {
@@ -27,7 +28,7 @@ const mbDefault = {
 }
 
 
-export default function Ask({answerer}) {
+export default function Ask({ answerer }) {
   const gameData = useContext(Data)
   const uid = gameData.uid
   const updateGame = useContext(DataReducer)
@@ -251,13 +252,26 @@ export default function Ask({answerer}) {
           </Label>
         </Flex>
       }
-
+      <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
+        Is it true that {' '}
+        <Text as='span' sx={{color: 'darkgreen'}}>
+          <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ' IF ' : ''}</Text>
+          {englishify(mb1, nots[1])}
+          {connective &&
+            <>
+            <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ',' : ' ' + connective}{' '}</Text>
+            <Text as='span' sx={{color: 'darkgreen'}}>{englishify(mb2, nots[2])}</Text>
+            </>
+          }
+        </Text> ?
+      </Heading>
       <Button
         onClick={() => {
           updateGame({
             type: 'TAKETURN',
             turn: oracleSpeak(),
             copy: oracleSpeak(),
+            english: connective ? (connective === 'IF'? 'IF ' : '') + englishify(mb1, nots[1]) + (connective === 'IF'? ',' : ' ' + connective) + ' ' + englishify(mb2, nots[2]) : englishify(mb1, nots[1]),
             turnType: 'question',
             answerer: answerer
           })
@@ -274,18 +288,22 @@ export default function Ask({answerer}) {
 
 const validateQ = (builder) => {
   if (!builder.predicate) {
+    console.log('predicate')
     return false
   }
   if (!builder.names && !builder.quantifier) {
+    console.log('names')
     return false
   }
-  if (builder.quantifier === 'same' || builder.quantifier === 'different') {
+  if (builder.quantifier === 'Same' || builder.quantifier === 'Different') {
     if (builder.num <= 1 && builder.names.length <= 1) {
+        console.log('same/diff')
         return false
     }
   }
   if (builder.quantifier === 'most' || builder.quantifier === 'least' || builder.quantifier === 'more' || builder.quantifier === 'less') {
-    if (!builder.num) {
+    if (!builder.number) {
+      console.log('num')
       return false
     }
   }

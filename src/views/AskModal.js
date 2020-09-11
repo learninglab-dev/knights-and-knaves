@@ -1,20 +1,10 @@
-import React, { useContext,useState } from 'react'
-import {Flex, Heading, Button} from 'rebass'
+import React from 'react'
+import {Flex, Heading, Button, Text} from 'rebass'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
-import { Data } from '../data/GameData'
 import Character from './Character'
 import Ask from './Ask'
 
 export default function AskModal({name, show, setShow}) {
-
-  const gameData = useContext(Data)
-  const uid = gameData.uid
-
-  // const handleClick = () => {
-  //   liveUpdate({type: 'ANSWERER', answerer: name, uid: uid})
-  //   setShow()
-  // }
-
   return (
     <Popover
       isOpen={show}
@@ -31,7 +21,7 @@ export default function AskModal({name, show, setShow}) {
           arrowSize={10}
           style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
         >
-        <Ask answerer={name}/>
+        <Ask answerer={name} />
         </ArrowContainer>
       )}
     >

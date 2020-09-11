@@ -2,26 +2,8 @@ import React from 'react'
 import { Box, Flex, Heading, Text } from 'rebass'
 import Select from 'react-select'
 import liveUpdate from '../utils/live'
-
-
-const quantifierOptions = [
-                            {value: 'all', label: 'all'},
-                            {value: 'some', label: 'some'},
-                            {value: 'none', label: 'none'},
-                            {value: 'least', label: 'at least'},
-                            {value: 'most', label: 'at most'},
-                            {value: 'less', label: 'less than'},
-                            {value: 'more', label: 'more than'},
-                          ]
-const predicateOptions =  [
-                            {value: 'Knight', label: 'Knight'},
-                            {value: 'Knave', label: 'Knave'},
-                            {value: 'Dragon', label: 'Dragon'},
-                            {value: 'Monk', label: 'Monk'},
-                            {value: 'Same', label: 'the same'},
-                            {value: 'Different', label: 'different'},
-                          ]
-
+import { englishify } from '../utils/englishify'
+import { predicateOptions, quantifierOptions } from '../utils/select-options'
 
 
 export default function MiniBuilder(props) {
@@ -111,51 +93,6 @@ export default function MiniBuilder(props) {
           />
         }
       </Flex>
-    <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
-      Is it true that <Text as='span' sx={{color: 'darkgreen'}}>{englishify(sentence)}</Text>?
-    </Heading>
   </Box>
   )
-}
-
-const englishify = sentence => {
-  const subject = sentence.names ?
-    sentence.names.length > 1 ?
-      sentence.names.map((name, i) => {
-        if (i+1 < sentence.names.length) {
-          return `${name} and `
-        }
-        return name
-      }) :
-    sentence.names :
-    quantifierOptions.map(option => {
-      if (option.value === sentence.quantifier) {
-        return `${quantifierOptions.find(option => option.value === sentence.quantifier).label} ${sentence.number ? sentence.number : ''} of you`
-      }
-      return ''
-    })
-  const plural = () => {
-    if (sentence.quantifier) {
-      switch (sentence.quantifier) {
-        case 'all':
-        case 'some':
-        case 'none':
-          return true
-        case 'less':
-        case 'least':
-          return sentence.number > 1 ? true : false
-        case 'more':
-        case 'most':
-          return sentence.number > 1 ? true : false
-        default:
-          return ''
-      }
-    }
-    return sentence.names?.length > 1 ? true : false
-  }
-  const predicate = plural() ?
-    `are ${sentence.predicate === 'Same' || sentence.predicate === 'Different' ?
-      predicateOptions.find(option => option.value === sentence.predicate).label : sentence.predicate+'s'}` :
-    `is a ${sentence.predicate}`
-  return `${subject.join('')} ${predicate}`
 }
