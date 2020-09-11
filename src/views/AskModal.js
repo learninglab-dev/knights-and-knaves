@@ -23,7 +23,7 @@ export default function AskModal({name}) {
       padding={5}
       onClickOutside={e => setShow(!show)}
       transitionDuration={0.25}
-      containerStyle={{width:'60%'}}
+      containerStyle={{width:'60%',height:'40%'}}
       content={({ position, targetRect, popoverRect }) => (
         <ArrowContainer
           position={position}
@@ -31,7 +31,7 @@ export default function AskModal({name}) {
           popoverRect={popoverRect}
           arrowColor={'#54345B'}
           arrowSize={10}
-          style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+          style={{backgroundColor:'#54345B'}}
         >
         <Ask answerer={name}/>
         </ArrowContainer>

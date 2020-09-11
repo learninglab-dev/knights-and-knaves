@@ -205,8 +205,8 @@ export default function Ask({answerer}) {
           sentence={mb1}
           />
       </Flex>
-      <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>
-        + connective
+      <Flex sx={{flexDirection:'row',alignItems:'center'}}>
+        <Heading sx={{fontFamily:'heading',color:'secondary',fontSize:'medium', mb:1}}>+</Heading>
         <Select
           sx={{
             ml: 3,
@@ -226,7 +226,7 @@ export default function Ask({answerer}) {
           <option value='' key={'empty'}>...</option>
           {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
         </Select>
-      </Label>
+      </Flex>
       {connective &&
         <Flex sx={{flexDirection:'column'}}>
           <MiniBuilder
