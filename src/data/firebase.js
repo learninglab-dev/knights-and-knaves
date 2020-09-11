@@ -60,9 +60,10 @@ export default function gameDataReducer(data, action) {
           return data
         }
         const result = oracle(data.solution, action.answerer, action.turn)
+        console.log(action.english);
         firebase.database().ref(`/${data.uid}/turns`)
           .push()
-          .set({answerer: action.answerer, question: action.copy, response: result}, err => {
+          .set({answerer: action.answerer, question: action.copy, english: action.english, response: result}, err => {
             if (err) {
               console.log(err)
               alert('we had an issue connecting to the database. sorry about that! please try again.')

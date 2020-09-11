@@ -2,26 +2,8 @@ import React from 'react'
 import { Box, Flex, Heading, Text } from 'rebass'
 import Select from 'react-select'
 import liveUpdate from '../utils/live'
-
-
-const quantifierOptions = [
-                            {value: 'all', label: 'All'},
-                            {value: 'some', label: 'Some'},
-                            {value: 'none', label: 'None'},
-                            {value: 'least', label: 'At least '},
-                            {value: 'most', label: 'At most '},
-                            {value: 'less', label: 'Less than '},
-                            {value: 'more', label: 'More than '},
-                          ]
-const predicateOptions =  [
-                            {value: 'Knight', label: 'Knight'},
-                            {value: 'Knave', label: 'Knave'},
-                            {value: 'Dragon', label: 'Dragon'},
-                            {value: 'Monk', label: 'Monk'},
-                            {value: 'Same', label: 'Same'},
-                            {value: 'Different', label: 'Different'},
-                          ]
-
+import { englishify } from '../utils/englishify'
+import { predicateOptions, quantifierOptions } from '../utils/select-options'
 
 
 export default function MiniBuilder(props) {
@@ -32,11 +14,6 @@ export default function MiniBuilder(props) {
     updateSentence,
     sentence
   } = props
-
-  const plural = sentence?.names ?
-    sentence.names.length === 1 ? 'is a' : 'are' :
-    sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
-    sentence.quantifier ? 'is a' : null
 
   const numberOptions = names.map( (name, i) => {
     return {value: i+1, label: i+1}
@@ -55,7 +32,7 @@ export default function MiniBuilder(props) {
       >
         <Select
           name='predicate'
-          value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
+          value={sentence.predicate ? {value: sentence.predicate, label: predicateOptions.find(option => option.value === sentence.predicate).label} : null}
           isClearable={true}
           placeholder="Predicate..."
           options={predicateOptions}
@@ -87,7 +64,7 @@ export default function MiniBuilder(props) {
         {!sentence.disableQuantifier &&
           <Select
             name='quantifier'
-            value={sentence.quantifier ? {value: sentence.quantifier, label: sentence.quantifier} : null}
+            value={sentence.quantifier ? {value: sentence.quantifier, label: quantifierOptions.find(option => option.value === sentence.quantifier).label} : null}
             defaultValue={null}
             isDisabled={sentence.disableQuantifier}
             placeholder="OR Quantifier..."
@@ -95,7 +72,7 @@ export default function MiniBuilder(props) {
             options={quantifierOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({type: 'quantifier', value: e ? e.value : null })
+              updateSentence({type: 'quantifier', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
             }}
           />
@@ -110,28 +87,12 @@ export default function MiniBuilder(props) {
             options={numberOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({ type: 'number', value: e ? e.value : null })
+              updateSentence({ type: 'number', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
             }}
           />
         }
       </Flex>
-    <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
-      {sentence.names?.length > 1 ? sentence.names.map((name, i) => {
-        if (i+1 < sentence.names.length) {
-          return `${name} and `
-        }
-        return name
-      }) : sentence.names}
-      { quantifierOptions.map(option => {
-        if (option.value === sentence.quantifier) {
-          return option.label
-        }
-        return ''
-      })
-      }
-      {sentence.number} {plural} {sentence.predicate}?
-    </Heading>
   </Box>
   )
 }
