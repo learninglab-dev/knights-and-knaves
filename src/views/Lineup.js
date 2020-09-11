@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo
 } from 'react'
-import {Flex, Heading} from 'rebass'
+import { Flex } from 'rebass'
 import firebase from 'firebase'
 import { Data } from '../data/GameData'
 import Character from './Character'

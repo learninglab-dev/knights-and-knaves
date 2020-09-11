@@ -8,18 +8,18 @@ const quantifierOptions = [
                             {value: 'all', label: 'all'},
                             {value: 'some', label: 'some'},
                             {value: 'none', label: 'none'},
-                            {value: 'least', label: 'least'},
-                            {value: 'most', label: 'most'},
-                            {value: 'less', label: 'less'},
-                            {value: 'more', label: 'more'},
+                            {value: 'least', label: 'at least'},
+                            {value: 'most', label: 'at most'},
+                            {value: 'less', label: 'less than'},
+                            {value: 'more', label: 'more than'},
                           ]
 const predicateOptions =  [
                             {value: 'Knight', label: 'Knight'},
                             {value: 'Knave', label: 'Knave'},
                             {value: 'Dragon', label: 'Dragon'},
                             {value: 'Monk', label: 'Monk'},
-                            {value: 'Same', label: 'Same'},
-                            {value: 'Different', label: 'Different'},
+                            {value: 'Same', label: 'the same'},
+                            {value: 'Different', label: 'different'},
                           ]
 
 
@@ -50,7 +50,7 @@ export default function MiniBuilder(props) {
       >
         <Select
           name='predicate'
-          value={sentence.predicate ? {value: sentence.predicate, label: sentence.predicate} : null}
+          value={sentence.predicate ? {value: sentence.predicate, label: predicateOptions.find(option => option.value === sentence.predicate).label} : null}
           isClearable={true}
           placeholder="Predicate..."
           options={predicateOptions}
@@ -82,7 +82,7 @@ export default function MiniBuilder(props) {
         {!sentence.disableQuantifier &&
           <Select
             name='quantifier'
-            value={sentence.quantifier ? {value: sentence.quantifier, label: sentence.quantifier} : null}
+            value={sentence.quantifier ? {value: sentence.quantifier, label: quantifierOptions.find(option => option.value === sentence.quantifier).label} : null}
             defaultValue={null}
             isDisabled={sentence.disableQuantifier}
             placeholder="OR Quantifier..."
@@ -112,7 +112,7 @@ export default function MiniBuilder(props) {
         }
       </Flex>
     <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
-      Is it true that {englishify(sentence)}?
+      Is it true that <Text as='span' sx={{color: 'darkgreen'}}>{englishify(sentence)}</Text>?
     </Heading>
   </Box>
   )
@@ -130,15 +130,32 @@ const englishify = sentence => {
     sentence.names :
     quantifierOptions.map(option => {
       if (option.value === sentence.quantifier) {
-        return `${option.label} ${sentence.number ? sentence.number : ''} of you`
+        return `${quantifierOptions.find(option => option.value === sentence.quantifier).label} ${sentence.number ? sentence.number : ''} of you`
       }
       return ''
     })
-  const plural = sentence?.names ?
-    sentence.names.length === 1 ? 'is a' : 'are' :
-    sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
-    sentence.quantifier === 'all' || sentence.quantifier === 'some' ? 'are' :
-    sentence.quantifier ? 'is a' : null
-  const predicate = plural === 'are' ? `${plural} ${sentence.predicate}s` : ` ${plural} ${sentence.predicate}`
+  const plural = () => {
+    if (sentence.quantifier) {
+      switch (sentence.quantifier) {
+        case 'all':
+        case 'some':
+        case 'none':
+          return true
+        case 'less':
+        case 'least':
+          return sentence.number > 1 ? true : false
+        case 'more':
+        case 'most':
+          return sentence.number > 1 ? true : false
+        default:
+          return ''
+      }
+    }
+    return sentence.names?.length > 1 ? true : false
+  }
+  const predicate = plural() ?
+    `are ${sentence.predicate === 'Same' || sentence.predicate === 'Different' ?
+      predicateOptions.find(option => option.value === sentence.predicate).label : sentence.predicate+'s'}` :
+    `is a ${sentence.predicate}`
   return `${subject.join('')} ${predicate}`
 }
