@@ -8,7 +8,7 @@ const quantifierOptions = [
                             {value: 'all', label: 'all'},
                             {value: 'some', label: 'some'},
                             {value: 'none', label: 'none'},
-                            {value: 'least', label: 'least '},
+                            {value: 'least', label: 'least'},
                             {value: 'most', label: 'most'},
                             {value: 'less', label: 'less'},
                             {value: 'more', label: 'more'},
@@ -90,7 +90,7 @@ export default function MiniBuilder(props) {
             options={quantifierOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({type: 'quantifier', value: e ? e.value : null })
+              updateSentence({type: 'quantifier', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
             }}
           />
@@ -105,7 +105,7 @@ export default function MiniBuilder(props) {
             options={numberOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({ type: 'number', value: e ? e.value : null })
+              updateSentence({ type: 'number', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
             }}
           />
@@ -137,8 +137,8 @@ const englishify = sentence => {
   const plural = sentence?.names ?
     sentence.names.length === 1 ? 'is a' : 'are' :
     sentence.number ? sentence.number > 1 ? 'are' : 'is a' :
+    sentence.quantifier === 'all' || sentence.quantifier === 'some' ? 'are' :
     sentence.quantifier ? 'is a' : null
-    //add some are and all are in here
   const predicate = plural === 'are' ? `${plural} ${sentence.predicate}s` : ` ${plural} ${sentence.predicate}`
   return `${subject.join('')} ${predicate}`
 }
