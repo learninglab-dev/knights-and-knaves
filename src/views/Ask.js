@@ -6,25 +6,26 @@ import React, {
   useCallback
 } from 'react'
 import firebase from 'firebase'
-import {Flex, Box, Text, Heading, Button} from 'rebass'
+import {Flex, Text, Heading, Button} from 'rebass'
 import { Select, Checkbox, Label } from '@rebass/forms'
 import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
-import Character from './Character'
+// import Character from './Character'
 import sentenceBuilder from '../utils/sentenceBuilder'
 import liveUpdate from '../utils/live'
-import { englishify } from '../utils/englishify'
+import { englishify, completeEnglish } from '../utils/englishify'
+import { oracleSpeak } from '../utils/oracleSpeak'
 
 
 const mbDefault = {
   disableNames: false,
   disableQuantifier: false,
   disableNumber: true,
-  names: null,
-  quantifier: null,
-  number: null,
-  predicate: null,
-  connective: null,
+  names: '',
+  quantifier: '',
+  number: '',
+  predicate: '',
+  connective: '',
 }
 
 
@@ -33,7 +34,6 @@ export default function Ask({ answerer }) {
   const uid = gameData.uid
   const updateGame = useContext(DataReducer)
   const names = Object.keys(gameData.solution)
-  // const [answerer, setAnswerer] = useState('')
   const [nots, setNots] = useState({1: false, 2: false})
   const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
@@ -103,69 +103,6 @@ export default function Ask({ answerer }) {
     }
   }, [uid, setNegation])
 
-  const oracleSpeak = () => {
-    const validatedMb1 = validateQ(mb1)
-    if (!validatedMb1) {
-      return 'invalid'
-    }
-    const p = [mb1.predicate, mb1.names? mb1.names : mb1.number ? [mb1.quantifier, mb1.number] : [mb1.quantifier]]
-    const negations = nots[1] ? nots[2] ? 'BOTH' : 'ONE' : nots[2] ? 'TWO' : 'NEITHER'
-    if (!connective) {
-      if (negations === 'ONE') {
-        return {
-          1: p,
-          c: 'NOT'
-        }
-      }
-      return p
-    }
-    const validatedMb2 = validateQ(mb2)
-    if (!validatedMb2) {
-      return 'invalid'
-    }
-    const q = [mb2.predicate, mb2.names? mb2.names : mb2.number ? [mb2.quantifier, mb2.number] : [mb2.quantifier]]
-    switch (negations) {
-    case 'NEITHER':
-      return {
-        1: p,
-        2: q,
-        c: connective
-      }
-    case 'BOTH':
-      return {
-        1: {
-          1: p,
-          c: 'NOT'
-        },
-        2: {
-          1: q,
-          c: 'NOT'
-        },
-        c: connective
-      }
-    case 'ONE':
-      return {
-        1: {
-          1: p,
-          c: 'NOT'
-        },
-        2: q,
-        c: connective
-      }
-    case 'TWO':
-      return {
-        1: p,
-        2: {
-          1: q,
-          c: 'NOT'
-        },
-        c: connective
-      }
-    default:
-      return
-    }
-  }
-
   return (
     <Flex sx={{
       flexDirection:'column',
@@ -174,17 +111,8 @@ export default function Ask({ answerer }) {
       height: '100%',
       width:'100%',
       p: 10
-    }}>
-        {/*<select
-          onChange={e => {
-            setAnswerer(e.target.value)
-            liveUpdate({type: 'ANSWERER', answerer: e.target.value, uid: uid})
-          }}
-          value={answerer}
-          >
-          <option value='' key={'empty'}>select a character...</option>
-          {names.map(name => <option value={name} key={name}>{name}</option>)}
-        </select>*/}
+      }}
+    >
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
       <Flex sx={{flexDirection:'row'}}>
         <MiniBuilder
@@ -269,9 +197,9 @@ export default function Ask({ answerer }) {
         onClick={() => {
           updateGame({
             type: 'TAKETURN',
-            turn: oracleSpeak(),
-            copy: oracleSpeak(),
-            english: connective ? (connective === 'IF'? 'IF ' : '') + englishify(mb1, nots[1]) + (connective === 'IF'? ',' : ' ' + connective) + ' ' + englishify(mb2, nots[2]) : englishify(mb1, nots[1]),
+            turn: oracleSpeak(mb1, mb2, connective, nots),
+            copy: oracleSpeak(mb1, mb2, connective, nots),
+            english: completeEnglish(mb1, mb2, connective, nots),
             turnType: 'question',
             answerer: answerer
           })
@@ -284,28 +212,4 @@ export default function Ask({ answerer }) {
       </Button>
     </Flex>
   )
-}
-
-const validateQ = (builder) => {
-  if (!builder.predicate) {
-    console.log('predicate')
-    return false
-  }
-  if (!builder.names && !builder.quantifier) {
-    console.log('names')
-    return false
-  }
-  if (builder.quantifier === 'Same' || builder.quantifier === 'Different') {
-    if (builder.num <= 1 && builder.names.length <= 1) {
-        console.log('same/diff')
-        return false
-    }
-  }
-  if (builder.quantifier === 'most' || builder.quantifier === 'least' || builder.quantifier === 'more' || builder.quantifier === 'less') {
-    if (!builder.number) {
-      console.log('num')
-      return false
-    }
-  }
-  return true
 }

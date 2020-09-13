@@ -41,3 +41,7 @@ export const englishify = (sentence, negation) => {
     `is ${negation ? 'NOT ' : ''}a ${sentence.predicate}`
   return `${subject.join('')} ${predicate}`
 }
+
+export const completeEnglish = (mb1, mb2, connective, nots) => {
+  return connective ? (connective === 'IF'? 'IF ' : '') + englishify(mb1, nots[1]) + (connective === 'IF'? ',' : ' ' + connective) + ' ' + englishify(mb2, nots[2]) : englishify(mb1, nots[1])
+}
