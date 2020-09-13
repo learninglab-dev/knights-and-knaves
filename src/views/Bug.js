@@ -4,7 +4,7 @@ import bubbleSvg from '../assets/bubble.svg'
 import {Flex, Box, Text, Heading, Button} from 'rebass'
 import styled from 'styled-components'
 
-const formLink = 'https://forms.gle/qwFKMPGCG12vo8xM6'
+const formLink = 'https://forms.gle/w5Jmetvdh3iCP2r6A'
 
 const BugWrapper = styled.div`
   display: grid;
@@ -59,7 +59,7 @@ export default function Bug({ onClick }) {
           gridRow: '1/1',
           pb: 2,
         }}onClick={onClick}
-          ><Heading sx={{fontSize:'tiny'}}>BUGS?</Heading>
+          ><Heading sx={{fontSize:'tiny', color:'foreground'}}>BUGS?</Heading>
         </Box>
         <Box sx={{
           display: 'block',
