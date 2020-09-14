@@ -53,5 +53,11 @@ export default {
       borderColor: 'darkgreen',
       cursor: 'pointer'
     },
+    invisible: {
+      bg: 'transparent',
+      color: 'darkgreen',
+      border: '0px solid',
+      cursor: 'pointer'
+    },
   },
 };

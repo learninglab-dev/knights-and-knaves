@@ -20,6 +20,7 @@ import Interface from './views/Interface'
 import CharacterBuilder from './views/CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
 import Bug from './views/Bug'
+import Credits from './views/Credits'
 import Frame from './views/Frame'
 import island from './assets/island.png'
 
@@ -40,6 +41,7 @@ export default function Routes({ fbInstance }) {
           </Router>
         </Frame>
         <Bug />
+        <Credits />
       </Box>
     </ThemeProvider>
   )

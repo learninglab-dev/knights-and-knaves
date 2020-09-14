@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useCallback, useState } from 'react'
 import firebase from 'firebase'
 import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Data, DataReducer } from '../data/GameData'
-import Solve from './Solve'
 import Hints from './Hints'
 import History from './History'
 import Lineup from './Lineup'
@@ -12,7 +11,6 @@ import Popover, {ArrowContainer} from 'react-tiny-popover'
 
 export default function Interface() {
   const [isHint, setIsHint] = useState(null)
-  const [isSolve, setIsSolve] = useState(null)
   const [isHistory, setIsHistory] = useState(null)
   const gameData = useContext(Data)
   const updateGame = useCallback(useContext(DataReducer), [])
@@ -46,7 +44,7 @@ export default function Interface() {
         height:'100%',
       }}>
       { solved && <h1>you win!!!</h1>}
-      <Lineup />
+      <Lineup solved={solved}/>
       <Flex
         sx={{
           flexDirection:'row',
@@ -67,7 +65,7 @@ export default function Interface() {
               popoverRect={popoverRect}
               arrowColor={'#54345B'}
               arrowSize={10}
-              style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+              style={{backgroundColor:'#54345B'}}
             >
             <Hints />
             </ArrowContainer>
@@ -75,29 +73,6 @@ export default function Interface() {
         >
           <Button variant='outline' onClick={() => setIsHint(!isHint)} sx={{m:10}}>
             <Heading sx={{fontSize:'medium'}}>?</Heading>
-          </Button>
-        </Popover>
-        <Popover
-          isOpen={isSolve}
-          padding={5}
-          onClickOutside={e => setIsSolve(!isSolve)}
-          transitionDuration={0.25}
-          containerStyle={{width:'50%'}}
-          content={({ position, targetRect, popoverRect }) => (
-            <ArrowContainer
-              position={position}
-              targetRect={targetRect}
-              popoverRect={popoverRect}
-              arrowColor={'#54345B'}
-              arrowSize={10}
-              style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
-            >
-              <Solve />
-            </ArrowContainer>
-          )}
-        >
-          <Button variant='tertiary' onClick={() => setIsSolve(!isSolve)} sx={{m:10}}>
-            <Heading sx={{fontSize:'medium'}}>solve!</Heading>
           </Button>
         </Popover>
         <Popover
@@ -113,7 +88,7 @@ export default function Interface() {
               popoverRect={popoverRect}
               arrowColor={'#54345B'}
               arrowSize={10}
-              style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+              style={{backgroundColor:'#54345B'}}
             >
               <History turns={gameData.turns}/>
             </ArrowContainer>

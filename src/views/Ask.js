@@ -38,6 +38,9 @@ export default function Ask({ answerer }) {
   const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
   const [mb2, updateMb2] = useReducer(sentenceBuilder, mbDefault)
+  const not1Color = nots[1] ? '#B8E06E' : '#F96989'
+  const not2Color = nots[2] ? '#B8E06E' : '#F96989'
+  const connectiveColor = connective ? '#B8E06E' : '#F96989'
 
   const setNegation = useCallback((i, update) => {
     setNots(nots => {return {...nots, [i]: update}})
@@ -115,6 +118,9 @@ export default function Ask({ answerer }) {
     >
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
       <Flex sx={{flexDirection:'row'}}>
+        <Button sx={{height:36}} onClick={() => {
+          liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
+        }}><Heading sx={{color: not1Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
         <MiniBuilder
           key={1}
           i={1}
@@ -123,43 +129,34 @@ export default function Ask({ answerer }) {
           updateSentence={updateMb1}
           sentence={mb1}
           />
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', ml:4}}>
-          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:3}}>
-            not
-            <Checkbox
-              sx={{ml:3, bg:'secondary'}}
-              checked={nots[1]}
-              onChange={() => {
-                liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
-                }}
-              />
-          </Label>
-          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>
-            + connective
-            <Select
-              sx={{
-                ml: 3,
-                bg:'white',
-                fontFamily:'body',
-                color:'text',
-                textAlign:'center',
-                fontSize:'tiny',
-                width: 60,
-              }}
-              value={connective}
-              onChange={e => {
-                setConnective(e.target.value)
-                liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
-              }}
-              >
-              <option value='' key={'empty'}>...</option>
-              {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
-            </Select>
-          </Label>
-        </Flex>
+      </Flex>
+      <Flex sx={{flexDirection:'row',alignItems:'center', my:3}}>
+        <Heading sx={{fontFamily:'heading',color:connectiveColor,fontSize:'medium', mb:1}}>+</Heading>
+        <Select
+          sx={{
+            ml: 3,
+            bg:'white',
+            fontFamily:'body',
+            color:'text',
+            textAlign:'center',
+            fontSize:'tiny',
+            width: 60,
+          }}
+          value={connective}
+          onChange={e => {
+            setConnective(e.target.value)
+            liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
+          }}
+          >
+          <option value='' key={'empty'}>...</option>
+          {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
+        </Select>
       </Flex>
       {connective &&
-        <Flex sx={{flexDirection:'column'}}>
+        <Flex sx={{flexDirection:'row'}}>
+          <Button sx={{height:36}} onClick={() => {
+            liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
+          }}><Heading sx={{color: not2Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
           <MiniBuilder
             key={2}
             i={2}
@@ -168,32 +165,23 @@ export default function Ask({ answerer }) {
             updateSentence={updateMb2}
             sentence={mb2}
             />
-          <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:3}}>
-            not
-            <Checkbox
-              sx={{ml:3, bg:'secondary'}}
-              checked={nots[2]}
-              onChange={() => {
-                liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
-                }}
-              />
-          </Label>
         </Flex>
       }
       <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
         Is it true that {' '}
-        <Text as='span' sx={{color: 'darkgreen'}}>
+        <Text as='span' sx={{color: 'secondary'}}>
           <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ' IF ' : ''}</Text>
           {englishify(mb1, nots[1])}
           {connective &&
             <>
-            <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ',' : ' ' + connective}{' '}</Text>
-            <Text as='span' sx={{color: 'darkgreen'}}>{englishify(mb2, nots[2])}</Text>
+            <Text as='span' sx={{color: 'foreground'}}>{connective === 'IF'? ',' : ' ' + connective}{' '}</Text>
+            <Text as='span' sx={{color: 'secondary'}}>{englishify(mb2, nots[2])}</Text>
             </>
           }
         </Text> ?
       </Heading>
       <Button
+        variant='tertiary'
         onClick={() => {
           updateGame({
             type: 'TAKETURN',
@@ -208,7 +196,7 @@ export default function Ask({ answerer }) {
           updateMb2({type: 'RESET'})
         }}
       >
-        ask!
+        <Heading sx={{fontSize:'medium'}}>ask!</Heading>
       </Button>
     </Flex>
   )

@@ -6,10 +6,10 @@ export default function Character({children, type}) {
   const charIndex = (type == 'mystery') ? 1 : Math.floor(Math.random() * 4)
   const randomChar = type => {
     const types = {
-      'dragon':dragons,
-      'knave':knaves,
-      'knight':knights,
-      'monk':monks,
+      'K':knights,
+      'N':knaves,
+      'D':dragons,
+      'M':monks,
       'mystery':mysteries
     };
     return types[type][charIndex]
