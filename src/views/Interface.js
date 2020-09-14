@@ -98,7 +98,7 @@ export default function Interface() {
           )}
         >
           <Button variant='outline' onClick={() => setIsHistory(!isHistory)} sx={{m:10}}>
-            <Heading sx={{fontSize:'medium'}}>history</Heading>
+            <Heading sx={{fontSize:'medium'}}>responses</Heading>
           </Button>
         </Popover>
       </Flex>

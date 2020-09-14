@@ -17,6 +17,20 @@ export default function liveUpdate(action) {
               return
             }
           })
+        firebase.database().ref(`${action.uid}/live/answerer`)
+          .set(true, err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
+        firebase.database().ref(`${action.uid}/live/connective`)
+          .set('', err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
       return
     case 'NUMCHARS':
       firebase.database().ref(`${action.uid}/live`)

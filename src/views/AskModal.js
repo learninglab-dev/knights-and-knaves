@@ -9,7 +9,7 @@ import close from '../assets/close.svg'
 
 export default function AskModal({name, show, setAnswerer, setShow}) {
   const gameData = useContext(Data)
-  const turnsForName = Object.values(gameData.turns).filter(obj => obj.answerer == name)
+  const turnsForName = gameData.turns ? Object.values(gameData.turns).filter(obj => obj.answerer == name) : ''
   return (
     <Popover
       isOpen={show}

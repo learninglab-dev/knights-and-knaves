@@ -15,7 +15,7 @@ export default function History({turns}) {
         textAlign: 'center'
       }}
     >
-      <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>history:</Heading>
+      <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>
         {turns &&
           Object.values(turns).map((turn, i) =>
           {

@@ -51,7 +51,7 @@ export default function CharacterBuilder() {
     const keys =  Object.keys(available)
     let draw = keys[keys.length * Math.random() << 0]
     const {[draw]: remove, ...rest} = available
-    const result = available[draw]
+    const result = available[draw] || ''
     setAvailable(rest)
     setNames({...names, [i]: result})
     liveUpdate({type: 'NAMES', uid: uid, i: i, value: result})

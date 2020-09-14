@@ -11,6 +11,7 @@ import firebase from 'firebase'
 import { Data, DataReducer } from '../data/GameData'
 import Character from './Character'
 import AskModal from './AskModal'
+import { englishifySolve } from '../utils/englishify'
 import liveUpdate from '../utils/live'
 
 
@@ -22,10 +23,8 @@ export default function Lineup({solved}) {
   const names = useMemo(() => Object.keys(solution), [solution])
   const [modalState, setModalState] = useState(Object.fromEntries(names.map(name => [name, false])))
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
+
   const hideModal = (name) => {
-    const newModalState = {...modalState}
-    newModalState[name] = false
-    setModalState(newModalState)
     liveUpdate({type: 'RESET', uid: uid})
   }
 
@@ -68,7 +67,7 @@ export default function Lineup({solved}) {
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}}>
             <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'}>
-              <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>hideModal(name)}/>
+              <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
             </Character>
               <Select
                 sx={{
@@ -100,7 +99,7 @@ export default function Lineup({solved}) {
         variant='tertiary'
         sx={{m:10}}
         onClick={() => {
-          updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
+          updateGame({type: 'TAKETURN', turn: input, turnType: 'solve', english: englishifySolve(input)})
           liveUpdate({type: 'RESET', uid: uid})
           setInput(Object.fromEntries(names.map(name => [name, ''])))
         }}

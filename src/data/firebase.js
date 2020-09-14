@@ -50,6 +50,7 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
+      console.log(action);
       if (action.turnType === 'question') {
         if (action.turn === 'invalid') {
           alert('your question is not valid. check your inputs and try again.')
