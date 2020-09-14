@@ -48,7 +48,12 @@ export const completeEnglish = (mb1, mb2, connective, nots) => {
 
 export const englishifySolve = (input) => {
   const names = Object.keys(input)
-  const addIsA = names.map(name => `${name} is a ${input[name]}; `)
-  console.log(`${addIsA.join('').slice(0, -2)}.`);
+  const roles = {
+    K: 'Knight',
+    N: 'Knave',
+    D: 'Dragon',
+    M: 'Monk'
+  }
+  const addIsA = names.map(name => `${name} is a ${roles[input[name]]}; `)
   return `${addIsA.join('').slice(0, -2)}.`
 }
