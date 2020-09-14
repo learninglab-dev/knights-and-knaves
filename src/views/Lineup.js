@@ -22,14 +22,11 @@ export default function Lineup({solved}) {
   const names = useMemo(() => Object.keys(solution), [solution])
   const [modalState, setModalState] = useState(Object.fromEntries(names.map(name => [name, false])))
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
-
-  console.log(solution);
-  console.log(modalState);
-
   const hideModal = (name) => {
     const newModalState = {...modalState}
     newModalState[name] = false
     setModalState(newModalState)
+    liveUpdate({type: 'RESET', uid: uid})
   }
 
   const toggleModals = useCallback((target) => {

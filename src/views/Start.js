@@ -4,7 +4,6 @@ import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Input } from '@rebass/forms'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
-import Modal from './Modal'
 import About from './About'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 

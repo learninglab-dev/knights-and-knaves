@@ -178,16 +178,6 @@ export default function Ask({ answerer }) {
       width:'100%',
       p: 10
     }}>
-        {/*<select
-          onChange={e => {
-            setAnswerer(e.target.value)
-            liveUpdate({type: 'ANSWERER', answerer: e.target.value, uid: uid})
-          }}
-          value={answerer}
-          >
-          <option value='' key={'empty'}>select a character...</option>
-          {names.map(name => <option value={name} key={name}>{name}</option>)}
-        </select>*/}
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
       <Flex sx={{flexDirection:'row'}}>
         <Button sx={{height:36}} onClick={() => {
