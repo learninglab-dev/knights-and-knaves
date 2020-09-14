@@ -76,7 +76,7 @@ export default function Lineup({solved}) {
                   bg:'white',
                   fontFamily:'body',
                   color:'text',
-                  textAlign:'center',
+                  textAlign:'left',
                   fontSize:'tiny',
                   width: 100,
                   pl:15

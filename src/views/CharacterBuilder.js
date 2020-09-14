@@ -104,7 +104,7 @@ export default function CharacterBuilder() {
         alignItems:'center',
         justifyContent:'flex-start',
         pt:'10vh',
-        width:'60%',
+        width:'100%',
         height:'100%'
       }}>
       <>

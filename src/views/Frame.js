@@ -1,18 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react'
-import {Flex, Box, Heading} from 'rebass'
+import {Box, Heading} from 'rebass'
+import Bug from './Bug'
+import Credits from './Credits'
 
 export default function Frame({children}) {
   return (
-    <Flex
+    <Box
       sx={{
-        flexDirection:'column',
-        alignItems:'center',
-        justifyContent:'center',
+        display:'grid',
         height:'100%',
-        width:'100%'
+        width:'100%',
+        gridTemplateColumns: '1fr 5fr 1fr',
+        gridTemplateRows: '1fr 5fr 1fr',
       }}
     >
-      {children}
-    </Flex>
+      <Box sx={{gridArea:'2/2/2/2'}}>{children}</Box>
+      <Box sx={{gridArea:'3/1/3/1',placeSelf:'center'}}><Credits/></Box>
+      <Box sx={{gridArea:'3/3/3/3',placeSelf:'center'}}><Bug/></Box>
+    </Box>
   )
 }

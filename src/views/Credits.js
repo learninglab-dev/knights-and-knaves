@@ -34,9 +34,6 @@ export default function Credits({ onClick }) {
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
-        position: 'absolute',
-        bottom: '16px',
-        left: '16px',
         border: 'none',
         bg: 'transparent'
       }} onClick={() => setIsCredits(!isCredits)}>

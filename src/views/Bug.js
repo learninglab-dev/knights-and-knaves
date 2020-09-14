@@ -9,9 +9,6 @@ export default function Bug({ onClick }) {
     <Flex sx={{
       flexDirection:'column',
       alignItems:'center',
-      position: 'absolute',
-      bottom: '16px',
-      right: '16px',
       border: 'none',
       textDecoration: 'none',
       bg: 'transparent'

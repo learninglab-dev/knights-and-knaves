@@ -23,10 +23,9 @@ export default function MiniBuilder(props) {
     })
 
   return (
-    <Box>
       <Flex
         sx={{
-          width:'40vw',
+          width:'100%',
           flexDirection:'column'
         }}
       >
@@ -93,6 +92,5 @@ export default function MiniBuilder(props) {
           />
         }
       </Flex>
-  </Box>
   )
 }

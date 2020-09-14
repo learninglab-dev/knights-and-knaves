@@ -43,33 +43,21 @@ export default function Start() {
         sx={{
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'row',
-          width: '100%'
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%'
         }}>
         {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
-        <Flex
+        <Text
           sx={{
-            flexDirection:'column',
-            mr:40,
-            width: '33%'
-          }}>
-          <Text
-            sx={{
-              fontFamily:'heading',
-              color:'primary',
-              fontSize: 'colossal',
-              textAlign: 'right'
-            }}
-          >Knights & Knaves:</Text>
-          <Text
-            sx={{
-              fontFamily:'heading',
-              color:'primary',
-              fontSize: 'colossal',
-              textAlign: 'right'
-            }}
-          >A Logic Game</Text>
-        </Flex>
+            width: '67%',
+            fontFamily:'heading',
+            color:'primary',
+            fontSize: 'colossal',
+            textAlign: 'center',
+            mb:20
+          }}
+        >Knights & Knaves: A Logic Game</Text>
         <Flex
           sx={{
             flexDirection:'column',
@@ -81,17 +69,18 @@ export default function Start() {
               sx={{
                 flexDirection: 'column'
               }}>
-              <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game or join one in progress!</Text>
-              <Button variant='tertiary' onClick={() => createGame()}><Heading sx={{fontSize:'medium'}}>create</Heading></Button>
-              <Flex sx={{flexDirection:'row', m:10}}>
-                <Input sx={{mr:10, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
+              <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game:</Text>
+              <Button variant='tertiary' onClick={() => createGame()} sx={{width: '50%', mb:10}}><Heading sx={{fontSize:'medium'}}>create</Heading></Button>
+              <Text sx={{fontFamily:'body',color:'text', m:10}}>Or join one in progress:</Text>
+              <Flex sx={{flexDirection:'row', justifyContent:'flex-start', mb:10}}>
+                <Input sx={{width: '50%', mr:20, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
                 <Link to={!id ? `/` : `/${id}`}>
-                  <Button variant='tertiary' onClick={() => joinGame()}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
+                  <Button variant='tertiary' onClick={() => joinGame()} sx={{width: '100%'}}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
                 </Link>
               </Flex>
               <Popover
                 isOpen={isPopover}
-                position={'left'}
+                position={'top'}
                 padding={5}
                 onClickOutside={e => setIsPopover(!isPopover)}
                 transitionDuration={0.25}
@@ -103,13 +92,13 @@ export default function Start() {
                     popoverRect={popoverRect}
                     arrowColor={'#54345B'}
                     arrowSize={10}
-                    style={{backgroundColor:'#54345B'}}
+                    style={{backgroundColor:'#54345B',marginBottom:10, padding:30}}
                   >
                   <About />
                   </ArrowContainer>
                 )}
               >
-                <Button variant='outline' onClick={() => setIsPopover(!isPopover)}>
+                <Button variant='outline' onClick={() => setIsPopover(!isPopover)} sx={{m:10}}>
                   <Heading sx={{fontSize:'medium'}}>about this alpha</Heading>
                 </Button>
               </Popover>

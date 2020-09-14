@@ -16,6 +16,8 @@ export default function Interface() {
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
 
+  console.log(gameData.turns);
+
   // TODO: add error handling
   useEffect(() => {
     firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
@@ -40,7 +42,7 @@ export default function Interface() {
         alignItems:'center',
         justifyContent:'center',
         pt:'10vh',
-        width:'60%',
+        width:'100%',
         height:'100%',
       }}>
       { solved && <h1>you win!!!</h1>}
@@ -54,7 +56,8 @@ export default function Interface() {
         }}>
         <Popover
           isOpen={isHint}
-          padding={5}
+          position={'top'}
+          padding={6}
           onClickOutside={e => setIsHint(!isHint)}
           transitionDuration={0.25}
           containerStyle={{width:'25%'}}
@@ -65,7 +68,7 @@ export default function Interface() {
               popoverRect={popoverRect}
               arrowColor={'#54345B'}
               arrowSize={10}
-              style={{backgroundColor:'#54345B'}}
+              style={{backgroundColor:'#54345B',marginBottom:10, padding:'20px'}}
             >
             <Hints />
             </ArrowContainer>
@@ -77,10 +80,11 @@ export default function Interface() {
         </Popover>
         <Popover
           isOpen={isHistory}
-          padding={5}
+          position={'top'}
+          padding={6}
           onClickOutside={e => setIsHistory(!isHistory)}
           transitionDuration={0.25}
-          containerStyle={{width:'25%'}}
+          containerStyle={{width:'30%'}}
           content={({ position, targetRect, popoverRect }) => (
             <ArrowContainer
               position={position}
@@ -88,7 +92,7 @@ export default function Interface() {
               popoverRect={popoverRect}
               arrowColor={'#54345B'}
               arrowSize={10}
-              style={{backgroundColor:'#54345B'}}
+              style={{backgroundColor:'#54345B',marginBottom:10, paddingTop:'20px'}}
             >
               <History turns={gameData.turns}/>
             </ArrowContainer>

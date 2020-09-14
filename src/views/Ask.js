@@ -113,32 +113,49 @@ export default function Ask({ answerer }) {
       alignItems:'center',
       height: '100%',
       width:'100%',
-      p: 10
       }}
     >
-      <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>build your question:</Heading>
-      <Flex sx={{flexDirection:'row'}}>
-        <Button sx={{height:36}} onClick={() => {
-          liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
-        }}><Heading sx={{color: not1Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
-        <MiniBuilder
-          key={1}
-          i={1}
-          names={names}
-          uid={uid}
-          updateSentence={updateMb1}
-          sentence={mb1}
-          />
+      <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:3}}>build your question:</Heading>
+      <Flex sx={{width:'100%',flexDirection:'row'}}>
+        <Flex sx={{width:'100%',flexDirection:'row', pr:'5%'}}>
+          <Button sx={{height:36}} onClick={() => {
+            liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
+          }}><Heading sx={{color: not1Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
+          <MiniBuilder
+            key={1}
+            i={1}
+            names={names}
+            uid={uid}
+            updateSentence={updateMb1}
+            sentence={mb1}
+            />
+        </Flex>
+        {connective &&
+          <Flex sx={{width:'100%',flexDirection:'row' , pr:'5%'}}>
+            <Button sx={{height:36}} onClick={() => {
+              liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
+            }}><Heading sx={{color: not2Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
+            <MiniBuilder
+              key={2}
+              i={2}
+              names={names}
+              uid={uid}
+              updateSentence={updateMb2}
+              sentence={mb2}
+              />
+          </Flex>
+        }
       </Flex>
       <Flex sx={{flexDirection:'row',alignItems:'center', my:3}}>
         <Heading sx={{fontFamily:'heading',color:connectiveColor,fontSize:'medium', mb:1}}>+</Heading>
         <Select
           sx={{
             ml: 3,
+            my:1,
             bg:'white',
             fontFamily:'body',
             color:'text',
-            textAlign:'center',
+            textAlign:'left',
             fontSize:'tiny',
             width: 60,
           }}
@@ -152,22 +169,7 @@ export default function Ask({ answerer }) {
           {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
         </Select>
       </Flex>
-      {connective &&
-        <Flex sx={{flexDirection:'row'}}>
-          <Button sx={{height:36}} onClick={() => {
-            liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
-          }}><Heading sx={{color: not2Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
-          <MiniBuilder
-            key={2}
-            i={2}
-            names={names}
-            uid={uid}
-            updateSentence={updateMb2}
-            sentence={mb2}
-            />
-        </Flex>
-      }
-      <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:20}}>
+      <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:4}}>
         Is it true that {' '}
         <Text as='span' sx={{color: 'secondary'}}>
           <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ' IF ' : ''}</Text>
@@ -182,6 +184,7 @@ export default function Ask({ answerer }) {
       </Heading>
       <Button
         variant='tertiary'
+        sx={{my:4}}
         onClick={() => {
           updateGame({
             type: 'TAKETURN',
