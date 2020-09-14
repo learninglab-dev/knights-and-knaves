@@ -4,7 +4,6 @@ import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Input } from '@rebass/forms'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
-import Modal from './Modal'
 import About from './About'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 
@@ -104,7 +103,7 @@ export default function Start() {
                     popoverRect={popoverRect}
                     arrowColor={'#54345B'}
                     arrowSize={10}
-                    style={{backgroundColor:'#54345B', margin:'10px', padding:'10px 30px'}}
+                    style={{backgroundColor:'#54345B'}}
                   >
                   <About />
                   </ArrowContainer>

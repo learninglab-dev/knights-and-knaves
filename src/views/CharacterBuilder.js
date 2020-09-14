@@ -6,13 +6,15 @@ import React, {
 } from 'react'
 import firebase from 'firebase'
 import {Flex, Box, Text, Button, Heading} from 'rebass'
-import { Input } from '@rebass/forms'
+import { Input, Select } from '@rebass/forms'
 import {
   DataReducer,
   Data,
 } from '../data/GameData'
 import liveUpdate from '../utils/live'
 import Character from './Character'
+import { defaultNames } from '../data/defaultNames'
+import shuffle from '../assets/shuffle.svg'
 
 
 export default function CharacterBuilder() {
@@ -20,6 +22,7 @@ export default function CharacterBuilder() {
   const uid = useContext(Data).uid
   const [num, setNum] = useState('')
   const [names, setNames] = useState({})
+  const [available, setAvailable] = useState(defaultNames)
 
   // TODO: add error handling
   useEffect(() => {
@@ -44,26 +47,51 @@ export default function CharacterBuilder() {
     }
   }, [uid])
 
+  const drawDefaultName = (i) => {
+    const keys =  Object.keys(available)
+    let draw = keys[keys.length * Math.random() << 0]
+    const {[draw]: remove, ...rest} = available
+    const result = available[draw]
+    setAvailable(rest)
+    setNames({...names, [i]: result})
+    liveUpdate({type: 'NAMES', uid: uid, i: i, value: result})
+    return result
+  }
+
   let characters = []
   for (let i = 0; i < num; i++) {
     characters.push(
       <Box key={i}>
         <Character type='mystery'>
-          <Input
-            type='text'
-            value={names[i] || ''}
-            sx={{
-              mb:'10vh',
-              bg:'white',
-              fontFamily:'body',
-              color:'text',
-              textAlign:'center'
-            }}
-            onChange={e => {
-              setNames({...names, [i]: e.target.value})
-              liveUpdate({type: 'NAMES', uid: uid, i: i, value: e.target.value})
-            }}
-          />
+          <Flex sx={{flexDirection:'row'}}>
+            <Input
+              type='text'
+              value={names[i] || ''}
+              sx={{
+                bg:'white',
+                mr: 2,
+                fontFamily:'body',
+                color:'text',
+                textAlign:'center',
+                height:35
+              }}
+              onChange={e => {
+                setNames({...names, [i]: e.target.value})
+                liveUpdate({type: 'NAMES', uid: uid, i: i, value: e.target.value})
+              }}
+            />
+            <Button
+              variant='tertiary'
+              sx={{
+                backgroundImage: `url(${shuffle})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                height:15,
+                p:15,
+              }}
+              onClick={() => drawDefaultName(i)}
+            />
+          </Flex>
         </Character>
       </Box>
     )
@@ -83,24 +111,25 @@ export default function CharacterBuilder() {
         <Text
           sx={{fontFamily:'body',color:'text',textAlign:'center', m:10}}
         >How many islanders will you meet today?</Text>
-        <Input
-          sx={{ width:'60px',
-                mb: '20px',
-                bg:'white',
-                fontFamily:'body',
-                color:'text',
-                textTransform:'uppercase',
-                textAlign:'center'}}
-          placeholder='(1-6)'
-          key='numChars'
-          type='text'
+        <Select
+          sx={{
+            bg:'white',
+            fontFamily:'body',
+            color:'text',
+            textAlign:'center',
+            fontSize:'tiny',
+            width: 60,
+          }}
           value={num}
           onChange={e => {
             setNum(e.target.value)
             liveUpdate({type: 'NUMCHARS', uid: uid, num: e.target.value})
           }}
-          ></Input>
-        </>
+          >
+          <option value='' key={'empty'}>...</option>
+          {[1,2,3,4,5,6].map(number => <option value={number} key={number}>{number}</option>)}
+        </Select>
+      </>
       {num &&
         <>
           <Text
