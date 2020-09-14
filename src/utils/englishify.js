@@ -12,7 +12,7 @@ export const englishify = (sentence, negation) => {
     sentence.names :
     quantifierOptions.map(option => {
       if (option.value === sentence.quantifier) {
-        return `${quantifierOptions.find(option => option.value === sentence.quantifier).label}${sentence.number ? ' ' + sentence.number : ''} of you`
+        return `${negation && (sentence.quantifier !== 'most' && sentence.quantifier !== 'least') ? 'NOT ' : ''}${quantifierOptions.find(option => option.value === sentence.quantifier).label}${sentence.number ? ' ' + sentence.number : ''} of you`
       }
       return ''
     })
@@ -36,8 +36,12 @@ export const englishify = (sentence, negation) => {
     return sentence.names?.length > 1 ? true : false
   }
   const predicate = plural() ?
-    `are ${negation ? 'NOT ' : ''}${sentence.predicate === 'Same' || sentence.predicate === 'Different' ?
+    `are ${negation && (!sentence.quantifier || sentence.quantifier === 'most' || sentence.quantifier === 'least')? 'NOT ' : ''}${sentence.predicate === 'Same' || sentence.predicate === 'Different' ?
       predicateOptions.find(option => option.value === sentence.predicate).label : sentence.predicate+'s'}` :
     `is ${negation ? 'NOT ' : ''}a ${sentence.predicate}`
   return `${subject.join('')} ${predicate}`
+}
+
+export const completeEnglish = (mb1, mb2, connective, nots) => {
+  return connective ? (connective === 'IF'? 'IF ' : '') + englishify(mb1, nots[1]) + (connective === 'IF'? ',' : ' ' + connective) + ' ' + englishify(mb2, nots[2]) : englishify(mb1, nots[1])
 }
