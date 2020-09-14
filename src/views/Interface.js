@@ -9,7 +9,6 @@ import Lineup from './Lineup'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 
 
-
 export default function Interface() {
   const [isHint, setIsHint] = useState(null)
   const [isSolve, setIsSolve] = useState(null)
