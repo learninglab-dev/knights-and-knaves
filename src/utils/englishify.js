@@ -45,3 +45,9 @@ export const englishify = (sentence, negation) => {
 export const completeEnglish = (mb1, mb2, connective, nots) => {
   return connective ? (connective === 'IF'? 'IF ' : '') + englishify(mb1, nots[1]) + (connective === 'IF'? ',' : ' ' + connective) + ' ' + englishify(mb2, nots[2]) : englishify(mb1, nots[1])
 }
+
+export const englishifySolve = (input) => {
+  const names = Object.keys(input)
+  const addIsA = names.map(name => `${name} is a ${input[name]}; `)
+  return `${addIsA.join('').slice(0, -1)}.`
+}

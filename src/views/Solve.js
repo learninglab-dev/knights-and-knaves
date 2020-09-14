@@ -3,6 +3,7 @@ import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Select, Label } from '@rebass/forms'
 import { Data, DataReducer } from '../data/GameData'
 import liveUpdate from '../utils/live'
+import { englishifySolve } from '../utils/englishify'
 import firebase from 'firebase'
 
 
@@ -59,7 +60,7 @@ export default function Solve() {
         variant='tertiary'
         sx={{m:10}}
         onClick={() => {
-          updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
+          updateGame({type: 'TAKETURN', turn: input, turnType: 'solve', english: englishifySolve(input)})
           liveUpdate({type: 'RESET', uid: uid})
           setInput(Object.fromEntries(names.map(name => [name, ''])))
         }}

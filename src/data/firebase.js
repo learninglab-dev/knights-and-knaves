@@ -87,7 +87,7 @@ export default function gameDataReducer(data, action) {
       const result = checkSolution(action.turn, data.solution)
       firebase.database().ref(`/${data.uid}/turns`)
         .push()
-        .set({solution: action.turn, correct: result}, err => {
+        .set({solution: action.turn, correct: result, english: action.english}, err => {
           if (err) {
             console.log(err)
             alert('we had an issue connecting to the database. sorry about that! please try again.')
