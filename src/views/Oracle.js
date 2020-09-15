@@ -45,15 +45,15 @@ export default function Oracle({ onClick }) {
             gridColumn:'2/span 1',
             placeSelf:'center start',
             bg:'primary',
-            py: 20,
+            pt: 20,
             width:'100%',
-            height:'100%',
-            maxHeight:'100%',
-            flexDirection:'row'
+            flexDirection:'row',
+            maxHeight:'25vh',
+            height:'100%'
           }}>
-            <Box sx={{flexBasis:'25%',maxHeight:'inherit'}}><History turns={gameData.turns}/></Box>
+            <Box sx={{flexBasis:'25%'}}><History turns={gameData.turns}/></Box>
             <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'25%', mx:40}}>
-              <Heading sx={{color:'secondary', fontSize:'medium', mb:2}}>how to play:</Heading>
+              <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>how to play:</Heading>
               <Text
                 sx={{
                   color: 'foreground',

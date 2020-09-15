@@ -12,7 +12,7 @@ export default function Frame({children}) {
         height:'100%',
         width:'100%',
         gridTemplateColumns: '1fr 5fr 1fr',
-        gridTemplateRows: '1fr 5fr 1fr',
+        gridTemplateRows: '2fr 5fr 1fr',
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>

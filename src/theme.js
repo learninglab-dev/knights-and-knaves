@@ -18,6 +18,7 @@ export default {
   lineHeights: {
     body: 1.5,
     heading: 1.125,
+    history:1.25
   },
   colors: {
     text: '#392a25',
