@@ -47,6 +47,15 @@ export default function Ask({ answerer }) {
   }, [])
 
   useEffect(() => {
+    console.log('in effect')
+    firebase.database().ref(`/${uid}/live/builders`).on('value', snapshot => {
+    const update = snapshot.val()
+    if (update === 'CLEAR') {
+      console.log('CLEAR')
+      updateMb1({type: 'RESET'})
+      updateMb2({type: 'RESET'})
+    }
+    })
     firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     setConnective(update)
@@ -104,8 +113,9 @@ export default function Ask({ answerer }) {
       firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).off()
       firebase.database().ref(`/${uid}/live/builders/${1}/number`).off()
       firebase.database().ref(`/${uid}/live/builders/${2}/number`).off()
+      firebase.database().ref(`/${uid}/live/builders`).off()
     }
-  }, [uid, setNegation])
+  }, [uid, setNegation, answerer])
 
   return (
     <Flex sx={{
@@ -198,8 +208,6 @@ export default function Ask({ answerer }) {
           liveUpdate({type: 'CLEAR_BUILDERS', uid: uid})
           liveUpdate({type: 'CLEAR_ANSWERER', uid: uid})
           liveUpdate({type: 'CLEAR_CONNECTIVE', uid: uid})
-          updateMb1({type: 'RESET'})
-          updateMb2({type: 'RESET'})
         }}
       >
         <Heading sx={{fontSize:'medium'}}>ask!</Heading>

@@ -65,8 +65,7 @@ export default function Lineup({solved}) {
           justifyContent:'space-evenly',
         }}>
         {names.map(name =>
-
-          <Flex sx={{flexDirection:'column',alignItems:'center'}}>
+          <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>
             <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved} >
               <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
             </Character>
