@@ -47,73 +47,70 @@ export default function Ask({ answerer }) {
   }, [])
 
   useEffect(() => {
-    console.log('in effect')
     firebase.database().ref(`/${uid}/live/builders`).on('value', snapshot => {
     const update = snapshot.val()
     if (update === 'CLEAR') {
-      console.log('CLEAR')
       updateMb1({type: 'RESET'})
       updateMb2({type: 'RESET'})
     }
     })
-    firebase.database().ref(`/${uid}/live/connective`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/connective/${answerer}`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     setConnective(update)
     })
-    firebase.database().ref(`/${uid}/live/builders/${1}/not`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/not`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : false
     setNegation(1, update)
     })
-    firebase.database().ref(`/${uid}/live/builders/${2}/not`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/not`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : false
     setNegation(2, update)
     })
-    firebase.database().ref(`/${uid}/live/builders/${1}/predicate`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/predicate`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
-    console.log('predicate: ' + update)
     updateMb1({type: 'predicate', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${2}/predicate`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/predicate`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb2({type: 'predicate', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${1}/names`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/names`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : []
     updateMb1({type: 'names', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${2}/names`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/names`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : []
     updateMb2({type: 'names', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${1}/quantifier`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/quantifier`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb1({type: 'quantifier', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/quantifier`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb2({type: 'quantifier', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${1}/number`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/number`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb1({type: 'number', value: update})
     })
-    firebase.database().ref(`/${uid}/live/builders/${2}/number`).on('value', snapshot => {
+    firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/number`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
     updateMb2({type: 'number', value: update})
     })
     return () => {
-      firebase.database().ref(`/${uid}/live/connective`).off()
-      firebase.database().ref(`/${uid}/live/builders/${1}/not`).off()
-      firebase.database().ref(`/${uid}/live/builders/${2}/not`).off()
-      firebase.database().ref(`/${uid}/live/builders/${1}/predicate`).off()
-      firebase.database().ref(`/${uid}/live/builders/${2}/predicate`).off()
-      firebase.database().ref(`/${uid}/live/builders/${1}/names`).off()
-      firebase.database().ref(`/${uid}/live/builders/${2}/names`).off()
-      firebase.database().ref(`/${uid}/live/builders/${1}/quantifier`).off()
-      firebase.database().ref(`/${uid}/live/builders/${2}/quantifier`).off()
-      firebase.database().ref(`/${uid}/live/builders/${1}/number`).off()
-      firebase.database().ref(`/${uid}/live/builders/${2}/number`).off()
-      firebase.database().ref(`/${uid}/live/builders`).off()
+      firebase.database().ref(`/${uid}/live/connective/${answerer}`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/not`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/not`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/predicate`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/predicate`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/names`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/names`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/quantifier`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/quantifier`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${1}/number`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}/${2}/number`).off()
+      firebase.database().ref(`/${uid}/live/builders/${answerer}`).off()
     }
   }, [uid, setNegation, answerer])
 
@@ -130,7 +127,7 @@ export default function Ask({ answerer }) {
       <Flex sx={{width:'100%',flexDirection:'row'}}>
         <Flex sx={{width:'100%',flexDirection:'row', pr:'5%'}}>
           <Button sx={{height:36}} onClick={() => {
-            liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', value: !nots[1]})
+            liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', answerer: answerer, value: !nots[1]})
           }}><Heading sx={{color: not1Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
           <MiniBuilder
             key={1}
@@ -139,12 +136,13 @@ export default function Ask({ answerer }) {
             uid={uid}
             updateSentence={updateMb1}
             sentence={mb1}
+            answerer={answerer}
             />
         </Flex>
         {connective &&
           <Flex sx={{width:'100%',flexDirection:'row' , pr:'5%'}}>
             <Button sx={{height:36}} onClick={() => {
-              liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', value: !nots[2]})
+              liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', answerer: answerer, value: !nots[2]})
             }}><Heading sx={{color: not2Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
             <MiniBuilder
               key={2}
@@ -153,6 +151,7 @@ export default function Ask({ answerer }) {
               uid={uid}
               updateSentence={updateMb2}
               sentence={mb2}
+              answerer={answerer}
               />
           </Flex>
         }
@@ -172,8 +171,8 @@ export default function Ask({ answerer }) {
           }}
           value={connective}
           onChange={e => {
-            setConnective(e.target.value)
-            liveUpdate({type: 'CONNECTIVE', connective: e.target.value, uid: uid})
+            // setConnective(e.target.value)
+            liveUpdate({type: 'CONNECTIVE', connective: e.target.value, answerer: answerer, uid: uid})
           }}
           >
           <option value='' key={'empty'}>...</option>
@@ -206,7 +205,7 @@ export default function Ask({ answerer }) {
             answerer: answerer
           })
           liveUpdate({type: 'CLEAR_BUILDERS', uid: uid})
-          liveUpdate({type: 'CLEAR_ANSWERER', uid: uid})
+          // liveUpdate({type: 'CLEAR_ANSWERER', uid: uid})
           liveUpdate({type: 'CLEAR_CONNECTIVE', uid: uid})
         }}
       >

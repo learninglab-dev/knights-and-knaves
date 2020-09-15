@@ -4,7 +4,7 @@ export default function liveUpdate(action) {
   switch (action.type) {
     case 'RESET':
       firebase.database().ref(`${action.uid}/live/builders`)
-        .set(true, err => {
+        .set('CLEAR', err => {
           if (err) {
             console.log(err)
             return
@@ -25,7 +25,7 @@ export default function liveUpdate(action) {
             }
           })
         firebase.database().ref(`${action.uid}/live/connective`)
-          .set('', err => {
+          .set('CLEAR', err => {
             if (err) {
               console.log(err)
               return
@@ -61,7 +61,7 @@ export default function liveUpdate(action) {
       return
     case 'CLEAR_CONNECTIVE':
       firebase.database().ref(`${action.uid}/live/connective`)
-        .set('', err => {
+        .set('CLEAR', err => {
           if (err) {
             console.log(err)
             return
@@ -96,7 +96,7 @@ export default function liveUpdate(action) {
         })
       return
     case 'BUILDER':
-      firebase.database().ref(`${action.uid}/live/builders/${action.i}/${action.property}`)
+      firebase.database().ref(`${action.uid}/live/builders/${action.answerer}/${action.i}/${action.property}`)
         .set(action.value, err => {
           if (err) {
             console.log(err)
@@ -105,7 +105,7 @@ export default function liveUpdate(action) {
         })
       return
     case 'CONNECTIVE':
-      firebase.database().ref(`${action.uid}/live/connective`)
+      firebase.database().ref(`${action.uid}/live/connective/${action.answerer}`)
         .set(action.connective, err => {
           if (err) {
             console.log(err)
