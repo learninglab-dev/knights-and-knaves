@@ -9,7 +9,7 @@ import close from '../assets/close.svg'
 
 export default function AskModal({name, show, setAnswerer, setShow}) {
   const gameData = useContext(Data)
-  const turnsForName = gameData.turns ? Object.values(gameData.turns).filter(obj => obj.answerer == name) : ''
+
   return (
     <Popover
       isOpen={show}
@@ -44,7 +44,7 @@ export default function AskModal({name, show, setAnswerer, setShow}) {
             onClick={setShow}
           />
           <Flex sx={{width:'100%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start',m:35}}>
-            <Box sx={{flexBasis:'35%'}}><History turns={turnsForName}/></Box>
+            <Box sx={{flexBasis:'35%'}}><History turns={gameData.turns} name={name}/></Box>
             <Box sx={{flexBasis:'60%'}}><Ask answerer={name} /></Box>
           </Flex>
         </ArrowContainer>
