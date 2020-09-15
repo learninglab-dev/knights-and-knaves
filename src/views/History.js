@@ -3,7 +3,19 @@ import {Flex, Box, Text, Heading, Link} from 'rebass'
 
 export default function History({turns, name}) {
   const turnsToShow = !turns ? '' : name ? Object.values(turns).filter(obj => obj.answerer === name) : turns
-
+  const formatTurn = (turnData, i, name) => {
+    if (turnData.solution) {
+      return JSON.stringify((i+1)+'. Oracle: '+turnData.english, null, 2).replace(/\"/g, "")
+    }
+    else {
+      if (name) {
+        return JSON.stringify((i+1)+'. '+turnData.english, null, 2).replace(/\"/g, "")
+      }
+      else {
+        return JSON.stringify((i+1)+'. '+turnData.answerer+': '+turnData.english, null, 2).replace(/\"/g, "")
+      }
+    }
+  }
   return (
     <Flex
       sx={{
@@ -24,12 +36,12 @@ export default function History({turns, name}) {
           Object.values(turnsToShow).map((turn, i) =>
           {
             const color = turn.response || turn.correct ? '#B8E06E' : '#F96989'
-            console.log(i);
+            console.log(turn);
             return (
               <>
                 <Box sx={{bg:color}}/>
                 <Text sx={{gridColumn:'2/span 1',bg:color, color: 'primary', lineHeight: 'history', height:'100%', textAlign:'left'}}>
-                {!name ? JSON.stringify((i+1)+'. '+turn.answerer+': '+turn.english, null, 2).replace(/\"/g, "") : JSON.stringify((i+1)+'. '+turn.english, null, 2).replace(/\"/g, "")}
+                  {formatTurn(turn, i, name)}
                 </Text>
                 <Box sx={{bg:color}}/>
               </>

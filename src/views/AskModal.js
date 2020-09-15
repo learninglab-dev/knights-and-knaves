@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {Flex, Box, Heading, Button, Text} from 'rebass'
+import {Flex, Box, Heading, Button, Text, Image} from 'rebass'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 import { Data } from '../data/GameData'
 import Character from './Character'
@@ -9,50 +9,42 @@ import close from '../assets/close.svg'
 
 export default function AskModal({name, show, setAnswerer, setShow}) {
   const gameData = useContext(Data)
-
   return (
-    <Popover
-      isOpen={show}
-      position={'bottom'}
-      padding={6}
-      windowBorderPadding={0}
-      onClickOutside={null}
-      transitionDuration={0.25}
-      containerStyle={{width:'100%',height:'auto'}}
-      disableReposition={false}
-      content={({ position, targetRect, popoverRect }) => (
-        <ArrowContainer
-          position={position}
-          targetRect={targetRect}
-          popoverRect={popoverRect}
-          arrowColor={'#54345B'}
-          arrowSize={10}
-          style={{backgroundColor:'#54345B', marginTop:10, paddingTop:20, paddingBottom:20, display:'flex', flexDirection:'column',alignItems:'center', overflow: 'auto',width:'100%'}}
-        >
+    <>
+      <Button variant='invisible' onClick={setAnswerer} sx={{mt:-50}}>
+        <Heading sx={{fontSize:'large'}}>{name}</Heading>
+      </Button>
+      {show &&
+        <Flex sx={{
+          bg:'primary',
+          opacity:'100%',
+          flexDirection:'row',
+          justifyContent:'space-between',
+          alignItems:'flex-start',
+          py:20,
+          pl:20,
+          width:'100vw',
+          height:'75vh',
+          position:'absolute',
+          left:0,right:0,bottom:0,top:'25vh',
+          zIndex:'10'}}>
           <Button
             variant='invisible'
             sx={{
-              backgroundImage: `url(${close})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              height:20,
-              p:10,
-              m:1,
-              position:'absolute',
-              left:targetRect.left+(targetRect.right-targetRect.left-28)/2,
+              height:'auto',
             }}
             onClick={setShow}
-          />
-          <Flex sx={{width:'100%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start',m:35}}>
-            <Box sx={{flexBasis:'35%'}}><History turns={gameData.turns} name={name}/></Box>
-            <Box sx={{flexBasis:'60%'}}><Ask answerer={name} /></Box>
+          >
+            <Image src={close} alt='close' sx={{width:20}}/>
+          </Button>
+          <Flex sx={{flexDirection:'column',alignItems:'center', mx:10, mt:'5vh', flexBasis:'15%'}}>
+            <Heading sx={{fontSize:'huge', color:'lightblue'}}>{name}</Heading>
+            <Character type='mystery' grey={false}/>
           </Flex>
-        </ArrowContainer>
-      )}
-    >
-      <Button variant='tertiary' onClick={setAnswerer} sx={{mt:-80}}>
-        <Heading sx={{fontSize:'large'}}>{name}</Heading>
-      </Button>
-    </Popover>
+          <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'40%'}}><Ask answerer={name} /></Box>
+          <Box sx={{mt:40, mt:'5vh', flexBasis:'40%'}}><History turns={gameData.turns} name={name}/></Box>
+        </Flex>
+      }
+    </>
   )
 }

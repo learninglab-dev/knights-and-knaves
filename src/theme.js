@@ -20,8 +20,12 @@ export default {
     heading: 1.125,
     history:1.25
   },
+  letterSpacings: {
+    body: 1,
+    heading: 1.5,
+  },
   colors: {
-    text: '#392a25',
+    text: '#3D2642',
     muted: '#aaaaaa',
     background: '#f8f8f8',
     foreground: '#ffffff',
@@ -31,7 +35,8 @@ export default {
     lightgreen: '#B8E06E',
     darkgreen: '#5FB923',
     lightred: '#F96989',
-    darkred: '#6F1321'
+    darkred: '#6F1321',
+    lightblue:'#78E6F7'
   },
   space: [0, 4, 8, 16, 32, 48],
   breakpoints: ['40em', '64em', '80em'],

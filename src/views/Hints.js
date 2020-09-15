@@ -14,25 +14,25 @@ export default function About() {
       <Flex
         sx={{
           flexDirection:'row',
-          justifyContent:'flex-start',
-          alignItems:'space-evenly'
+          justifyContent:'space-evenly',
+          alignItems:'flex-start'
         }}
       >
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'25%', mx:1}}>
-          <Image src={knight} sx={{height: 150, mb:3}}/>
-          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%'}}>Knights always tell the truth</Text>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+          <Image src={knight} sx={{height: '10vh', mb:3}}/>
+          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Knights always tell the truth</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'25%', mx:1}}>
-          <Image src={knave} sx={{height: 150, mb:3}}/>
-          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%'}}>Knaves always lie</Text>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+          <Image src={knave} sx={{height: '10vh', mb:3}}/>
+          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Knaves always lie</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'25%', mx:1}}>
-          <Image src={dragon} sx={{height: 150, mb:3}}/>
-          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%'}}>Dragons tell the truth...except in the presence of a Knight</Text>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+          <Image src={dragon} sx={{height: '10vh', mb:3}}/>
+          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Dragons tell the truth...except in the presence of a Knight</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'25%', mx:1}}>
-          <Image src={monk} sx={{height: 150, mb:3}}/>
-          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%'}}>Monks say whatever they like</Text>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+          <Image src={monk} sx={{height: '10vh', mb:3}}/>
+          <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Monks say whatever they like</Text>
         </Flex>
       </Flex>
     </Flex>

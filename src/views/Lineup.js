@@ -61,6 +61,7 @@ export default function Lineup({solved}) {
           flexDirection:'row',
           flexWrap:'wrap',
           justifyContent:'space-evenly',
+          alignItems:'flex-start'
         }}>
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>

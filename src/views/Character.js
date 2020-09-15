@@ -38,7 +38,6 @@ export default function Character({children, type, grey}) {
   return (
     <Flex
       sx={{
-        margin: '10px',
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'flex-start',
