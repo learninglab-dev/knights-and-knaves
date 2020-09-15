@@ -43,7 +43,7 @@ export default function liveUpdate(action) {
       return
     case 'CLEAR_BUILDERS':
       firebase.database().ref(`${action.uid}/live/builders`)
-        .set(true, err => {
+        .set('CLEAR', err => {
           if (err) {
             console.log(err)
             return
