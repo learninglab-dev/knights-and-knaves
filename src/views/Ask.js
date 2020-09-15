@@ -61,6 +61,7 @@ export default function Ask({ answerer }) {
     })
     firebase.database().ref(`/${uid}/live/builders/${1}/predicate`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : ''
+    console.log('predicate: ' + update)
     updateMb1({type: 'predicate', value: update})
     })
     firebase.database().ref(`/${uid}/live/builders/${2}/predicate`).on('value', snapshot => {
@@ -194,7 +195,9 @@ export default function Ask({ answerer }) {
             turnType: 'question',
             answerer: answerer
           })
-          liveUpdate({type: 'RESET', uid: uid})
+          liveUpdate({type: 'CLEAR_BUILDERS', uid: uid})
+          liveUpdate({type: 'CLEAR_ANSWERER', uid: uid})
+          liveUpdate({type: 'CLEAR_CONNECTIVE', uid: uid})
           updateMb1({type: 'RESET'})
           updateMb2({type: 'RESET'})
         }}

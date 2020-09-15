@@ -3,7 +3,7 @@ import { Flex, Box, Heading } from 'rebass'
 import { dragons,knaves,knights,monks,mysteries } from '../assets/people/index'
 
 export default function Character({children, type}) {
-  const charIndex = (type == 'mystery') ? 1 : Math.floor(Math.random() * 4)
+  const charIndex = (type === 'mystery') ? 1 : Math.floor(Math.random() * 4)
   const randomChar = type => {
     const types = {
       'K':knights,
