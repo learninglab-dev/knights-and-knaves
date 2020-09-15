@@ -37,11 +37,13 @@ export default function AskModal({name, show, setAnswerer, setShow}) {
               backgroundRepeat: 'no-repeat',
               height:20,
               p:10,
-              m:1
+              m:1,
+              position:'absolute',
+              left:targetRect.left+(targetRect.right-targetRect.left-28)/2,
             }}
             onClick={setShow}
           />
-          <Flex sx={{width:'100%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start'}}>
+          <Flex sx={{width:'100%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-start',m:35}}>
             <Box sx={{flexBasis:'35%'}}><History turns={turnsForName}/></Box>
             <Box sx={{flexBasis:'60%'}}><Ask answerer={name} /></Box>
           </Flex>

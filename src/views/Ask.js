@@ -38,9 +38,9 @@ export default function Ask({ answerer }) {
   const [connective, setConnective] = useState('')
   const [mb1, updateMb1] = useReducer(sentenceBuilder, mbDefault)
   const [mb2, updateMb2] = useReducer(sentenceBuilder, mbDefault)
-  const not1Color = nots[1] ? '#B8E06E' : '#F96989'
-  const not2Color = nots[2] ? '#B8E06E' : '#F96989'
-  const connectiveColor = connective ? '#B8E06E' : '#F96989'
+  const not1Color = nots[1] ? '#F58B00' : '#aaaaaa'
+  const not2Color = nots[2] ? '#F58B00' : '#aaaaaa'
+  const connectiveColor = connective ? '#F58B00' : '#aaaaaa'
 
   const setNegation = useCallback((i, update) => {
     setNots(nots => {return {...nots, [i]: update}})

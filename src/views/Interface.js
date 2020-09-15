@@ -15,9 +15,6 @@ export default function Interface() {
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
 
-  console.log(gameData.turns);
-
-  // TODO: add error handling
   useEffect(() => {
     firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
     const update = snapshot.val()

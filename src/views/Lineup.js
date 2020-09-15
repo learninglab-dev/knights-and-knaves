@@ -66,7 +66,7 @@ export default function Lineup({solved}) {
         }}>
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}}>
-            <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'}>
+            <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved} >
               <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
             </Character>
               <Select

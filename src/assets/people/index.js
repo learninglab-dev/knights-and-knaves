@@ -17,8 +17,33 @@ const m4 = require('./monk4_px_sdw.png');
 const y1 = require('./mystery1_px_sdw.png');
 const y2 = require('./mystery2_px_sdw.png');
 
+const d1g = require('./dragon1_px_sdw_grey.png');
+const d2g = require('./dragon2_px_sdw_grey.png');
+const d3g = require('./dragon3_px_sdw_grey.png');
+const d4g = require('./dragon4_px_sdw_grey.png');
+const v1g = require('./knave1_px_sdw_grey.png');
+const v2g = require('./knave2_px_sdw_grey.png');
+const v3g = require('./knave3_px_sdw_grey.png');
+const v4g = require('./knave4_px_sdw_grey.png');
+const k1g = require('./knight1_px_sdw_grey.png');
+const k2g = require('./knight2_px_sdw_grey.png');
+const k3g = require('./knight3_px_sdw_grey.png');
+const k4g = require('./knight4_px_sdw_grey.png');
+const m1g = require('./monk1_px_sdw_grey.png');
+const m2g = require('./monk2_px_sdw_grey.png');
+const m3g = require('./monk3_px_sdw_grey.png');
+const m4g = require('./monk4_px_sdw_grey.png');
+const y1g = require('./mystery1_px_sdw_grey.png');
+const y2g = require('./mystery2_px_sdw_grey.png');
+
 export const dragons = [d1,d2,d3,d4]
 export const knaves = [v1,v2,v3,v4]
 export const knights = [k1,k2,k3,k4]
 export const monks = [m1,m2,m3,m4]
 export const mysteries = [y1,y2]
+
+export const dragons_grey = [d1g,d2g,d3g,d4g]
+export const knaves_grey = [v1g,v2g,v3g,v4g]
+export const knights_grey = [k1g,k2g,k3g,k4g]
+export const monks_grey = [m1g,m2g,m3g,m4g]
+export const mysteries_grey = [y1g,y2g]
