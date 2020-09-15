@@ -11,8 +11,9 @@ import {  dragons,
           monks_grey,
           mysteries_grey } from '../assets/people/index'
 
+
 export default function Character({children, type, grey}) {
-  const charIndex = (type == 'mystery') ? 1 : Math.floor(Math.random() * 4)
+  const charIndex = (type === 'mystery') ? 1 : Math.floor(Math.random() * 4)
   const randomChar = type => {
     let types = {
       'K':knights,

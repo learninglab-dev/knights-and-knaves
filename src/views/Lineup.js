@@ -24,10 +24,6 @@ export default function Lineup({solved}) {
   const [modalState, setModalState] = useState(Object.fromEntries(names.map(name => [name, false])))
   const [input, setInput] = useState(Object.fromEntries(names.map(name => [name, ''])))
 
-  const hideModal = (name) => {
-    liveUpdate({type: 'RESET', uid: uid})
-  }
-
   const toggleModals = useCallback((target) => {
     const update = names.map(name => {
       if (name === target) {
@@ -35,7 +31,8 @@ export default function Lineup({solved}) {
       }
       return [name, false]
     })
-    liveUpdate({type: 'RESET', uid: uid})
+    liveUpdate({type: 'CLEAR_ANSWERER', uid: uid})
+    liveUpdate({type: 'CLEAR_BUILDERS', uid: uid})
     return Object.fromEntries(update)
   }, [names, uid])
 
@@ -50,10 +47,13 @@ export default function Lineup({solved}) {
   useEffect(() => {
     firebase.database().ref(`/${uid}/live/roles`).on('value', snapshot => {
     const update = snapshot.val() ? snapshot.val() : Object.fromEntries(names.map(name => [name, '']))
+    console.log('update' + JSON.stringify(update, null, 2))
     setInput(update)
     })
     return () => firebase.database().ref(`/${uid}/live/roles`).off()
   }, [uid, names])
+
+  console.log('input ' + JSON.stringify(input, null, 2))
 
   return (
     <>
@@ -65,6 +65,7 @@ export default function Lineup({solved}) {
           justifyContent:'space-evenly',
         }}>
         {names.map(name =>
+
           <Flex sx={{flexDirection:'column',alignItems:'center'}}>
             <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved} >
               <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>

@@ -32,6 +32,42 @@ export default function liveUpdate(action) {
             }
           })
       return
+    case 'CLEAR_ANSWERER':
+      firebase.database().ref(`${action.uid}/live/answerer`)
+        .set(true, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_BUILDERS':
+      firebase.database().ref(`${action.uid}/live/builders`)
+        .set(true, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_ROLES':
+      firebase.database().ref(`${action.uid}/live/roles`)
+        .set(true, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_CONNECTIVE':
+      firebase.database().ref(`${action.uid}/live/connective`)
+        .set('', err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
     case 'NUMCHARS':
       firebase.database().ref(`${action.uid}/live`)
         .set({numChars: action.num}, err => {
