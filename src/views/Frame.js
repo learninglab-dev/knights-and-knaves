@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import {Box, Heading} from 'rebass'
 import Bug from './Bug'
 import Credits from './Credits'
+import Oracle from './Oracle'
 
 export default function Frame({children}) {
   return (
@@ -15,6 +16,7 @@ export default function Frame({children}) {
       }}
     >
       <Box sx={{gridArea:'2/2/2/2'}}>{children}</Box>
+      <Box sx={{gridArea:'1/1/1/1',placeSelf:'center'}}><Oracle/></Box>
       <Box sx={{gridArea:'3/1/3/1',placeSelf:'center'}}><Credits/></Box>
       <Box sx={{gridArea:'3/3/3/3',placeSelf:'center'}}><Bug/></Box>
     </Box>

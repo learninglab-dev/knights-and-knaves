@@ -16,7 +16,6 @@ export default function Interface() {
   const [solved, setSolved] = useState(false)
 
 
-  // TODO: add error handling
   useEffect(() => {
     firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
     const update = snapshot.val()
