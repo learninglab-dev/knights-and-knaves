@@ -5,11 +5,11 @@ export default function sentenceBuilder(sentence, action) {
         disableNames: false,
         disableQuantifier: false,
         disableNumber: true,
-        names: null,
-        quantifier: null,
-        number: null,
-        predicate: null,
-        connective: null,
+        names: '',
+        quantifier: '',
+        number: '',
+        predicate: '',
+        connective: '',
       }
     case 'ORACLESPEAK':
       action.setConjunct([sentence.predicate, sentence.names? sentence.names : sentence.number ? [sentence.quantifier, sentence.number] : [sentence.quantifier]], action.i)
@@ -34,13 +34,13 @@ export default function sentenceBuilder(sentence, action) {
       }
     case 'quantifier':
       switch(action.value){
-        case null:
+        case '':
           return {
             ...sentence,
             disableNames: false,
             disableNumber: true,
             quantifier: action.value,
-            number: null,
+            number: '',
           }
         case 'least':
         case 'most':
@@ -51,7 +51,7 @@ export default function sentenceBuilder(sentence, action) {
             disableNames: true,
             disableNumber: false,
             quantifier: action.value,
-            names: null
+            names: ''
           }
         case 'all':
         case 'some':
@@ -61,8 +61,8 @@ export default function sentenceBuilder(sentence, action) {
             disableNames: true,
             disableNumber: true,
             quantifier: action.value,
-            number: null,
-            names: null
+            number: '',
+            names: ''
           }
           default:
           alert('error in minibuilder. help!')

@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect, useMemo } from 'react'
+import {Flex, Box, Text, Heading, Button} from 'rebass'
+import { Select, Label } from '@rebass/forms'
 import { Data, DataReducer } from '../data/GameData'
 import liveUpdate from '../utils/live'
+import { englishifySolve } from '../utils/englishify'
 import firebase from 'firebase'
 
 
@@ -20,38 +23,51 @@ export default function Solve() {
   }, [uid, names])
 
   return (
-    <>
-    <h3>attempt to Solve</h3>
-    {
-      names.map((name, i) =>
-        <div key={i}>
-          <label>{name} </label>
-          <select
-            value={input[name]}
-            onChange={e => {
-              setInput({...input, [name]: e.target.value})
-              liveUpdate({type: 'ROLES', uid: uid, name: name, role: e.target.value})
-            }}
-            >
-            <option value="" defaultValue>Select a role...</option>
-            <option value="K">Knight</option>
-            <option value="N">Knave</option>
-            <option value="D">Dragon</option>
-            <option value="M">Monk</option>
-          </select>
-        </div>
-      )
-    }
-    <button
-      onClick={() => {
-        updateGame({type: 'TAKETURN', turn: input, turnType: 'solve'})
-        liveUpdate({type: 'RESET', uid: uid})
-        setInput(Object.fromEntries(names.map(name => [name, ''])))
-      }}
-      style={{marginTop: '15px'}}
-      >
-      attempt to solve
-    </button>
-    </>
+    <Flex sx={{flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+      <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:10}}>enter your solution:</Heading>
+      <Flex sx={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center'}}>
+        {
+          names.map((name, i) =>
+            <Box key={i} sx={{m:10}}>
+              <Label sx={{fontFamily:'heading',color:'secondary',fontSize:'small', mb:1}}>{name} </Label>
+              <Select
+                sx={{
+                  mb:10,
+                  bg:'white',
+                  fontFamily:'body',
+                  color:'text',
+                  textAlign:'center',
+                  fontSize:'tiny',
+                  width: 100,
+                }}
+                value={input[name]}
+                onChange={e => {
+                  setInput({...input, [name]: e.target.value})
+                  liveUpdate({type: 'ROLES', uid: uid, name: name, role: e.target.value})
+                }}
+                >
+                <option value="" defaultValue>...</option>
+                <option value="K">Knight</option>
+                <option value="N">Knave</option>
+                <option value="D">Dragon</option>
+                <option value="M">Monk</option>
+              </Select>
+            </Box>
+          )
+        }
+      </Flex>
+      <Button
+        variant='tertiary'
+        sx={{m:10}}
+        onClick={() => {
+          updateGame({type: 'TAKETURN', turn: input, turnType: 'solve', english: englishifySolve(input)})
+          liveUpdate({type: 'RESET', uid: uid})
+          setInput(Object.fromEntries(names.map(name => [name, ''])))
+        }}
+        style={{marginTop: '15px'}}
+        >
+        <Heading sx={{fontSize:'medium'}}>attempt to solve</Heading>
+      </Button>
+    </Flex>
   )
 }

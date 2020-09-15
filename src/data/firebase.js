@@ -50,6 +50,7 @@ export default function gameDataReducer(data, action) {
     case 'SETSOLUTION':
       return {...data, solution: action.solution}
     case 'TAKETURN':
+      console.log(action);
       if (action.turnType === 'question') {
         if (action.turn === 'invalid') {
           alert('your question is not valid. check your inputs and try again.')
@@ -60,9 +61,10 @@ export default function gameDataReducer(data, action) {
           return data
         }
         const result = oracle(data.solution, action.answerer, action.turn)
+        console.log(action.english);
         firebase.database().ref(`/${data.uid}/turns`)
           .push()
-          .set({answerer: action.answerer, question: action.copy, response: result}, err => {
+          .set({answerer: action.answerer, question: action.copy, english: action.english, response: result}, err => {
             if (err) {
               console.log(err)
               alert('we had an issue connecting to the database. sorry about that! please try again.')
@@ -86,7 +88,7 @@ export default function gameDataReducer(data, action) {
       const result = checkSolution(action.turn, data.solution)
       firebase.database().ref(`/${data.uid}/turns`)
         .push()
-        .set({solution: action.turn, correct: result}, err => {
+        .set({solution: action.turn, correct: result, english: action.english}, err => {
           if (err) {
             console.log(err)
             alert('we had an issue connecting to the database. sorry about that! please try again.')

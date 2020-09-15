@@ -3,8 +3,65 @@ import firebase from 'firebase'
 export default function liveUpdate(action) {
   switch (action.type) {
     case 'RESET':
-      firebase.database().ref(`${action.uid}/live`)
+      firebase.database().ref(`${action.uid}/live/builders`)
+        .set('CLEAR', err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+        firebase.database().ref(`${action.uid}/live/roles`)
+          .set(true, err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
+        firebase.database().ref(`${action.uid}/live/answerer`)
+          .set(true, err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
+        firebase.database().ref(`${action.uid}/live/connective`)
+          .set('CLEAR', err => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          })
+      return
+    case 'CLEAR_ANSWERER':
+      firebase.database().ref(`${action.uid}/live/answerer`)
         .set(true, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_BUILDERS':
+      firebase.database().ref(`${action.uid}/live/builders`)
+        .set('CLEAR', err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_ROLES':
+      firebase.database().ref(`${action.uid}/live/roles`)
+        .set(true, err => {
+          if (err) {
+            console.log(err)
+            return
+          }
+        })
+      return
+    case 'CLEAR_CONNECTIVE':
+      firebase.database().ref(`${action.uid}/live/connective`)
+        .set('CLEAR', err => {
           if (err) {
             console.log(err)
             return
@@ -39,7 +96,7 @@ export default function liveUpdate(action) {
         })
       return
     case 'BUILDER':
-      firebase.database().ref(`${action.uid}/live/builders/${action.i}/${action.property}`)
+      firebase.database().ref(`${action.uid}/live/builders/${action.answerer}/${action.i}/${action.property}`)
         .set(action.value, err => {
           if (err) {
             console.log(err)
@@ -48,7 +105,7 @@ export default function liveUpdate(action) {
         })
       return
     case 'CONNECTIVE':
-      firebase.database().ref(`${action.uid}/live/connective`)
+      firebase.database().ref(`${action.uid}/live/connective/${action.answerer}`)
         .set(action.connective, err => {
           if (err) {
             console.log(err)

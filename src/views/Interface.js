@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useCallback, useState } from 'react'
 import firebase from 'firebase'
+import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Data, DataReducer } from '../data/GameData'
-import Solve from './Solve'
-import Ask from './Ask'
+import Lineup from './Lineup'
+import Popover, {ArrowContainer} from 'react-tiny-popover'
 
 
 export default function Interface() {
@@ -10,7 +11,7 @@ export default function Interface() {
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
 
-  // TODO: add error handling
+
   useEffect(() => {
     firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
     const update = snapshot.val()
@@ -28,37 +29,25 @@ export default function Interface() {
   }, [gameData.uid])
 
   return (
-    <div>
+    <Flex
+      sx={{
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'center',
+        pt:'10vh',
+        width:'100%',
+        height:'100%',
+      }}>
       { solved && <h1>you win!!!</h1>}
-      <h2>mock game interface</h2>
-      <p>
-        You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.
-      </p>
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw'}}>
-          <Ask />
-        </div>
-        <div style={{border: '2px solid black', paddingLeft: '10px', paddingRight: '10px', paddingBottom: '20px', width: '30vw', marginLeft: '30px'}}>
-          <h3>islander key</h3>
-          <p>Knights always tell the truth</p>
-          <p>Knaves always lie</p>
-          <p>Dragons tell the truth except in the presence of a Knight</p>
-          <p>Monks say whatever they like</p>
-        </div>
-      </div>
-      <div style={{border: '2px solid black', paddingLeft: '10px', paddingBottom: '20px', width: '45vw', marginTop: '25px'}}>
-        <Solve />
-      </div>
-      <div>
-        <h2>turns:</h2>
-        {gameData.turns &&
-          Object.values(gameData.turns).map((turn, i) =>
-          {
-            const color = turn.response || turn.correct ? 'green' : 'red'
-            return <p key={i} style={{color: color}}>{i+1}. {JSON.stringify(turn, null, 2)}</p>
-          }
-        )}
-      </div>
-    </div>
+      <Lineup solved={solved}/>
+      <Flex
+        sx={{
+          flexDirection:'row',
+          alignItems:'center',
+          justifyContent:'center',
+          width:'100%'
+        }}>
+      </Flex>
+    </Flex>
   )
 }

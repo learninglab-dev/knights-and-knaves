@@ -3,16 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@rebass/forms": "^4.0.6",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "emotion-theming": "^10.0.27",
     "firebase": "^7.17.1",
-    "logic-oracle": "^1.0.0",
+    "logic-oracle": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-popover": "^0.5.10",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.2",
+    "react-scripts": "^3.4.3",
     "react-select": "^3.1.0",
+    "react-tiny-popover": "^5.1.0",
     "rebass": "^4.0.7"
   },
   "scripts": {

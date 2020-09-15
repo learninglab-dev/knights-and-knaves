@@ -11,27 +11,35 @@ import {
   useParams,
   Redirect,
 } from 'react-router-dom'
+import { ThemeProvider } from 'emotion-theming';
 import firebase from 'firebase'
+import {Box, Flex, Heading} from 'rebass'
+import theme from './theme'
 import Start from './views/Start'
 import Interface from './views/Interface'
 import CharacterBuilder from './views/CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
-
+import Frame from './views/Frame'
+import island from './assets/island.png'
 
 export default function Routes({ fbInstance }) {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <div>
-            <Start />
-          </div>
-        </Route>
-        <Route exact path='/:id'>
-          <ValidateGameId fbInstance={fbInstance}/>
-        </Route>
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Box sx={{height: '100vh', width: '100vw', backgroundImage: `url(${island})`, backgroundSize: 'cover', backgroundPosition:'center center'}}>
+        <Frame>
+          <Router>
+            <Switch>
+              <Route exact path='/'>
+                <Start />
+              </Route>
+              <Route exact path='/:id'>
+                <ValidateGameId fbInstance={fbInstance}/>
+              </Route>
+            </Switch>
+          </Router>
+        </Frame>
+      </Box>
+    </ThemeProvider>
   )
 }
 
@@ -63,7 +71,7 @@ function ValidateGameId({ fbInstance }) {
   }, [uid, id, updateGame, fbInstance])
   switch (status) {
     case 'loading':
-      return <h2>Loading...</h2>
+      return <Flex sx={{flexDirection:'column',justifyContent:'center',alignItems:'center',height:'100%'}}><Heading sx={{fontSize:'huge',color:'primary'}}>Loading...</Heading></Flex>
     case 'invalid':
       return <Redirect to='/' />
     case 'characters':
@@ -71,6 +79,6 @@ function ValidateGameId({ fbInstance }) {
     case 'ready':
       return <Interface />
     default:
-      return alert('sorry! we are having trouble loading your game')
+      return alert('Sorry! we are having trouble loading your game.')
   }
 }
