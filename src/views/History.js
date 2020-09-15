@@ -15,7 +15,9 @@ export default function History({turns, name}) {
         color: 'foreground',
         fontFamily: 'body',
         lineHeight: 'body',
-        textAlign: 'center'
+        textAlign: 'center',
+        overflow: 'auto',
+        maxHeight:'100%'
       }}
     >
       <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>

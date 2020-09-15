@@ -11,29 +11,17 @@ export default function Oracle({ onClick }) {
   const credits = []
   const [isOracle, setIsOracle] = useState(false)
   return (
-    <Popover
-      isOpen={isOracle}
-      position={['right']}
-      onClickOutside={e => setIsOracle(!isOracle)}
-      transitionDuration={0.25}
-      containerStyle={{width:'50%'}}
-      content={({ position, targetRect, popoverRect }) => (
-        <ArrowContainer
-          position={position}
-          targetRect={targetRect}
-          popoverRect={popoverRect}
-          arrowColor={'#54345B'}
-          arrowSize={10}
-          style={{backgroundColor:'#54345B',marginLeft:10, padding:'20px'}}
-        >
-          <Flex sx={{flexDirection:'row'}}>
-            <Hints />
-            <History turns={gameData.turns}/>
-          </Flex>
-        </ArrowContainer>
-      )}
+    <Box
+      sx={{
+        display:'grid',
+        height:'100%',
+        width:'100%',
+        gridTemplateColumns: '1fr 6fr'
+      }}
     >
       <Button sx={{
+        gridColumn:'1/span 1',
+        placeSelf:'center end',
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
@@ -43,7 +31,43 @@ export default function Oracle({ onClick }) {
         <Heading sx={{fontSize:'small', color:'primary', pb:1}}>THE ORACLE</Heading>
         <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
       </Button>
-    </Popover>
-
+      {isOracle &&
+        <Flex sx={{flexDirection:'row',alignItems:'center'}}>
+          <Box sx={{
+            width: 0,
+            height: 0,
+            borderTop: '10px solid transparent',
+            borderBottom: '10px solid transparent',
+            borderRightStyle: 'solid',
+            borderRightWidth: '10px',
+            borderRightColor: 'primary'}}/>
+          <Flex sx={{
+            gridColumn:'2/span 1',
+            placeSelf:'center start',
+            bg:'primary',
+            py: 20,
+            width:'100%',
+            height:'100%',
+            maxHeight:'100%',
+            flexDirection:'row'
+          }}>
+            <Box sx={{flexBasis:'25%',maxHeight:'inherit'}}><History turns={gameData.turns}/></Box>
+            <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'25%', mx:40}}>
+              <Heading sx={{color:'secondary', fontSize:'medium', mb:2}}>how to play:</Heading>
+              <Text
+                sx={{
+                  color: 'foreground',
+                  fontFamily: 'body',
+                  lineHeight: 'body',
+                  textAlign: 'center',
+                  height:'100%'
+                }}
+              >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.</Text>
+            </Flex>
+            <Hints/>
+          </Flex>
+        </Flex>
+      }
+    </Box>
   )
 }

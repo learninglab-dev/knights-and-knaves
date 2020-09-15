@@ -9,40 +9,24 @@ export default function About() {
   const monk = monks[Math.floor(monks.length * Math.random())]
 
   return (
-    <Text
-      sx={{
-        color: 'foreground',
-        fontFamily: 'body',
-        lineHeight: 'body',
-        textAlign: 'center',
-      }}
-    >
-      <Heading sx={{color:'secondary', fontSize:'medium'}}>how to play:</Heading>
-      <p>
-        You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.
-      </p>
-      <Heading sx={{color:'secondary',fontSize:'medium'}}>islander key:</Heading>
-      <Box
+    <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center'}}>
+      <Heading sx={{color:'secondary',fontSize:'medium', mb:2}}>islander key:</Heading>
+      <Flex
         sx={{
-          display:'grid',
-          gridTemplateColumns:'auto auto',
-          gridTemplateRows: '1fr 1fr 1fr 1fr',
-          columnGap: 3,
-          rowGap: 2,
-          gridAutoFlow: 'row',
-          alignItems: 'center'
-
+          flexDirection:'row',
+          justifyContent:'flex-start',
+          alignItems:'center'
         }}
       >
-          <Image src={knight} sx={{height: 100, mr:'2%'}}/>
-          <p style={{textAlign:'left'}}>Knights always tell the truth</p>
-          <Image src={knave} sx={{height: 100, mr:'2%'}}/>
-          <p style={{textAlign:'left'}}>Knaves always lie</p>
-          <Image src={dragon} sx={{height: 100, mr:'2%'}}/>
-          <p style={{textAlign:'left'}}>Dragons tell the truth...except in the presence of a Knight</p>
-          <Image src={monk} sx={{height: 100, mr:'2%'}}/>
-          <p style={{textAlign:'left'}}>Monks say whatever they like</p>
-      </Box>
-    </Text>
+        <Image src={knight} sx={{height: 75, width:33, mr:2}}/>
+        <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%', mr:2}}>Knights always tell the truth</Text>
+        <Image src={knave} sx={{height: 75, width:33, mr:2}}/>
+        <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%', mr:2}}>Knaves always lie</Text>
+        <Image src={dragon} sx={{height: 75, width:33, mr:2}}/>
+        <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%', mr:2}}>Dragons tell the truth...except in the presence of a Knight</Text>
+        <Image src={monk} sx={{height: 75, width:33, mr:2}}/>
+        <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'left',height:'100%', mr:2}}>Monks say whatever they like</Text>
+      </Flex>
+    </Flex>
   )
 }
