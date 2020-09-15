@@ -37,7 +37,7 @@ export default function Credits({ onClick }) {
         border: 'none',
         bg: 'transparent'
       }} onClick={() => setIsCredits(!isCredits)}>
-        <Heading sx={{fontSize:'tiny', color:'foreground', pb:1}}>CREDITS</Heading>
+        <Heading sx={{fontSize:'small', color:'foreground', pb:1}}>CREDITS</Heading>
         <img src={info} alt='report bugs' style={{width: '25px'}}/>
       </Button>
     </Popover>

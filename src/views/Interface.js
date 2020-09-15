@@ -2,15 +2,11 @@ import React, { useContext, useEffect, useCallback, useState } from 'react'
 import firebase from 'firebase'
 import {Flex, Box, Text, Heading, Button} from 'rebass'
 import { Data, DataReducer } from '../data/GameData'
-import Hints from './Hints'
-import History from './History'
 import Lineup from './Lineup'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 
 
 export default function Interface() {
-  const [isHint, setIsHint] = useState(null)
-  const [isHistory, setIsHistory] = useState(null)
   const gameData = useContext(Data)
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
@@ -51,54 +47,6 @@ export default function Interface() {
           justifyContent:'center',
           width:'100%'
         }}>
-        <Popover
-          isOpen={isHint}
-          position={'top'}
-          padding={6}
-          onClickOutside={e => setIsHint(!isHint)}
-          transitionDuration={0.25}
-          containerStyle={{width:'25%'}}
-          content={({ position, targetRect, popoverRect }) => (
-            <ArrowContainer
-              position={position}
-              targetRect={targetRect}
-              popoverRect={popoverRect}
-              arrowColor={'#54345B'}
-              arrowSize={10}
-              style={{backgroundColor:'#54345B',marginBottom:10, padding:'20px'}}
-            >
-            <Hints />
-            </ArrowContainer>
-          )}
-        >
-          <Button variant='outline' onClick={() => setIsHint(!isHint)} sx={{m:10}}>
-            <Heading sx={{fontSize:'medium'}}>?</Heading>
-          </Button>
-        </Popover>
-        <Popover
-          isOpen={isHistory}
-          position={'top'}
-          padding={6}
-          onClickOutside={e => setIsHistory(!isHistory)}
-          transitionDuration={0.25}
-          containerStyle={{width:'30%'}}
-          content={({ position, targetRect, popoverRect }) => (
-            <ArrowContainer
-              position={position}
-              targetRect={targetRect}
-              popoverRect={popoverRect}
-              arrowColor={'#54345B'}
-              arrowSize={10}
-              style={{backgroundColor:'#54345B',marginBottom:10, paddingTop:'20px'}}
-            >
-              <History turns={gameData.turns}/>
-            </ArrowContainer>
-          )}
-        >
-          <Button variant='outline' onClick={() => setIsHistory(!isHistory)} sx={{m:10}}>
-            <Heading sx={{fontSize:'medium'}}>responses</Heading>
-          </Button>
-        </Popover>
       </Flex>
     </Flex>
   )

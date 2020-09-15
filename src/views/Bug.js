@@ -14,7 +14,7 @@ export default function Bug({ onClick }) {
       bg: 'transparent'
     }} onClick={onClick}>
       <Link href={formLink} alt='Bug Report Google Form' target="_blank" rel="noopener noreferrer" sx={{textDecoration:'none'}}>
-        <Heading sx={{fontSize:'tiny', color:'foreground', pb:2}}>BUGS?</Heading>
+        <Heading sx={{fontSize:'small', color:'foreground', pb:2}}>BUGS?</Heading>
         <img src={bugSvg} alt='report bugs' style={{width: '25px', transform:'rotate(300deg)'}}/>
       </Link>
     </Flex>
