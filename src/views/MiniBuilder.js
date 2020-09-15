@@ -12,7 +12,8 @@ export default function MiniBuilder(props) {
     i,
     uid,
     updateSentence,
-    sentence
+    sentence,
+    answerer
   } = props
 
   const numberOptions = names.map( (name, i) => {
@@ -37,8 +38,8 @@ export default function MiniBuilder(props) {
           options={predicateOptions}
           closeMenuOnSelect={false}
           onChange={(e) => {
-            updateSentence({ type: 'predicate', value: e ? e.value : '' })
-            liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', value: e ? e.value : ''})
+            // updateSentence({ type: 'predicate', value: e ? e.value : '' })
+            liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', answerer: answerer, value: e ? e.value : ''})
           }}
         />
         {!sentence.disableNames &&
@@ -52,8 +53,8 @@ export default function MiniBuilder(props) {
             isMulti
             options={nameOptions}
             onChange={(e) => {
-              updateSentence({type: 'names', value: e ? e : [] })
-              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', value: e ? e : []})
+              // updateSentence({type: 'names', value: e ? e : [] })
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', answerer: answerer, value: e ? e : []})
             }}
             styles={{
               width:'500px',
@@ -71,8 +72,8 @@ export default function MiniBuilder(props) {
             options={quantifierOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({type: 'quantifier', value: e ? e.value : '' })
-              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', value: e ? e.value : ''})
+              // updateSentence({type: 'quantifier', value: e ? e.value : '' })
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', answerer: answerer, value: e ? e.value : ''})
             }}
           />
         }
@@ -86,8 +87,8 @@ export default function MiniBuilder(props) {
             options={numberOptions}
             closeMenuOnSelect={false}
             onChange={(e) => {
-              updateSentence({ type: 'number', value: e ? e.value : '' })
-              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', value: e ? e.value : ''})
+              // updateSentence({ type: 'number', value: e ? e.value : '' })
+              liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', answerer: answerer, value: e ? e.value : ''})
             }}
           />
         }

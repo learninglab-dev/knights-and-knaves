@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import {Flex, Box, Text, Heading, Link} from 'rebass'
 
 export default function History({turns, name}) {
-  console.log(turns);
-  const turnsToShow = !turns ? '' : name ? Object.values(turns).filter(obj => obj.answerer == name) : turns
+  const turnsToShow = !turns ? '' : name ? Object.values(turns).filter(obj => obj.answerer === name) : turns
 
   return (
     <Flex
