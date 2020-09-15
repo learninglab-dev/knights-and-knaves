@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "emotion-theming": "^10.0.27",
     "firebase": "^7.17.1",
-    "logic-oracle": "^1.0.0",
+    "logic-oracle": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-popover": "^0.5.10",
@@ -17,8 +17,7 @@
     "react-scripts": "^3.4.3",
     "react-select": "^3.1.0",
     "react-tiny-popover": "^5.1.0",
-    "rebass": "^4.0.7",
-    "styled-components": "^5.2.0"
+    "rebass": "^4.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

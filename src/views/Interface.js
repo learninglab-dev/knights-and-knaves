@@ -15,6 +15,7 @@ export default function Interface() {
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
 
+
   useEffect(() => {
     firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
     const update = snapshot.val()
