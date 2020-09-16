@@ -10,6 +10,7 @@ export default function Interface() {
   const gameData = useContext(Data)
   const updateGame = useCallback(useContext(DataReducer), [])
   const [solved, setSolved] = useState(false)
+  console.log(gameData);
 
 
   useEffect(() => {

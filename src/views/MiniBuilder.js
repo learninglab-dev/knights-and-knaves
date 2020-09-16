@@ -47,7 +47,7 @@ export default function MiniBuilder(props) {
             name='names'
             value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
-            placeholder="Names..."
+            placeholder="Select 1 or more names..."
             closeMenuOnSelect={false}
             blurInputOnSelect={false}
             isMulti

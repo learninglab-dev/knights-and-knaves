@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Flex, Box, Heading } from 'rebass'
+import React from 'react'
+import { Flex } from 'rebass'
 import {  dragons,
           knaves,
           knights,
