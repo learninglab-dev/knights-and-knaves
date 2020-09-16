@@ -126,10 +126,10 @@ export default function Ask({ answerer }) {
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:3}}>build your question:</Heading>
       <Flex sx={{width:'100%',flexDirection:'row'}}>
         <Flex sx={{width:'100%',flexDirection:'row', pr:'5%'}}>
-            <Label sx={{mr:20, mt:1, width:'auto'}}>
+            <Label sx={{mr:20, mt:1, width:'auto', height:'auto'}}>
               <Checkbox
                 sx={{bg:'darkgreen',color:'primary'}}
-                value={nots[1]}
+                checked={nots[1]}
                 onClick={() => {liveUpdate({type: 'BUILDER', uid: uid, i: 1, property: 'not', answerer: answerer, value: !nots[1]})}}/>
               <Heading sx={{color: not1Color, fontSize:'medium', textAlign:'left', ml:2}}>NOT</Heading>
             </Label>
@@ -145,9 +145,13 @@ export default function Ask({ answerer }) {
         </Flex>
         {connective &&
           <Flex sx={{width:'100%',flexDirection:'row' , pr:'5%'}}>
-            <Button sx={{height:36}} onClick={() => {
-              liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', answerer: answerer, value: !nots[2]})
-            }}><Heading sx={{color: not2Color, fontSize:'medium', textAlign:'right'}}>NOT</Heading></Button>
+            <Label sx={{mr:20, mt:1, width:'auto', height:'auto'}}>
+              <Checkbox
+                sx={{bg:'darkgreen',color:'primary'}}
+                checked={nots[2]}
+                onClick={() => {liveUpdate({type: 'BUILDER', uid: uid, i: 2, property: 'not', answerer: answerer, value: !nots[2]})}}/>
+              <Heading sx={{color: not2Color, fontSize:'medium', textAlign:'left', ml:2}}>NOT</Heading>
+            </Label>
             <MiniBuilder
               key={2}
               i={2}

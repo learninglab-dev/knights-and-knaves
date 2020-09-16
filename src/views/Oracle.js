@@ -31,7 +31,11 @@ export default function Oracle({ solved }) {
         border: 'none',
         bg: 'transparent'
       }} onClick={() => setIsOracle(!isOracle)}>
-        <Heading sx={{fontSize:'small', color:'primary', pb:1}}>THE ORACLE</Heading>
+        <Heading sx={{  fontSize:'small',
+                        color:'darkgreen',
+                        pb:1,
+                        textShadow:' -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black'
+                      }}>THE ORACLE</Heading>
         <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
       </Button>
       {isOracle &&
