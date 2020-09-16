@@ -15,6 +15,7 @@ export default function GameData() {
     solution: null,
     turns: [],
     startTime: '',
+    solved: false
   }
   const [data, setData] = useReducer(gameDataReducer, initialData)
 

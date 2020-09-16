@@ -15,10 +15,11 @@ import { englishifySolve } from '../utils/englishify'
 import liveUpdate from '../utils/live'
 
 
-export default function Lineup({solved}) {
+export default function Lineup() {
   const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
   const solution = gameData.solution
+  const solved = gameData.solved
   const uid = gameData.uid
   const names = useMemo(() => Object.keys(solution), [solution])
   const [modalState, setModalState] = useState(Object.fromEntries(names.map(name => [name, false])))
@@ -61,7 +62,6 @@ export default function Lineup({solved}) {
           flexDirection:'row',
           flexWrap:'wrap',
           justifyContent:'space-evenly',
-          alignItems:'flex-start'
         }}>
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>

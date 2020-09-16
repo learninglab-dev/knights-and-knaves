@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import {Flex, Box, Text, Heading, Button} from 'rebass'
+import {Flex, Text, Heading, Button} from 'rebass'
 import { Input } from '@rebass/forms'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
