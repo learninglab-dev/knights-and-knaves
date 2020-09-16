@@ -10,6 +10,7 @@ import Oracle from './Oracle'
 export default function Frame({children}) {
   const gameData = useContext(Data)
   const updateGame = useContext(DataReducer)
+  console.log(gameData);
 
   useEffect(() => {
     if (gameData.uid) {

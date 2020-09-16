@@ -11,8 +11,8 @@ export default function AskModal({name, show, setAnswerer, setShow}) {
   const gameData = useContext(Data)
   return (
     <>
-      <Button variant='invisible' onClick={setAnswerer} sx={{mt:-50}}>
-        <Heading sx={{fontSize:'large'}}>{name}</Heading>
+      <Button variant='invisible' onClick={setAnswerer} sx={{}}>
+        <Heading sx={{fontSize:'large',textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black'}}>{name}</Heading>
       </Button>
       {show &&
         <Flex sx={{

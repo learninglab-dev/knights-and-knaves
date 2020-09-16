@@ -55,7 +55,7 @@ export default function Lineup() {
 
 
   return (
-    <>
+    <Flex sx={{flexDirection:'column',alignItems:'center'}}>
       <Flex
         sx={{
           width:'100%',
@@ -66,31 +66,33 @@ export default function Lineup() {
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>
             <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved} >
-              <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
+              <Flex sx={{flexDirection:'column',alignItems:'center', justifyContent:'space-between',height:'100%',pb:50, pt:0}}>
+                <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
+                <Select
+                  sx={{
+                    mb:10,
+                    bg:'white',
+                    fontFamily:'body',
+                    color:'text',
+                    textAlign:'left',
+                    fontSize:'tiny',
+                    width: 100,
+                    pl:15
+                  }}
+                  value={input[name]}
+                  onChange={e => {
+                    setInput({...input, [name]: e.target.value})
+                    liveUpdate({type: 'ROLES', uid: uid, name: name, role: e.target.value})
+                  }}
+                  >
+                  <option value="" defaultValue>is a...</option>
+                  <option value="K">Knight</option>
+                  <option value="N">Knave</option>
+                  <option value="D">Dragon</option>
+                  <option value="M">Monk</option>
+                </Select>
+              </Flex>
             </Character>
-              <Select
-                sx={{
-                  mb:10,
-                  bg:'white',
-                  fontFamily:'body',
-                  color:'text',
-                  textAlign:'left',
-                  fontSize:'tiny',
-                  width: 100,
-                  pl:15
-                }}
-                value={input[name]}
-                onChange={e => {
-                  setInput({...input, [name]: e.target.value})
-                  liveUpdate({type: 'ROLES', uid: uid, name: name, role: e.target.value})
-                }}
-                >
-                <option value="" defaultValue>is a...</option>
-                <option value="K">Knight</option>
-                <option value="N">Knave</option>
-                <option value="D">Dragon</option>
-                <option value="M">Monk</option>
-              </Select>
           </Flex>
         )}
       </Flex>
@@ -106,6 +108,6 @@ export default function Lineup() {
         >
         <Heading sx={{fontSize:'medium'}}>attempt to solve</Heading>
       </Button>
-    </>
+    </Flex>
   )
 }

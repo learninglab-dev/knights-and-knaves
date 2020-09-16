@@ -48,7 +48,7 @@ export default function Oracle({ solved }) {
             gridColumn:'2/span 1',
             placeSelf:'center start',
             bg:'text',
-            pt: 20,
+            p: 10,
             width:'100%',
             flexDirection:'row',
             maxHeight:'25vh',
