@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React from 'react'
 import {Flex, Box, Text, Link} from 'rebass'
 
 export default function About() {

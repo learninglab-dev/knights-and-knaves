@@ -1,12 +1,35 @@
-import React, { useState, useContext, useEffect } from 'react'
-import {Box, Heading} from 'rebass'
-import { Data } from '../data/GameData'
+import React, { useContext, useEffect } from 'react'
+import { Box } from 'rebass'
+import firebase from 'firebase'
+import { Data, DataReducer } from '../data/GameData'
 import Bug from './Bug'
 import Credits from './Credits'
 import Oracle from './Oracle'
 
+
 export default function Frame({children}) {
   const gameData = useContext(Data)
+  const updateGame = useContext(DataReducer)
+
+  useEffect(() => {
+    if (gameData.uid) {
+      firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {
+        const update = snapshot.val()
+        updateGame({type: 'GETTURNS', turns: update})
+      })
+      return () => firebase.database().ref(`/${gameData.uid}/solution`).off()
+    }
+  }, [updateGame, gameData.uid])
+  useEffect(() => {
+    if (gameData.uid) {
+      firebase.database().ref(`/${gameData.uid}/solved`).on('value', snapshot => {
+        if (snapshot.val()) {
+          updateGame({type: 'SOLVED'})
+        }
+      })
+      return () => firebase.database().ref(`/${gameData.uid}/solved`).off()
+    }
+  }, [gameData.uid, updateGame])
 
   return (
     <Box
@@ -20,7 +43,7 @@ export default function Frame({children}) {
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
       {gameData.solution &&
-        <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1'}}><Oracle /></Box>
+        <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1'}}><Oracle solved={gameData.solved}/></Box>
       }
       <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
       <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>

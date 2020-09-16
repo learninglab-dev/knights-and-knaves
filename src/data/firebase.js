@@ -107,6 +107,8 @@ export default function gameDataReducer(data, action) {
       return data
     case 'GETTURNS':
         return {...data, turns: action.turns}
+    case 'SOLVED':
+      return {...data, solved: true}
     default:
       alert('error updating game data')
   }

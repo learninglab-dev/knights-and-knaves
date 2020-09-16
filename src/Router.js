@@ -16,7 +16,7 @@ import firebase from 'firebase'
 import {Box, Flex, Heading} from 'rebass'
 import theme from './theme'
 import Start from './views/Start'
-import Interface from './views/Interface'
+import Lineup from './views/Lineup'
 import CharacterBuilder from './views/CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
 import Frame from './views/Frame'
@@ -26,18 +26,18 @@ export default function Routes({ fbInstance }) {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{height: '100vh', width: '100vw', backgroundImage: `url(${island})`, backgroundSize: 'cover', backgroundPosition:'center center'}}>
-        <Frame>
-          <Router>
-            <Switch>
-              <Route exact path='/'>
+        <Router>
+          <Switch>
+            <Route exact path='/'>
+              <Frame>
                 <Start />
-              </Route>
-              <Route exact path='/:id'>
-                <ValidateGameId fbInstance={fbInstance}/>
-              </Route>
-            </Switch>
-          </Router>
-        </Frame>
+              </Frame>
+            </Route>
+            <Route exact path='/:id'>
+              <ValidateGameId fbInstance={fbInstance}/>
+            </Route>
+          </Switch>
+        </Router>
       </Box>
     </ThemeProvider>
   )
@@ -75,9 +75,17 @@ function ValidateGameId({ fbInstance }) {
     case 'invalid':
       return <Redirect to='/' />
     case 'characters':
-      return <CharacterBuilder />
+      return (
+        <Frame>
+          <CharacterBuilder />
+        </Frame>
+      )
     case 'ready':
-      return <Interface />
+      return (
+        <Frame>
+          <Lineup />
+        </Frame>
+      )
     default:
       return alert('Sorry! we are having trouble loading your game.')
   }

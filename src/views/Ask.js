@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import firebase from 'firebase'
 import {Flex, Text, Heading, Button} from 'rebass'
-import { Select, Checkbox, Label } from '@rebass/forms'
+import { Select } from '@rebass/forms'
 import { Data, DataReducer } from '../data/GameData'
 import MiniBuilder from './MiniBuilder'
 // import Character from './Character'
