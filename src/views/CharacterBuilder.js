@@ -109,29 +109,6 @@ export default function CharacterBuilder() {
         width:'100%',
         height:'100%'
       }}>
-      <>
-        <Text
-          sx={{fontFamily:'body',color:'text',textAlign:'center', fontSize:'medium', m:10}}
-        >How many islanders will you meet today?</Text>
-        <Select
-          sx={{
-            bg:'white',
-            fontFamily:'body',
-            color:'text',
-            textAlign:'left',
-            fontSize:'medium',
-            width: 50,
-          }}
-          value={num}
-          onChange={e => {
-            setNum(e.target.value)
-            liveUpdate({type: 'NUMCHARS', uid: uid, num: e.target.value})
-          }}
-          >
-          <option value='' key={'empty'}>...</option>
-          {[1,2,3,4,5,6].map(number => <option value={number} key={number}>{number}</option>)}
-        </Select>
-      </>
       {num &&
         <>
           <Text

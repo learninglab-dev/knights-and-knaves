@@ -1,11 +1,11 @@
 export default {
   fonts: {
-    body: '"VT323", monospace',
+    body: '"Nunito", sans-serif',
     heading: '"Germania One", cursive',
   },
   fontSizes: {
         'tiny': 14,
-        'small': 18,
+        'small': 16,
         'medium': 24,
         'large': 48,
         'huge': 64,
@@ -52,8 +52,15 @@ export default {
       borderColor: 'lightgreen',
       cursor: 'pointer'
     },
+    nope: {
+      bg: 'transparent',
+      color: 'muted',
+      border: '3px solid',
+      borderColor: 'tertiary',
+      cursor: 'not-allowed'
+    },
     outline: {
-      bg: 'lightgreen',
+      bg: 'transparent',
       color: 'darkgreen',
       border: '3px solid',
       borderColor: 'darkgreen',

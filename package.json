@@ -11,6 +11,7 @@
     "firebase": "^7.17.1",
     "logic-oracle": "^2.0.0",
     "react": "^16.13.1",
+    "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-popover": "^0.5.10",
     "react-router-dom": "^5.2.0",

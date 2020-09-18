@@ -25,7 +25,7 @@ export default function Credits({ onClick }) {
           style={{margin:'10px'}}
         >
           {credits.map(credit =>
-            <Text sx={{fontFamily:'body', lineHeight:'body',fontSize:'small',color:'foreground'}}>{credit}</Text>
+            <Text sx={{fontFamily:'body', lineHeight:'body',fontSize:'tiny',color:'foreground'}}>{credit}</Text>
           )}
         </ArrowContainer>
       )}
