@@ -125,7 +125,7 @@ export default function Ask({ answerer }) {
     >
       <Heading sx={{color:'secondary', fontSize:'medium', textAlign:'center', mb:3}}>build your question:</Heading>
       <Flex sx={{width:'100%',flexDirection:'row'}}>
-        <Flex sx={{width:'100%',flexDirection:'row', pr:'5%'}}>
+        <Flex sx={{width:'100%',flexDirection:'row', alignItems:'flex-start', pr:'5%'}}>
             <Label sx={{mr:20, mt:1, width:'auto', height:'auto'}}>
               <Checkbox
                 sx={{bg:'darkgreen',color:'primary'}}
@@ -144,7 +144,7 @@ export default function Ask({ answerer }) {
             />
         </Flex>
         {connective &&
-          <Flex sx={{width:'100%',flexDirection:'row' , pr:'5%'}}>
+          <Flex sx={{width:'100%',flexDirection:'row', alignItems:'flex-start', pr:'5%'}}>
             <Label sx={{mr:20, mt:1, width:'auto', height:'auto'}}>
               <Checkbox
                 sx={{bg:'darkgreen',color:'primary'}}

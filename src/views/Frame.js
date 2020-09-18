@@ -10,7 +10,6 @@ import Oracle from './Oracle'
 export default function Frame({children}) {
   const gameData = useContext(Data)
   const updateGame = useContext(DataReducer)
-  console.log(gameData);
 
   useEffect(() => {
     if (gameData.uid) {
@@ -43,8 +42,7 @@ export default function Frame({children}) {
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
-      {gameData.solution &&
-        <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1'}}><Oracle solved={gameData.solved}/></Box>
+      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1'}}><Oracle /></Box>
       }
       <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
       <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>

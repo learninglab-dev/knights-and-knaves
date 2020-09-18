@@ -36,7 +36,7 @@ export default function MiniBuilder(props) {
           isClearable={true}
           placeholder="Predicate..."
           options={predicateOptions}
-          closeMenuOnSelect={false}
+          closeMenuOnSelect={true}
           onChange={(e) => {
             // updateSentence({ type: 'predicate', value: e ? e.value : '' })
             liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'predicate', answerer: answerer, value: e ? e.value : ''})
@@ -48,8 +48,7 @@ export default function MiniBuilder(props) {
             value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
             placeholder="Select 1 or more names..."
-            closeMenuOnSelect={false}
-            blurInputOnSelect={false}
+            closeMenuOnSelect={true}
             isMulti
             options={nameOptions}
             onChange={(e) => {
@@ -70,7 +69,7 @@ export default function MiniBuilder(props) {
             placeholder="OR Quantifier..."
             isClearable={true}
             options={quantifierOptions}
-            closeMenuOnSelect={false}
+            closeMenuOnSelect={true}
             onChange={(e) => {
               // updateSentence({type: 'quantifier', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'quantifier', answerer: answerer, value: e ? e.value : ''})
@@ -85,7 +84,7 @@ export default function MiniBuilder(props) {
             isDisabled={sentence.disableNumber}
             isClearable={true}
             options={numberOptions}
-            closeMenuOnSelect={false}
+            closeMenuOnSelect={true}
             onChange={(e) => {
               // updateSentence({ type: 'number', value: e ? e.value : '' })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'number', answerer: answerer, value: e ? e.value : ''})

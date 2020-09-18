@@ -1,6 +1,6 @@
 export default {
   fonts: {
-    body: 'Roboto, sans-serif',
+    body: '"VT323", monospace',
     heading: '"Germania One", cursive',
   },
   fontSizes: {
@@ -11,9 +11,9 @@ export default {
         'huge': 64,
         'colossal': 96,
     },
-    fontWeights: {
-    body: 400,
-    heading: 700,
+  fontWeights: {
+  body: 400,
+  heading: 700,
   },
   lineHeights: {
     body: 1.5,

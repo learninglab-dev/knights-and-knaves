@@ -19,7 +19,6 @@ export default function Lineup() {
   const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
   const solution = gameData.solution
-  const solved = gameData.solved
   const uid = gameData.uid
   const names = useMemo(() => Object.keys(solution), [solution])
   const [modalState, setModalState] = useState(Object.fromEntries(names.map(name => [name, false])))
@@ -65,9 +64,9 @@ export default function Lineup() {
         }}>
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>
-            <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved} >
-              <Flex sx={{flexDirection:'column',alignItems:'center', justifyContent:'space-between',height:'100%',pb:50, pt:0}}>
-                <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})}/>
+
+              <Flex sx={{flexDirection:'column',alignItems:'center', justifyContent:'flex-end',height:'100%',pb:50, pt:0}}>
+                <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})} data={gameData} input={input}/>
                 <Select
                   sx={{
                     mb:10,
@@ -92,7 +91,6 @@ export default function Lineup() {
                   <option value="M">Monk</option>
                 </Select>
               </Flex>
-            </Character>
           </Flex>
         )}
       </Flex>

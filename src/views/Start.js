@@ -69,11 +69,11 @@ export default function Start() {
               sx={{
                 flexDirection: 'column'
               }}>
-              <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game:</Text>
+              <Text sx={{fontFamily:'body',color:'text', fontSize:'medium', m:10}}>Create a new game:</Text>
               <Button variant='tertiary' onClick={() => createGame()} sx={{width: '50%', mb:10}}><Heading sx={{fontSize:'medium'}}>create</Heading></Button>
-              <Text sx={{fontFamily:'body',color:'text', m:10}}>Or join one in progress:</Text>
+              <Text sx={{fontFamily:'body',color:'text', fontSize:'medium', m:10}}>Or join one in progress:</Text>
               <Flex sx={{flexDirection:'row', justifyContent:'flex-start', mb:10}}>
-                <Input sx={{width: '50%', mr:20, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
+                <Input sx={{width: '50%', mr:20, bg:'white',fontFamily:'body', fontSize:'medium', color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
                 <Link to={!id ? `/` : `/${id}`}>
                   <Button variant='tertiary' onClick={() => joinGame()} sx={{width: '100%'}}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
                 </Link>

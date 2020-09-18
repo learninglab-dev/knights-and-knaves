@@ -14,7 +14,7 @@ import {
 import liveUpdate from '../utils/live'
 import Character from './Character'
 import { defaultNames } from '../data/defaultNames'
-import shuffle from '../assets/shuffle.svg'
+import shuffle from '../assets/shuffle.png'
 
 
 export default function CharacterBuilder() {
@@ -73,6 +73,7 @@ export default function CharacterBuilder() {
                 fontFamily:'body',
                 color:'text',
                 textAlign:'center',
+                fontSize:'medium',
                 height:35
               }}
               onChange={e => {
@@ -81,13 +82,14 @@ export default function CharacterBuilder() {
               }}
             />
             <Button
-              variant='tertiary'
+              variant='invisible'
               sx={{
                 backgroundImage: `url(${shuffle})`,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
-                height:15,
-                p:15,
+                height:30,
+                px:20,
+                py:17
               }}
               onClick={() => drawDefaultName(i)}
             />
@@ -109,16 +111,16 @@ export default function CharacterBuilder() {
       }}>
       <>
         <Text
-          sx={{fontFamily:'body',color:'text',textAlign:'center', m:10}}
+          sx={{fontFamily:'body',color:'text',textAlign:'center', fontSize:'medium', m:10}}
         >How many islanders will you meet today?</Text>
         <Select
           sx={{
             bg:'white',
             fontFamily:'body',
             color:'text',
-            textAlign:'center',
-            fontSize:'tiny',
-            width: 60,
+            textAlign:'left',
+            fontSize:'medium',
+            width: 50,
           }}
           value={num}
           onChange={e => {
@@ -133,7 +135,7 @@ export default function CharacterBuilder() {
       {num &&
         <>
           <Text
-            sx={{fontFamily:'body',color:'text', m:10}}
+            sx={{fontFamily:'body',color:'text',textAlign:'center', fontSize:'medium', m:10}}
           >Let's name your islanders:</Text>
           <Flex
             sx={{

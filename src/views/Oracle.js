@@ -1,18 +1,21 @@
 import React, {useState, useEffect, useContext} from 'react'
-import crystalball from '../assets/people/oracle1.png'
+import { useHistory } from 'react-router-dom'
 import {Flex, Box, Text, Heading, Button, Image} from 'rebass'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 import { Data } from '../data/GameData'
 import Hints from './Hints'
 import History from './History'
+import crystalball from '../assets/people/oracle1.png'
 
-export default function Oracle({ solved }) {
+export default function Oracle() {
+  const history = useHistory()
   const gameData = useContext(Data)
-  const credits = []
-  const [isOracle, setIsOracle] = useState(false)
-  // useEffect(() => {
-  //   setIsOracle(true)
-  // },[solved])
+  const [isOracle, setIsOracle] = useState(true)
+
+  useEffect(() => {
+    setIsOracle(true)
+  },[gameData.solved])
+
   return (
     <Box
       sx={{
@@ -59,7 +62,7 @@ export default function Oracle({ solved }) {
             height:'100%',
             justifyContent:'space-between'
           }}>
-            {!solved &&
+            {!gameData.solved &&
               <>
                 <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'20%'}}>
                   <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>how to play:</Heading>
@@ -76,9 +79,10 @@ export default function Oracle({ solved }) {
                 <Hints/>
               </>
             }
-            {solved &&
-              <Flex sx={{flexDirection:'row',justifyContent:'center',alignItems:'center',width:'100%',mx:40}}>
+            {gameData.solved &&
+              <Flex sx={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',width:'100%',mx:40}}>
                 <Heading sx={{color:'secondary', fontSize:'colossal'}}>YOU WIN!!</Heading>
+                <Button variant='tertiary' onClick={() => {history.push(`/`)}}><Heading sx={{fontSize:'medium'}}>start over</Heading></Button>
               </Flex>
             }
             <Box sx={{flexBasis:'30%', ml:20}}><History turns={gameData.turns}/></Box>
