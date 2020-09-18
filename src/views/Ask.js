@@ -170,12 +170,15 @@ export default function Ask({ answerer }) {
           sx={{
             ml: 3,
             my:1,
-            bg:'white',
+            bg:'secondary',
             fontFamily:'body',
-            color:'text',
+            fontWeight:'bold',
+            color:'primary',
             textAlign:'left',
-            fontSize:'tiny',
-            width: 60,
+            fontSize:'small',
+            borderColor:'foreground',
+            borderWidth: 3,
+            width: 80,
           }}
           value={connective}
           onChange={e => {

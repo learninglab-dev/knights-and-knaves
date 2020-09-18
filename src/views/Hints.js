@@ -18,19 +18,19 @@ export default function About() {
           alignItems:'flex-start'
         }}
       >
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%'}}>
           <Image src={knight} sx={{height: '10vh', mb:3}}/>
           <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Knights always tell the truth</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%'}}>
           <Image src={knave} sx={{height: '10vh', mb:3}}/>
           <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Knaves always lie</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%'}}>
           <Image src={dragon} sx={{height: '10vh', mb:3}}/>
           <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Dragons tell the truth...except in the presence of a Knight</Text>
         </Flex>
-        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%', mx:2}}>
+        <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', flexBasis:'20%'}}>
           <Image src={monk} sx={{height: '10vh', mb:3}}/>
           <Text sx={{color: 'foreground',fontFamily: 'body',lineHeight: 'body',textAlign: 'center',fontSize:'tiny'}}>Monks say whatever they like</Text>
         </Flex>

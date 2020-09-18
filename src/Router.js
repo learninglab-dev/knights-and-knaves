@@ -110,6 +110,7 @@ function ValidateGameId({ fbInstance }) {
   const { id } = useParams()
   const uid = useContext(Data).uid
   const solution = useContext(Data).solution
+  const solved = useContext(Data).solved
   const updateGame = useCallback(useContext(DataReducer), [])
   const [status, setStatus] = useState(uid ? 'characters' : 'loading')
   useEffect(() => {
@@ -144,7 +145,7 @@ function ValidateGameId({ fbInstance }) {
       )
     case 'ready':
       return (
-        <Frame status='play'>
+        <Frame status={solved ? 'solved' : 'play'}>
           <Lineup />
         </Frame>
       )

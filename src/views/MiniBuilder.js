@@ -6,6 +6,90 @@ import { englishify } from '../utils/englishify'
 import { predicateOptions, quantifierOptions } from '../utils/select-options'
 
 
+const customStyles = {
+  control: (styles) => ({
+     ...styles,
+     backgroundColor: 'transparent',
+     borderRadius:0,
+     borderWidth:'0px 0px 3px 0px',
+     borderColor:'#F58B00',
+   }),
+   menu: (styles) => ({
+      ...styles,
+      backgroundColor: 'transparent',
+      borderRadius:0,
+      borderWidth:0,
+      borderColor:'transparent',
+      margin:0,
+      padding:0
+    }),
+
+  option: (styles, { isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: isSelected
+        ? '#DE640B'
+        : isFocused
+        ? '#F5C00C'
+        : '#F58B00',
+      color: '#3D2642',
+      fontFamily: '"Nunito", sans-serif',
+      fontWeight: 'bold',
+      ':active': {
+        backgroundColor: '#6F1321'
+      },
+    };
+  },
+
+  multiValue: (styles) => {
+    return {
+      ...styles,
+      backgroundColor: '#F58B00',
+      backgroundColor: 'transparent',
+      borderRadius:0,
+      borderWidth:3,
+      borderColor:'#F58B00'
+    };
+  },
+  multiValueLabel: (styles) => ({
+    ...styles,
+    color: '#F58B00',
+    fontFamily: '"Nunito", sans-serif',
+    fontWeight: 'bold',
+  }),
+  placeholder: (styles) => ({
+    ...styles,
+    color: '#C497CF',
+    fontFamily: '"Nunito", sans-serif',
+    fontWeight: 'bold',
+  }),
+  singleValue: (styles) => ({
+    ...styles,
+    color: '#F58B00',
+    fontFamily: '"Nunito", sans-serif',
+    fontWeight: 'bold',
+  }),
+  multiValueRemove: (styles) => ({
+    ...styles,
+    color: '#F58B00',
+    ':hover': {
+      color: '#5FB923',
+    },
+  }),
+  dropdownIndicator: (styles) => ({
+    ...styles,
+    ':hover': {
+      color: '#5FB923',
+    },
+  }),
+  clearIndicator: (styles) => ({
+    ...styles,
+    ':hover': {
+      color: '#5FB923',
+    },
+  }),
+};
+
 export default function MiniBuilder(props) {
   const {
     names,
@@ -31,6 +115,7 @@ export default function MiniBuilder(props) {
         }}
       >
         <Select
+          styles={customStyles}
           name='predicate'
           value={sentence.predicate ? {value: sentence.predicate, label: predicateOptions.find(option => option.value === sentence.predicate).label} : null}
           isClearable={true}
@@ -44,6 +129,7 @@ export default function MiniBuilder(props) {
         />
         {!sentence.disableNames &&
             <Select
+            styles={customStyles}
             name='names'
             value={sentence.names ? sentence.names.map(name => ({value: name, label: name})) : []}
             isDisabled={sentence.disableNames}
@@ -55,13 +141,11 @@ export default function MiniBuilder(props) {
               // updateSentence({type: 'names', value: e ? e : [] })
               liveUpdate({type: 'BUILDER', uid: uid, i: i, property: 'names', answerer: answerer, value: e ? e : []})
             }}
-            styles={{
-              width:'500px',
-            }}
           />
         }
         {!sentence.disableQuantifier &&
           <Select
+            styles={customStyles}
             name='quantifier'
             value={sentence.quantifier ? {value: sentence.quantifier, label: quantifierOptions.find(option => option.value === sentence.quantifier).label} : null}
             defaultValue={null}
@@ -78,6 +162,7 @@ export default function MiniBuilder(props) {
         }
         {!sentence.disableNumber &&
           <Select
+            styles={customStyles}
             name='number'
             value={sentence.number ? {value: sentence.number, label: sentence.number} : null}
             defaultValue={null}

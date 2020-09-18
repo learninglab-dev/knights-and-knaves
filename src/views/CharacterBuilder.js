@@ -6,7 +6,7 @@ import React, {
 } from 'react'
 import firebase from 'firebase'
 import {Flex, Box, Text, Button, Heading} from 'rebass'
-import { Input, Select } from '@rebass/forms'
+import { Input, Select, Label } from '@rebass/forms'
 import {
   DataReducer,
   Data,
@@ -23,6 +23,7 @@ export default function CharacterBuilder() {
   const [num, setNum] = useState('')
   const [names, setNames] = useState({})
   const [available, setAvailable] = useState(defaultNames)
+  console.log('i am cb');
 
   // TODO: add error handling
   useEffect(() => {
@@ -61,41 +62,42 @@ export default function CharacterBuilder() {
   let characters = []
   for (let i = 0; i < num; i++) {
     characters.push(
-      <Box key={i}>
-        <Character type='mystery'>
-          <Flex sx={{flexDirection:'row'}}>
-            <Input
-              type='text'
-              value={names[i] || ''}
-              sx={{
-                bg:'white',
-                mr: 2,
-                fontFamily:'body',
-                color:'text',
-                textAlign:'center',
-                fontSize:'medium',
-                height:35
-              }}
-              onChange={e => {
-                setNames({...names, [i]: e.target.value})
-                liveUpdate({type: 'NAMES', uid: uid, i: i, value: e.target.value})
-              }}
-            />
-            <Button
-              variant='invisible'
-              sx={{
-                backgroundImage: `url(${shuffle})`,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                height:30,
-                px:20,
-                py:17
-              }}
-              onClick={() => drawDefaultName(i)}
-            />
-          </Flex>
-        </Character>
-      </Box>
+      <Flex key={i} sx={{flexDirection:'column',justifyContent:'flex-end',alignItems:'center'}}>
+        <Input
+          type='text'
+          value={names[i] || ''}
+          placeholder='name'
+          sx={{
+            bg:'transparent',
+            mr: 2,
+            fontFamily:'heading',
+            color:'secondary',
+            textAlign:'center',
+            fontSize:'large',
+            textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black',
+            height:'auto',
+            border:'none',
+            width:'100%'
+          }}
+          onChange={e => {
+            setNames({...names, [i]: e.target.value})
+            liveUpdate({type: 'NAMES', uid: uid, i: i, value: e.target.value})
+          }}
+        />
+        <Button
+          variant='invisible'
+          sx={{
+            backgroundImage: `url(${shuffle})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height:50,
+            width:60,
+          }}
+          onClick={() => drawDefaultName(i)}
+        />
+        <Character type='mystery'/>
+
+      </Flex>
     )
   }
 
@@ -105,27 +107,52 @@ export default function CharacterBuilder() {
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'flex-start',
-        pt:'10vh',
         width:'100%',
         height:'100%'
       }}>
-      {num &&
         <>
-          <Text
-            sx={{fontFamily:'body',color:'text',textAlign:'center', fontSize:'medium', m:10}}
-          >Let's name your islanders:</Text>
-          <Flex
-            sx={{
-              width:'100%',
-              flexDirection:'row',
-              flexWrap:'wrap',
-              justifyContent:'space-evenly',
-            }}>
-            {characters}
+          {num &&
+            <Flex
+              sx={{
+                width:'100%',
+                flexDirection:'row',
+                flexWrap:'no-wrap',
+                justifyContent:'space-evenly',
+              }}>
+              {characters}
+            </Flex>
+          }
+          <Flex sx={{flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%', mt:40}}>
+            <Label sx={{width:'auto', height:'auto', mr:3}}>
+              <Heading sx={{color: 'primary', fontSize:'medium', textAlign:'right'}}>
+                Number of Islanders
+              </Heading>
+            </Label>
+            <Select
+              sx={{
+                bg:'secondary',
+                fontFamily:'body',
+                fontWeight:'bold',
+                color:'primary',
+                textAlign:'left',
+                fontSize:'small',
+                borderColor:'primary',
+                borderWidth: 3,
+                width: 50,
+              }}
+              value={num}
+              onChange={e => {
+                setNum(e.target.value)
+                liveUpdate({type: 'NUMCHARS', uid: uid, num: e.target.value})
+              }}
+              >
+              <option value='' key={'empty'}>...</option>
+              {[1,2,3,4,5,6].map(number => <option value={number} key={number}>{number}</option>)}
+            </Select>
+            <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})} sx={{ml:4}}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
           </Flex>
-          <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
+
         </>
-      }
     </Flex>
   )
 }

@@ -26,9 +26,9 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
           py:20,
           pl:20,
           width:'100vw',
-          height:'75vh',
+          height:'70vh',
           position:'absolute',
-          left:0,right:0,bottom:0,top:'25vh',
+          left:0,right:0,bottom:0,top:'30vh',
           zIndex:'10'}}>
           <Button
             variant='invisible'

@@ -36,7 +36,10 @@ export default {
     darkgreen: '#5FB923',
     lightred: '#F96989',
     darkred: '#6F1321',
-    lightblue:'#78E6F7'
+    lightblue:'#78E6F7',
+    darkorange:'#DE640B',
+    canary:'#FAC50D',
+    lavender:'#C497CF'
   },
   space: [0, 4, 8, 16, 32, 48],
   breakpoints: ['40em', '64em', '80em'],

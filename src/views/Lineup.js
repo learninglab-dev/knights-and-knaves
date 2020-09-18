@@ -9,7 +9,6 @@ import { Flex, Button, Heading } from 'rebass'
 import { Select } from '@rebass/forms'
 import firebase from 'firebase'
 import { Data, DataReducer } from '../data/GameData'
-import Character from './Character'
 import AskModal from './AskModal'
 import { englishifySolve } from '../utils/englishify'
 import liveUpdate from '../utils/live'
@@ -70,13 +69,15 @@ export default function Lineup() {
                 <Select
                   sx={{
                     mb:10,
-                    bg:'white',
+                    bg:'secondary',
                     fontFamily:'body',
-                    color:'text',
+                    fontWeight:'bold',
+                    color:'primary',
                     textAlign:'left',
-                    fontSize:'tiny',
+                    fontSize:'small',
+                    borderColor:'primary',
+                    borderWidth: 3,
                     width: 100,
-                    pl:15
                   }}
                   value={input[name]}
                   onChange={e => {

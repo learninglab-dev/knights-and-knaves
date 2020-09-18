@@ -20,11 +20,26 @@ const Tabs = ({children}) => {
 export default function Oracle({status}) {
   const history = useHistory()
   const gameData = useContext(Data)
-  const [isOracle, setIsOracle] = useState(true)
+  const [isOracle, setIsOracle] = useState(null)
+
 
   useEffect(() => {
-    setIsOracle(true)
-  },[gameData.solved])
+    if (status === 'start'){
+      setIsOracle(true)
+    }
+    else if (status === 'naming'){
+      setIsOracle(true)
+    }
+    else if (status === 'play'){
+      setIsOracle(true)
+    }
+    else if (status === 'solved'){
+      setIsOracle(true)
+    }
+    else {
+      setIsOracle(false)
+    }
+  },[status])
 
   return (
     <Box
@@ -32,7 +47,7 @@ export default function Oracle({status}) {
         display:'grid',
         height:'100%',
         width:'100%',
-        gridTemplateColumns: '1fr 6fr'
+        gridTemplateColumns: '1fr 6fr',
       }}
     >
       <Button sx={{
@@ -65,11 +80,14 @@ export default function Oracle({status}) {
             gridColumn:'2/span 1',
             placeSelf:'center start',
             bg:'text',
-            p: 10,
+            pl: 40,
+            pt: 20,
+            pb: 10,
             width:'100%',
             flexDirection:'row',
             height:'100%',
-            justifyContent:'space-between'
+            justifyContent:'space-between',
+            alignItems:'flex-start'
           }}>
             {status === 'start' &&
               <Start />
@@ -78,9 +96,6 @@ export default function Oracle({status}) {
               <Naming />
             }
             {status === 'play' &&
-              <History turns={gameData.turns}/>
-            }
-            {gameData.solution &&
               <>
                 <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'20%'}}>
                   <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>how to play:</Heading>
@@ -94,11 +109,13 @@ export default function Oracle({status}) {
                     }}
                   >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.</Text>
                 </Flex>
-                <Hints/>
+                <Box sx={{flexBasis:'40%'}}>
+                  <Hints/>
+                </Box>
               </>
             }
             {gameData.solved &&
-              <Flex sx={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',width:'100%',mx:40}}>
+              <Flex sx={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',width:'100%',height:'100%',mx:40}}>
                 <Heading sx={{color:'secondary', fontSize:'colossal'}}>YOU WIN!!</Heading>
                 <Button variant='tertiary' onClick={() => {history.push(`/`)}}><Heading sx={{fontSize:'medium'}}>start over</Heading></Button>
               </Flex>
