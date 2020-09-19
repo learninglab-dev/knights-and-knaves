@@ -20,32 +20,22 @@ const Tabs = ({children}) => {
 export default function Oracle({status}) {
   const history = useHistory()
   const gameData = useContext(Data)
-  const [isOracle, setIsOracle] = useState(null)
-
-
-  useEffect(() => {
-    if (status === 'start'){
+  console.log('status'+JSON.stringify(status));
+  const [isOracle, setIsOracle] = useState(false)
+  
+  useEffect(()=>{
+    if (status == 'start' || status == 'naming' || status == 'true' || status == 'false' || status =='play') {
       setIsOracle(true)
-    }
-    else if (status === 'naming'){
-      setIsOracle(true)
-    }
-    else if (status === 'play'){
-      setIsOracle(true)
-    }
-    else if (status === 'solved'){
-      setIsOracle(true)
-    }
-    else {
-      setIsOracle(false)
+      console.log('toggled');
     }
   },[status])
+
 
   return (
     <Box
       sx={{
         display:'grid',
-        height:'100%',
+        height:'30vh',
         width:'100%',
         gridTemplateColumns: '1fr 6fr',
       }}
@@ -67,7 +57,7 @@ export default function Oracle({status}) {
         <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
       </Button>
       {isOracle &&
-        <Flex sx={{flexDirection:'row',alignItems:'center'}}>
+        <Flex sx={{gridColumn:'2/span 1' , flexDirection:'row',alignItems:'center',height:'30vh'}}>
           <Box sx={{
             width: 0,
             height: 0,
@@ -86,8 +76,9 @@ export default function Oracle({status}) {
             width:'100%',
             flexDirection:'row',
             height:'100%',
+            maxHeight:'30vh',
             justifyContent:'space-between',
-            alignItems:'flex-start'
+            alignItems:'flex-start',
           }}>
             {status === 'start' &&
               <Start />
@@ -114,14 +105,8 @@ export default function Oracle({status}) {
                 </Box>
               </>
             }
-            {gameData.solved &&
-              <Flex sx={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',width:'100%',height:'100%',mx:40}}>
-                <Heading sx={{color:'secondary', fontSize:'colossal'}}>YOU WIN!!</Heading>
-                <Button variant='tertiary' onClick={() => {history.push(`/`)}}><Heading sx={{fontSize:'medium'}}>start over</Heading></Button>
-              </Flex>
-            }
             {gameData.solution &&
-            <Box sx={{flexBasis:'30%', ml:20}}><History turns={gameData.turns}/></Box>
+            <Box sx={{ml:20, height:'100%'}}><History turns={gameData.turns}/></Box>
             }
           </Flex>
         </Flex>

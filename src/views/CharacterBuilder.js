@@ -23,7 +23,6 @@ export default function CharacterBuilder() {
   const [num, setNum] = useState('')
   const [names, setNames] = useState({})
   const [available, setAvailable] = useState(defaultNames)
-  console.log('i am cb');
 
   // TODO: add error handling
   useEffect(() => {
