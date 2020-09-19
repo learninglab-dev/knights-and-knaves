@@ -7,12 +7,14 @@ import Ask from './Ask'
 import History from './History'
 import close from '../assets/close.svg'
 
-export default function AskModal({name, show, setAnswerer, setShow}) {
-  const gameData = useContext(Data)
+export default function AskModal({name, show, setAnswerer, setShow, data, input}) {
+  const solution = data.solution
+  const solved = data.solved
   return (
     <>
-      <Button variant='invisible' onClick={setAnswerer} sx={{}}>
+      <Button variant='invisible' onClick={setAnswerer} sx={{display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
         <Heading sx={{fontSize:'large',textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black'}}>{name}</Heading>
+        <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved}/>
       </Button>
       {show &&
         <Flex sx={{
@@ -24,9 +26,9 @@ export default function AskModal({name, show, setAnswerer, setShow}) {
           py:20,
           pl:20,
           width:'100vw',
-          height:'75vh',
+          height:'70vh',
           position:'absolute',
-          left:0,right:0,bottom:0,top:'25vh',
+          left:0,right:0,bottom:0,top:'30vh',
           zIndex:'10'}}>
           <Button
             variant='invisible'
@@ -42,7 +44,7 @@ export default function AskModal({name, show, setAnswerer, setShow}) {
             <Character type='mystery' grey={false}/>
           </Flex>
           <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'40%'}}><Ask answerer={name} /></Box>
-          <Box sx={{mt:40, mt:'5vh', flexBasis:'40%'}}><History turns={gameData.turns} name={name}/></Box>
+          <Box sx={{mt:40, mt:'5vh', flexBasis:'40%'}}><History turns={data.turns} name={name}/></Box>
         </Flex>
       }
     </>

@@ -1,25 +1,53 @@
 import React, {useState, useEffect, useContext} from 'react'
-import crystalball from '../assets/people/oracle1.png'
+import { useHistory } from 'react-router-dom'
 import {Flex, Box, Text, Heading, Button, Image} from 'rebass'
 import Popover, {ArrowContainer} from 'react-tiny-popover'
 import { Data } from '../data/GameData'
 import Hints from './Hints'
 import History from './History'
+import Start from './Start'
+import Naming from './Naming'
+import crystalball from '../assets/people/oracle1.png'
 
-export default function Oracle({ solved }) {
+const Tabs = ({children}) => {
+  const [active, setActive] = useState(null)
+  return (
+    <>
+    </>
+  )
+}
+
+export default function Oracle({status}) {
+  const history = useHistory()
   const gameData = useContext(Data)
-  const credits = []
-  const [isOracle, setIsOracle] = useState(false)
-  // useEffect(() => {
-  //   setIsOracle(true)
-  // },[solved])
+  const [isOracle, setIsOracle] = useState(null)
+
+
+  useEffect(() => {
+    if (status === 'start'){
+      setIsOracle(true)
+    }
+    else if (status === 'naming'){
+      setIsOracle(true)
+    }
+    else if (status === 'play'){
+      setIsOracle(true)
+    }
+    else if (status === 'solved'){
+      setIsOracle(true)
+    }
+    else {
+      setIsOracle(false)
+    }
+  },[status])
+
   return (
     <Box
       sx={{
         display:'grid',
         height:'100%',
         width:'100%',
-        gridTemplateColumns: '1fr 6fr'
+        gridTemplateColumns: '1fr 6fr',
       }}
     >
       <Button sx={{
@@ -52,14 +80,22 @@ export default function Oracle({ solved }) {
             gridColumn:'2/span 1',
             placeSelf:'center start',
             bg:'text',
-            p: 10,
+            pl: 40,
+            pt: 20,
+            pb: 10,
             width:'100%',
             flexDirection:'row',
-            maxHeight:'25vh',
             height:'100%',
-            justifyContent:'space-between'
+            justifyContent:'space-between',
+            alignItems:'flex-start'
           }}>
-            {!solved &&
+            {status === 'start' &&
+              <Start />
+            }
+            {status === 'naming' &&
+              <Naming />
+            }
+            {status === 'play' &&
               <>
                 <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'20%'}}>
                   <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>how to play:</Heading>
@@ -73,15 +109,20 @@ export default function Oracle({ solved }) {
                     }}
                   >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.</Text>
                 </Flex>
-                <Hints/>
+                <Box sx={{flexBasis:'40%'}}>
+                  <Hints/>
+                </Box>
               </>
             }
-            {solved &&
-              <Flex sx={{flexDirection:'row',justifyContent:'center',alignItems:'center',width:'100%',mx:40}}>
+            {gameData.solved &&
+              <Flex sx={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',width:'100%',height:'100%',mx:40}}>
                 <Heading sx={{color:'secondary', fontSize:'colossal'}}>YOU WIN!!</Heading>
+                <Button variant='tertiary' onClick={() => {history.push(`/`)}}><Heading sx={{fontSize:'medium'}}>start over</Heading></Button>
               </Flex>
             }
+            {gameData.solution &&
             <Box sx={{flexBasis:'30%', ml:20}}><History turns={gameData.turns}/></Box>
+            }
           </Flex>
         </Flex>
       }

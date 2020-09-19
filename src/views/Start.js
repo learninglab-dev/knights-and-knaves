@@ -1,16 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import {Flex, Text, Heading, Button} from 'rebass'
+import {Flex, Text, Heading, Link as Alink, Button} from 'rebass'
 import { Input } from '@rebass/forms'
 import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
 import About from './About'
-import Popover, {ArrowContainer} from 'react-tiny-popover'
+
+const vidLink = 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
+const wikiLink = 'https://en.wikipedia.org/wiki/Knights_and_Knaves'
+
+const A = props =>
+  <Alink
+   {...props}
+   target="_blank"
+   rel="noopener noreferrer"
+   sx={{
+     fontWeight:'700',
+     color:'darkgreen',
+     textDecoration:'none'
+   }}
+  />
 
 
 export default function Start() {
   const [id, setId] = useState(null)
-  const [isPopover, setIsPopover] = useState(null)
   const [displayUid, setDisplayUid] = useState(false)
   const updateGame = useContext(DataReducer)
   const gameData = useContext(Data)
@@ -41,84 +54,59 @@ export default function Start() {
   return (
       <Flex
         sx={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
+          flexDirection:'row',
+          justifyContent:'space-evenly',
           width: '100%',
-          height: '100%'
-        }}>
-        {sessionStorage.getItem('invalid') && <h3>invalid game id. please try again.</h3>}
+        }}
+      >
         <Text
-          sx={{
-            width: '67%',
-            fontFamily:'heading',
-            color:'primary',
-            fontSize: 'colossal',
-            textAlign: 'center',
-            mb:20
-          }}
-        >Knights & Knaves: A Logic Game</Text>
-        <Flex
-          sx={{
-            flexDirection:'column',
-            width: '33%'
-          }}
+          sx={{fontFamily:'body',color:'foreground', fontSize:'small', mx:20, my:10, flexBasis:'60%',overflow:'auto',maxHeight:'30vh'}}
         >
-          {!displayUid &&
-            <Flex
-              sx={{
-                flexDirection: 'column'
-              }}>
-              <Text sx={{fontFamily:'body',color:'text', m:10}}>Create a new game:</Text>
-              <Button variant='tertiary' onClick={() => createGame()} sx={{width: '50%', mb:10}}><Heading sx={{fontSize:'medium'}}>create</Heading></Button>
-              <Text sx={{fontFamily:'body',color:'text', m:10}}>Or join one in progress:</Text>
-              <Flex sx={{flexDirection:'row', justifyContent:'flex-start', mb:10}}>
-                <Input sx={{width: '50%', mr:20, bg:'white',fontFamily:'body',color:'text',textTransform:'uppercase'}} id='gameId' name='gameId' type='text' placeholder='game id' onChange={e => setId(e.target.value)} ></Input>
-                <Link to={!id ? `/` : `/${id}`}>
-                  <Button variant='tertiary' onClick={() => joinGame()} sx={{width: '100%'}}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
-                </Link>
-              </Flex>
-              <Popover
-                isOpen={isPopover}
-                position={'top'}
-                padding={5}
-                onClickOutside={e => setIsPopover(!isPopover)}
-                transitionDuration={0.25}
-                containerStyle={{width:'60%'}}
-                content={({ position, targetRect, popoverRect }) => (
-                  <ArrowContainer
-                    position={position}
-                    targetRect={targetRect}
-                    popoverRect={popoverRect}
-                    arrowColor={'#54345B'}
-                    arrowSize={10}
-                    style={{backgroundColor:'#54345B',marginBottom:10, padding:30}}
-                  >
-                  <About />
-                  </ArrowContainer>
-                )}
-              >
-                <Button variant='outline' onClick={() => setIsPopover(!isPopover)} sx={{m:10}}>
-                  <Heading sx={{fontSize:'medium'}}>about this alpha</Heading>
-                </Button>
-              </Popover>
-            </Flex>
-          }
-          {displayUid &&
-            <Flex
-              sx={{
-              flexDirection: 'column',
-              alignItems:'center',
-              justifyContent:'center'
-              }}>
-              <Text sx={{fontFamily:'body',color:'text', m:10, textAlign:'center'}}>Here's your game id. send it to your teammates so they can join!
-              <Heading sx={{m:10,fontSize:'large'}}>{gameData.uid}</Heading>
-              Then click go! to start the game</Text>
-              <Button variant='tertiary' onClick={() => {history.push(`/${gameData.uid}`)}}><Heading sx={{fontSize:'medium'}}>go!</Heading></Button>
-            </Flex>
-          }
-        </Flex>
+          <p>Welcome to the island of Knights, Knaves, Monks, & Dragons!</p>
+          <p><A href={wikiLink}>Knights & Knaves</A> puzzles are a type of logic puzzle in which you encounter a group of the island's inhabitants, and you must deduce their identities from their statements.</p>
+          <p>There are four islander identities: Knights, Knaves, Monks, and Dragons. Knights always tell the truth; Knaves always lie; Dragons tell the truth except in the presence of a Knight; and Monks say whatever they like.</p>
+          <p>In this game version we invert the usual roles. Instead of the islanders speaking to you, you and your team will question the islanders. For a walkthrough of the game interface, check out our <A href={vidLink}>How to Play</A> video.</p>
+        </Text>
 
+          <Flex sx={{flexDirection:'column', justifyContent:'flex-start', flexBasis:'20%', my:10}}>
+            {!displayUid &&
+              <>
+                <A href={vidLink}>
+                  <Button variant='outline' sx={{width:'100%', mb:3}}>
+                    <Heading sx={{fontSize:'medium'}}>tutorial</Heading>
+                  </Button>
+                </A>
+                <Button variant='tertiary' onClick={() => createGame()} sx={{mb:3}}><Heading sx={{fontSize:'medium'}}>create game</Heading></Button>
+                <Flex sx={{flexDirection:'row', justifyContent:'flex-start', mb:10}}>
+                  <Input sx={{
+                    mr:20, bg:'white',fontFamily:'body', fontSize:'small', fontWeight:'bold',
+                    textTransform:'uppercase',textAlign:'center',
+                    backgroundColor: sessionStorage.getItem('invalid') ? 'lightred' : 'foreground',
+                    color: sessionStorage.getItem('invalid') ? 'darkred' : 'text',
+                  }} id='gameId' name='gameId' type='text' placeholder={sessionStorage.getItem('invalid') ? 'invalid id' : 'game id'} onChange={e => setId(e.target.value)} ></Input>
+                  { id &&
+                    <Link to={!id ? `/` : `/${id}`}>
+                      <Button variant='tertiary' onClick={() => joinGame()} sx={{}}><Heading sx={{fontSize:'medium'}}>join</Heading></Button>
+                    </Link>
+                  }
+                  { !id &&
+                    <Link>
+                      <Button variant='nope'>
+                        <Heading sx={{fontSize:'medium'}}>join</Heading>
+                      </Button>
+                    </Link>
+                  }
+                </Flex>
+              </>
+            }
+            {displayUid &&
+              <>
+                <Text sx={{fontFamily:'body',color:'foreground', fontSize:'small', textAlign:'center'}}>Share this game ID with your teammates so they can join!</Text>
+                <Heading sx={{fontSize:'large',color:'secondary',textAlign:'center', mb:3}}>{gameData.uid}</Heading>
+                <Button variant='tertiary' onClick={() => {history.push(`/${gameData.uid}`)}}><Heading sx={{fontSize:'medium'}}>go!</Heading></Button>
+              </>
+            }
+          </Flex>
       </Flex>
   )
 }

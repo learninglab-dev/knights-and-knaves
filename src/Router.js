@@ -11,6 +11,7 @@ import {
   useParams,
   Redirect,
 } from 'react-router-dom'
+import { isMobile } from 'react-device-detect'
 import { ThemeProvider } from 'emotion-theming';
 import firebase from 'firebase'
 import {Box, Flex, Heading} from 'rebass'
@@ -26,28 +27,90 @@ export default function Routes({ fbInstance }) {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{height: '100vh', width: '100vw', backgroundImage: `url(${island})`, backgroundSize: 'cover', backgroundPosition:'center center'}}>
-        <Router>
-          <Switch>
-            <Route exact path='/'>
-              <Frame>
-                <Start />
-              </Frame>
-            </Route>
-            <Route exact path='/:id'>
-              <ValidateGameId fbInstance={fbInstance}/>
-            </Route>
-          </Switch>
-        </Router>
+        {isMobile
+          ? <MobileWarning/>
+          : <Router>
+              <Switch>
+                <Route exact path='/'>
+                  <Frame status='start'>
+                    <Title />
+                  </Frame>
+                </Route>
+                <Route exact path='/:id'>
+                  <ValidateGameId fbInstance={fbInstance}/>
+                </Route>
+              </Switch>
+            </Router>
+          }
       </Box>
     </ThemeProvider>
   )
 }
 
+const Title = () => {
+  return (
+    <Flex
+      sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+      }}>
+      <Heading
+        sx={{
+          width: '50vw',
+          fontFamily:'heading',
+          color:'primary',
+          fontSize: 'colossal',
+          textAlign: 'center',
+          mb:10
+        }}
+      >Knights, Knaves, Monks & Dragons</Heading>
+      <Heading
+        sx={{
+          width: '50vw',
+          fontFamily:'heading',
+          color:'secondary',
+          fontSize: 'huge',
+          textAlign: 'center',
+          letterSpacing: 4,
+        }}
+      >A LOGIC GAME</Heading>
+    </Flex>
+  )
+}
+
+const MobileWarning = () => {
+  return (
+    <Flex
+      sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+      }}>
+      <Heading
+        sx={{
+          width: '50vw',
+          fontFamily:'heading',
+          color:'primary',
+          fontSize: 'large',
+          textAlign: 'center',
+        }}
+      >
+        Sorry! The island is only accepting visitors on computers at the moment.
+      </Heading>
+    </Flex>
+  )
+}
 
 function ValidateGameId({ fbInstance }) {
   const { id } = useParams()
   const uid = useContext(Data).uid
   const solution = useContext(Data).solution
+  const solved = useContext(Data).solved
   const updateGame = useCallback(useContext(DataReducer), [])
   const [status, setStatus] = useState(uid ? 'characters' : 'loading')
   useEffect(() => {
@@ -76,13 +139,13 @@ function ValidateGameId({ fbInstance }) {
       return <Redirect to='/' />
     case 'characters':
       return (
-        <Frame>
+        <Frame status='naming'>
           <CharacterBuilder />
         </Frame>
       )
     case 'ready':
       return (
-        <Frame>
+        <Frame status={solved ? 'solved' : 'play'}>
           <Lineup />
         </Frame>
       )

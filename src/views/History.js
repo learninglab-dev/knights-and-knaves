@@ -31,7 +31,7 @@ export default function History({turns, name}) {
       }}
     >
       <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>
-      <Box sx={{overflow: 'auto', display: 'grid', gridTemplateColumns: '1fr auto 1fr'}}>
+      <Box sx={{height:'auto',overflow: 'auto', display: 'grid', gridTemplateColumns: '1fr auto 1fr'}}>
         {turnsToShow &&
           Object.values(turnsToShow).map((turn, i) =>
           {
@@ -47,7 +47,7 @@ export default function History({turns, name}) {
               </>
             )
           }
-        )}
+        ).reverse()}
       </Box>
     </Flex>
   )

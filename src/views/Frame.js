@@ -7,7 +7,7 @@ import Credits from './Credits'
 import Oracle from './Oracle'
 
 
-export default function Frame({children}) {
+export default function Frame({children, status}) {
   const gameData = useContext(Data)
   const updateGame = useContext(DataReducer)
   console.log(gameData);
@@ -39,13 +39,11 @@ export default function Frame({children}) {
         height:'100%',
         width:'100%',
         gridTemplateColumns: '1fr 5fr 1fr',
-        gridTemplateRows: '2fr 5fr 1fr',
+        gridTemplateRows: '3fr 6fr 1fr',
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
-      {gameData.solution &&
-        <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1'}}><Oracle solved={gameData.solved}/></Box>
-      }
+      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1', zIndex:'30'}}><Oracle status={status}/></Box>
       <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
       <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>
     </Box>
