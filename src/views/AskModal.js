@@ -12,8 +12,8 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
   const solved = data.solved
   return (
     <>
-      <Button variant='invisible' onClick={setAnswerer} sx={{display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
-        <Heading sx={{fontSize:'large',textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black'}}>{name}</Heading>
+      <Button variant='invisible' onClick={setAnswerer} sx={{display:'flex',flexDirection:'column',justifyContent:'flex-end',alignItems:'center'}}>
+        <Heading sx={{fontSize:'large',textShadow:' -0.4vmin 0 black, 0 0.4vmin black, 0.4vmin 0 black, 0 -0.4vmin black'}}>{name}</Heading>
         <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved}/>
       </Button>
       {show &&

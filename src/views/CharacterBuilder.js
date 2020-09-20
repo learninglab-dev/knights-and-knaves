@@ -73,7 +73,7 @@ export default function CharacterBuilder() {
             color:'secondary',
             textAlign:'center',
             fontSize:'large',
-            textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black',
+            textShadow:' -0.4vmin 0 black, 0 0.4vmin black, 0.4vmin 0 black, 0 -0.4vmin black',
             height:'auto',
             border:'none',
             width:'100%'

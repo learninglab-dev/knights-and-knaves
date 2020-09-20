@@ -39,7 +39,7 @@ export default function Oracle({status, active, condition}) {
         <Heading sx={{  fontSize:'small',
                         color:'darkgreen',
                         pb:1,
-                        textShadow:' -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black'
+                        textShadow:' -0.2vmin 0 black, 0 0.2vmin black, 0.2vmin 0 black, 0 -0.2vmin black'
                       }}>THE ORACLE</Heading>
         <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
       </Button>
