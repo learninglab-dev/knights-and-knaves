@@ -7,29 +7,16 @@ import Hints from './Hints'
 import History from './History'
 import Start from './Start'
 import Naming from './Naming'
+import Tabs from './Tabs'
 import crystalball from '../assets/people/oracle1.png'
 
-const Tabs = ({children}) => {
-  const [active, setActive] = useState(null)
-  return (
-    <>
-    </>
-  )
-}
 
-export default function Oracle({status}) {
+
+export default function Oracle({status, active, condition}) {
   const history = useHistory()
   const gameData = useContext(Data)
-  console.log('status'+JSON.stringify(status));
-  const [isOracle, setIsOracle] = useState(false)
-  
-  useEffect(()=>{
-    if (status == 'start' || status == 'naming' || status == 'true' || status == 'false' || status =='play') {
-      setIsOracle(true)
-      console.log('toggled');
-    }
-  },[status])
-
+  const solved = gameData.solved
+  const [isOracle, setIsOracle] = useState(active)
 
   return (
     <Box
@@ -58,7 +45,9 @@ export default function Oracle({status}) {
       </Button>
       {isOracle &&
         <Flex sx={{gridColumn:'2/span 1' , flexDirection:'row',alignItems:'center',height:'30vh'}}>
-          <Box sx={{
+          <Box
+          id='oracleArrow'
+          sx={{
             width: 0,
             height: 0,
             borderTop: '10px solid transparent',
@@ -66,13 +55,12 @@ export default function Oracle({status}) {
             borderRightStyle: 'solid',
             borderRightWidth: '10px',
             borderRightColor: 'text'}}/>
-          <Flex sx={{
+          <Flex
+          id='oracleContainer'
+          sx={{
             gridColumn:'2/span 1',
             placeSelf:'center start',
             bg:'text',
-            pl: 40,
-            pt: 20,
-            pb: 10,
             width:'100%',
             flexDirection:'row',
             height:'100%',
@@ -86,27 +74,35 @@ export default function Oracle({status}) {
             {status === 'naming' &&
               <Naming />
             }
-            {status === 'play' &&
-              <>
-                <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center',flexBasis:'20%'}}>
-                  <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>how to play:</Heading>
-                  <Text
-                    sx={{
-                      color: 'foreground',
-                      fontFamily: 'body',
-                      lineHeight: 'body',
-                      textAlign: 'center',
-                      fontSize:'tiny'
-                    }}
-                  >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.</Text>
-                </Flex>
-                <Box sx={{flexBasis:'40%'}}>
+            {status === 'play' && !solved && condition === undefined &&
+              <Tabs defaultIndex={1}>
+                <Box id='responses:' sx={{height:'100%', width:'100%'}}>
+                  <History turns={gameData.turns} setIsOracle={setIsOracle}/>
+                </Box>
+                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
                   <Hints/>
                 </Box>
-              </>
+              </Tabs>
             }
-            {gameData.solution &&
-            <Box sx={{ml:20, height:'100%'}}><History turns={gameData.turns}/></Box>
+            {status === 'play' && !solved && condition !== undefined &&
+              <Tabs defaultIndex={0}>
+                <Box id='responses:' sx={{height:'100%', width:'100%'}}>
+                  <History turns={gameData.turns} setIsOracle={setIsOracle}/>
+                </Box>
+                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
+                  <Hints/>
+                </Box>
+              </Tabs>
+            }
+            {solved &&
+              <Tabs defaultIndex={0}>
+                <Box id='responses:' sx={{ml:20, height:'100%', width:'100%'}}>
+                  <History turns={gameData.turns}/>
+                </Box>
+                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
+                  <Hints/>
+                </Box>
+              </Tabs>
             }
           </Flex>
         </Flex>

@@ -14,9 +14,9 @@ export default function Frame({children, status}) {
   const condition = !turns || Object.keys(turns).length === 0 || turns.constructor !== Object
                     ? undefined
                     : 'correct' in turns[Object.keys(turns)[Object.keys(turns).length-1]]
-                    ? turns[Object.keys(turns)[Object.keys(turns).length-1]].correct.toString()
-                    : undefined
-  const oracleStatus = condition !== undefined ? condition : status
+                    ? turns[Object.keys(turns)[Object.keys(turns).length-1]].correct
+                    : turns[Object.keys(turns)[Object.keys(turns).length-1]].response
+
   console.log(gameData);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Frame({children, status}) {
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
-      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1', zIndex:'30'}}><Oracle status={oracleStatus}/></Box>
+      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1', zIndex:'30'}}><Oracle status={status} active={true} condition={condition}/></Box>
       <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
       <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>
     </Box>

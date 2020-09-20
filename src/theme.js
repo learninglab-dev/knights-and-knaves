@@ -5,12 +5,12 @@ export default {
     symbol: '"M PLUS Rounded 1c", sans-serif'
   },
   fontSizes: {
-        'tiny': 14,
-        'small': 16,
-        'medium': 24,
-        'large': 48,
-        'huge': 64,
-        'colossal': 96,
+        'tiny': '1.75vmin',
+        'small': '2vmin',
+        'medium': '3vmin',
+        'large': '6vmin',
+        'huge': '8vmin',
+        'colossal': '12vmin',
     },
   fontWeights: {
   body: 400,

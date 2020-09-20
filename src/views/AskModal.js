@@ -44,7 +44,10 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
             <Character type='mystery' grey={false}/>
           </Flex>
           <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'40%'}}><Ask answerer={name} /></Box>
-          <Box sx={{mt:40, mt:'5vh', flexBasis:'40%'}}><History turns={data.turns} name={name}/></Box>
+          <Flex sx={{mt:40, mt:'5vh', flexBasis:'40%',flexDirection:'column',justifyContent:'flex-start',alignItems:'center'}}>
+            <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>
+            <History turns={data.turns} name={name}/>
+          </Flex>
         </Flex>
       }
     </>
