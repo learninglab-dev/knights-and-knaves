@@ -8,11 +8,11 @@ export default function History({turns, name}) {
   const solved = useContext(Data).solved
   const history = useHistory()
   const turnsToShow = !turns ? '' : name ? Object.values(turns).filter(obj => obj.answerer === name) : turns
-  const condition = !turns || Object.keys(turns).length === 0 || turns.constructor !== Object
+  const condition = !turns || Object.keys(turnsToShow).length === 0 || turns.constructor !== Object
                     ? undefined
-                    : 'correct' in turns[Object.keys(turns)[Object.keys(turns).length-1]]
-                    ? turns[Object.keys(turns)[Object.keys(turns).length-1]].correct
-                    : turns[Object.keys(turns)[Object.keys(turns).length-1]].response
+                    : 'correct' in turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]]
+                    ? turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]].correct
+                    : turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]].response
   const Evaluation = () => {
     return (
       <Flex sx={{flexDirection:'column',justifyContent:'center',alignItems:'center',width:'auto',height:'100%',px:condition !== undefined ? 80 : 0}}>
@@ -32,6 +32,7 @@ export default function History({turns, name}) {
       </Flex>
     )
   }
+  console.log('evaluation:'+condition);
 
   const formatTurn = (turnData, i, name) => {
     if (turnData.solution) {
@@ -66,7 +67,7 @@ export default function History({turns, name}) {
           alignItems:'center',
         }}
       >
-        <Box sx={{height:'auto', width:'100%', display:'grid', overflow: 'auto', gridTemplateColumns:'1fr auto auto auto 1fr', gridTemplateRows:'min-content'}}>
+        <Box sx={{height:'auto', width:'100%', display:'grid', overflow: 'auto', gridTemplateColumns:'1fr auto auto auto 1fr', gridTemplateRows:'min-content', '& > div:nth-child(-n+5)':{ textTransform:'uppercase',borderBottom:'4px solid #3D2642' }}}>
           {turnsToShow &&
             Object.values(turnsToShow).map((turn, i) =>
             {
