@@ -12,8 +12,8 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
   const solved = data.solved
   return (
     <>
-      <Button variant='invisible' onClick={setAnswerer} sx={{display:'flex',flexDirection:'column',justifyContent:'flex-end'}}>
-        <Heading sx={{fontSize:'large',textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black'}}>{name}</Heading>
+      <Button variant='invisible' onClick={setAnswerer} sx={{display:'flex',flexDirection:'column',justifyContent:'flex-end',alignItems:'center'}}>
+        <Heading sx={{fontSize:'large',textShadow:' -0.4vmin 0 black, 0 0.4vmin black, 0.4vmin 0 black, 0 -0.4vmin black'}}>{name}</Heading>
         <Character type={ solved ? solution[name] : input[name] ? input[name] : 'mystery'} grey={!solved}/>
       </Button>
       {show &&
@@ -44,7 +44,10 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
             <Character type='mystery' grey={false}/>
           </Flex>
           <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'40%'}}><Ask answerer={name} /></Box>
-          <Box sx={{mt:40, mt:'5vh', flexBasis:'40%'}}><History turns={data.turns} name={name}/></Box>
+          <Flex sx={{mt:40, mt:'5vh', flexBasis:'40%',flexDirection:'column',justifyContent:'flex-start',alignItems:'center'}}>
+            <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>
+            <History turns={data.turns} name={name}/>
+          </Flex>
         </Flex>
       }
     </>

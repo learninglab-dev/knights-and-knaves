@@ -14,9 +14,9 @@ export default function Naming() {
         }}
       >
         <Text
-          sx={{fontFamily:'body',color:'foreground', fontSize:'small', mx:20, my:10, flexBasis:'60%',overflow:'auto',maxHeight:'30vh'}}
+          sx={{fontFamily:'body',color:'foreground', fontSize:'tiny', mx:20, my:10, width:'60%',overflow:'auto',maxHeight:'30vh'}}
         >
-          <p>Excellent! I'm always up here if you need help remembering the rules. You can click the crystal ball to toggle me on and off, it won't disturb your teammates. </p>
+          <p>Excellent! I'm always up here if you need help remembering the rules or your game status. You can click the crystal ball to toggle me on and off; it won't disturb your teammates. </p>
           <p>Time to make some decisions with your team! How many islanders will you meet? And what will their names be?</p>
         </Text>
 

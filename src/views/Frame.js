@@ -10,7 +10,12 @@ import Oracle from './Oracle'
 export default function Frame({children, status}) {
   const gameData = useContext(Data)
   const updateGame = useContext(DataReducer)
-  console.log(gameData);
+  const turns = gameData.turns
+  const condition = !turns || Object.keys(turns).length === 0 || turns.constructor !== Object
+                    ? undefined
+                    : 'correct' in turns[Object.keys(turns)[Object.keys(turns).length-1]]
+                    ? turns[Object.keys(turns)[Object.keys(turns).length-1]].correct
+                    : turns[Object.keys(turns)[Object.keys(turns).length-1]].response
 
   useEffect(() => {
     if (gameData.uid) {
@@ -43,7 +48,7 @@ export default function Frame({children, status}) {
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
-      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1', zIndex:'30'}}><Oracle status={status}/></Box>
+      <Box sx={{gridColumn:'1/span 3', gridRow:'1/span 1', zIndex:'30'}}><Oracle status={status} active={true} condition={condition}/></Box>
       <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
       <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>
     </Box>

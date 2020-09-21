@@ -2,14 +2,15 @@ export default {
   fonts: {
     body: '"Nunito", sans-serif',
     heading: '"Germania One", cursive',
+    symbol: '"M PLUS Rounded 1c", sans-serif'
   },
   fontSizes: {
-        'tiny': 14,
-        'small': 16,
-        'medium': 24,
-        'large': 48,
-        'huge': 64,
-        'colossal': 96,
+        'tiny': '1.75vmin',
+        'small': '2vmin',
+        'medium': '3vmin',
+        'large': '6vmin',
+        'huge': '8vmin',
+        'colossal': '12vmin',
     },
   fontWeights: {
   body: 400,
@@ -39,7 +40,8 @@ export default {
     lightblue:'#78E6F7',
     darkorange:'#DE640B',
     canary:'#FAC50D',
-    lavender:'#C497CF'
+    lavender:'#C497CF',
+    olive:'#50612F'
   },
   space: [0, 4, 8, 16, 32, 48],
   breakpoints: ['40em', '64em', '80em'],

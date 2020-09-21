@@ -23,7 +23,6 @@ export default function CharacterBuilder() {
   const [num, setNum] = useState('')
   const [names, setNames] = useState({})
   const [available, setAvailable] = useState(defaultNames)
-  console.log('i am cb');
 
   // TODO: add error handling
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function CharacterBuilder() {
             color:'secondary',
             textAlign:'center',
             fontSize:'large',
-            textShadow:' -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black',
+            textShadow:' -0.4vmin 0 black, 0 0.4vmin black, 0.4vmin 0 black, 0 -0.4vmin black',
             height:'auto',
             border:'none',
             width:'100%'
@@ -149,7 +148,7 @@ export default function CharacterBuilder() {
               <option value='' key={'empty'}>...</option>
               {[1,2,3,4,5,6].map(number => <option value={number} key={number}>{number}</option>)}
             </Select>
-            <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})} sx={{ml:4}}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
+            <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names, num: num})} sx={{ml:4}}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
           </Flex>
 
         </>
