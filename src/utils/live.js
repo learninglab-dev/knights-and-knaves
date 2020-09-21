@@ -123,7 +123,6 @@ export default function liveUpdate(action) {
         })
       return
     default:
-      console.log(action.type)
       alert('error updating live data')
   }
 }

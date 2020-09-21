@@ -148,7 +148,7 @@ export default function CharacterBuilder() {
               <option value='' key={'empty'}>...</option>
               {[1,2,3,4,5,6].map(number => <option value={number} key={number}>{number}</option>)}
             </Select>
-            <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names})} sx={{ml:4}}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
+            <Button variant='tertiary' onClick={() => updateGame({type: 'GENERATESOLUTION', names: names, num: num})} sx={{ml:4}}><Heading sx={{fontSize:'medium'}}>start the game</Heading></Button>
           </Flex>
 
         </>

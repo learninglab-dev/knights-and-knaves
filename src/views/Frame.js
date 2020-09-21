@@ -17,8 +17,6 @@ export default function Frame({children, status}) {
                     ? turns[Object.keys(turns)[Object.keys(turns).length-1]].correct
                     : turns[Object.keys(turns)[Object.keys(turns).length-1]].response
 
-  console.log(gameData);
-
   useEffect(() => {
     if (gameData.uid) {
       firebase.database().ref(`/${gameData.uid}/turns`).on('value', snapshot => {

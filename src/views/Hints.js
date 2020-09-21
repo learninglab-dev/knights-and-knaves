@@ -23,7 +23,7 @@ export default function About() {
             textAlign: 'center',
             fontSize:'tiny'
           }}
-        >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Turn submissions received by the system and responses from islanders will appear in sequence at the bottom.</Text>
+        >You can take two types of turns: (1) ask a question, or (2) attempt to solve. Click an islander to ask them a question; fill in identities and click "attempt to solve" to solve. Responses will appear here in the "responses" tab.</Text>
       </Flex>
       <Flex sx={{flexDirection:'column',justifyContent:'flex-start',alignItems:'center', width:'80%', height:'100%', mx:30}}>
         <Heading sx={{color:'secondary',fontSize:'medium', mb:3}}>islander key:</Heading>

@@ -32,7 +32,6 @@ export default function History({turns, name}) {
       </Flex>
     )
   }
-  console.log('evaluation:'+condition);
 
   const formatTurn = (turnData, i, name) => {
     if (turnData.solution) {
