@@ -6,7 +6,7 @@ import firebase from 'firebase'
 import { DataReducer, Data } from '../data/GameData'
 import About from './About'
 
-const vidLink = 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
+const vidLink = 'https://youtu.be/3uXis5-y5x8'
 const wikiLink = 'https://en.wikipedia.org/wiki/Knights_and_Knaves'
 
 const A = props =>
