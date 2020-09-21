@@ -36,7 +36,7 @@ const customStyles = {
       fontFamily: '"Nunito", sans-serif',
       fontWeight: 'bold',
       ':active': {
-        backgroundColor: '#6F1321'
+        backgroundColor: '#5FB923'
       },
     };
   },

@@ -57,10 +57,11 @@ export default function Start() {
           flexDirection:'row',
           justifyContent:'space-evenly',
           width: '100%',
+          height:'100%'
         }}
       >
         <Text
-          sx={{fontFamily:'body',color:'foreground', fontSize:'small', mx:20, my:10, flexBasis:'60%',overflow:'auto',maxHeight:'30vh'}}
+          sx={{fontFamily:'body',color:'foreground', fontSize:'tiny', mx:20, my:10, width:'60%',overflow:'auto',maxHeight:'30vh'}}
         >
           <p>Welcome to the island of Knights, Knaves, Monks, & Dragons!</p>
           <p><A href={wikiLink}>Knights & Knaves</A> puzzles are a type of logic puzzle in which you encounter a group of the island's inhabitants, and you must deduce their identities from their statements.</p>
@@ -68,7 +69,7 @@ export default function Start() {
           <p>In this game version we invert the usual roles. Instead of the islanders speaking to you, you and your team will question the islanders. For a walkthrough of the game interface, check out our <A href={vidLink}>How to Play</A> video.</p>
         </Text>
 
-          <Flex sx={{flexDirection:'column', justifyContent:'flex-start', flexBasis:'20%', my:10}}>
+          <Flex sx={{flexDirection:'column', justifyContent:'center', width:'20%', my:10}}>
             {!displayUid &&
               <>
                 <A href={vidLink}>
