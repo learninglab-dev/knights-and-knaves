@@ -16,7 +16,6 @@ import { ThemeProvider } from 'emotion-theming';
 import firebase from 'firebase'
 import {Box, Flex, Heading} from 'rebass'
 import theme from './theme'
-import Start from './views/Start'
 import Lineup from './views/Lineup'
 import CharacterBuilder from './views/CharacterBuilder'
 import { Data, DataReducer } from './data/GameData'
@@ -32,7 +31,7 @@ export default function Routes({ fbInstance }) {
           : <Router>
               <Switch>
                 <Route exact path='/'>
-                  <Frame status='start'>
+                  <Frame>
                     <Title />
                   </Frame>
                 </Route>
@@ -138,13 +137,13 @@ function ValidateGameId({ fbInstance }) {
       return <Redirect to='/' />
     case 'characters':
       return (
-        <Frame status='naming'>
+        <Frame>
           <CharacterBuilder />
         </Frame>
       )
     case 'ready':
       return (
-        <Frame status={'play'}>
+        <Frame>
           <Lineup />
         </Frame>
       )

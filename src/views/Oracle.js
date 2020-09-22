@@ -1,7 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
-import { useHistory } from 'react-router-dom'
-import {Flex, Box, Text, Heading, Button, Image} from 'rebass'
-import Popover, {ArrowContainer} from 'react-tiny-popover'
+import {
+  Flex,
+  Box,
+  Heading,
+  Button,
+  Image
+} from 'rebass'
 import { Data } from '../data/GameData'
 import Hints from './Hints'
 import History from './History'
@@ -12,11 +16,43 @@ import crystalball from '../assets/people/oracle1.png'
 
 
 
-export default function Oracle({status, active, condition}) {
-  const history = useHistory()
+export default function Oracle({ controller, setOracle, setTab }) {
   const gameData = useContext(Data)
-  const solved = gameData.solved
-  const [isOracle, setIsOracle] = useState(active)
+
+  const oracleContent = () => {
+    console.log(controller.content)
+    console.log(gameData)
+    switch (controller.content) {
+    case 'start':
+      return <Start />
+    case 'naming':
+      return <Naming />
+    case 'play':
+      return (
+        <Tabs setTab={setTab} activeTab={controller.tab}>
+          <Box id='responses:' sx={{height:'100%', width:'100%'}}>
+            <History turns={gameData.turns} setIsOracle={setOracle}/>
+          </Box>
+          <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
+            <Hints/>
+          </Box>
+        </Tabs>
+      )
+    case 'solved':
+      return (
+        <Tabs activeTab={'one'}>
+          <Box id='responses:' sx={{ml:20, height:'100%', width:'100%'}}>
+            <History turns={gameData.turns}/>
+          </Box>
+          <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
+            <Hints/>
+          </Box>
+        </Tabs>
+      )
+    default:
+
+    }
+  }
 
   return (
     <Box
@@ -35,7 +71,7 @@ export default function Oracle({status, active, condition}) {
         alignItems:'center',
         border: 'none',
         bg: 'transparent'
-      }} onClick={() => setIsOracle(!isOracle)}>
+      }} onClick={setOracle}>
         <Heading sx={{  fontSize:'small',
                         color:'darkgreen',
                         pb:1,
@@ -43,7 +79,7 @@ export default function Oracle({status, active, condition}) {
                       }}>THE ORACLE</Heading>
         <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
       </Button>
-      {isOracle &&
+      {controller.visible &&
         <Flex sx={{gridColumn:'2/span 1' , flexDirection:'row',alignItems:'center',height:'30vh'}}>
           <Box
           id='oracleArrow'
@@ -68,42 +104,7 @@ export default function Oracle({status, active, condition}) {
             justifyContent:'space-between',
             alignItems:'flex-start',
           }}>
-            {status === 'start' &&
-              <Start />
-            }
-            {status === 'naming' &&
-              <Naming />
-            }
-            {status === 'play' && !solved && condition === undefined &&
-              <Tabs defaultIndex={1}>
-                <Box id='responses:' sx={{height:'100%', width:'100%'}}>
-                  <History turns={gameData.turns} setIsOracle={setIsOracle}/>
-                </Box>
-                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
-                  <Hints/>
-                </Box>
-              </Tabs>
-            }
-            {status === 'play' && !solved && condition !== undefined &&
-              <Tabs defaultIndex={0}>
-                <Box id='responses:' sx={{height:'100%', width:'100%'}}>
-                  <History turns={gameData.turns} setIsOracle={setIsOracle}/>
-                </Box>
-                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
-                  <Hints/>
-                </Box>
-              </Tabs>
-            }
-            {solved &&
-              <Tabs defaultIndex={0}>
-                <Box id='responses:' sx={{ml:20, height:'100%', width:'100%'}}>
-                  <History turns={gameData.turns}/>
-                </Box>
-                <Box id='instructions:' sx={{mx:20, my: 10, height:'100%',width:'100%'}}>
-                  <Hints/>
-                </Box>
-              </Tabs>
-            }
+            {oracleContent()}
           </Flex>
         </Flex>
       }

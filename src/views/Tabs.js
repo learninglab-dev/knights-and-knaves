@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
-import {Flex, Box, Heading, Button,} from 'rebass'
+import React, { useState } from 'react'
+import { Flex, Box, Heading, Button } from 'rebass'
 
-export default function Tabs({children, defaultIndex}){
+export default function Tabs({children, activeTab, setTab}){
   const [ tab1, tab2 ] = children
   const tabs = {
     one: tab1,
     two: tab2
   }
-  const [active, setActive] = useState(defaultIndex ? Object.keys(tabs)[defaultIndex] : Object.keys(tabs)[0])
+  const active = activeTab
+  // const [active, setActive] = useState(defaultIndex ? Object.keys(tabs)[defaultIndex] : Object.keys(tabs)[0])
   return (
     <Flex
       id='allContainer'
@@ -45,7 +46,7 @@ export default function Tabs({children, defaultIndex}){
               borderBottomColor: active == 'one' ? 'canary' : 'lightgreen',
             }
           }}
-          onClick = {() => {setActive('one')}}
+          onClick = {() => setTab('one')}
         >
           <Heading
           sx={{
@@ -71,7 +72,7 @@ export default function Tabs({children, defaultIndex}){
               borderBottomColor: active == 'two' ? 'canary' : 'lightgreen',
             }
           }}
-          onClick = {() => {setActive('two')}}
+          onClick = {() => setTab('two')}
         >
           <Heading
           sx={{

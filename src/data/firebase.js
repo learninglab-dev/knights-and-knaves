@@ -21,7 +21,7 @@ export default function gameDataReducer(data, action) {
             return data
           }
         })
-      return {...data, uid: action.uid}
+      return {...data, uid: action.uid, creator: true}
     case 'JOIN':
       return {...data, uid: action.uid, solution: action.solution, turns: action.turns}
     case 'GENERATESOLUTION':

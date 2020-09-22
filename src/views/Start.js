@@ -29,9 +29,10 @@ export default function Start() {
   const gameData = useContext(Data)
   const history = useHistory()
 
-  useEffect(() => {
-    updateGame({type: 'RESET'})
-  }, [updateGame])
+  // QUESTION: what was the purpose of this? something about enabling going back to start?
+  // useEffect(() => {
+  //   updateGame({type: 'RESET'})
+  // }, [updateGame])
 
   const createGame = () => {
     sessionStorage.removeItem('invalid')
