@@ -54,7 +54,7 @@ export default function Frame({children, status}) {
     } else if (gameData.uid && gameData.solution) {
       setOracle(oracleController => {return {...oracleController, visible: true, content: 'play', tab: 'two'}})
     }
-  }, [gameData, go])
+  }, [gameData.uid, gameData.solution, gameData.creator, go])
 
   return (
     <Box
