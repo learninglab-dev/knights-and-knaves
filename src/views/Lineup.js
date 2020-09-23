@@ -64,11 +64,10 @@ export default function Lineup() {
         {names.map(name =>
           <Flex sx={{flexDirection:'column',alignItems:'center'}} key={name}>
 
-              <Flex sx={{flexDirection:'column',alignItems:'center', justifyContent:'flex-end',height:'100%',pb:50, pt:0}}>
+              <Flex sx={{flexDirection:'column',alignItems:'center', justifyContent:'flex-end',height:'100%',pb:10, pt:0}}>
                 <AskModal name={name} show={modalState[name]} setAnswerer={() => liveUpdate({type: 'ANSWERER', uid: uid, answerer: name})} setShow={()=>liveUpdate({type: 'ANSWERER', uid: uid, answerer: 'CLEAR'})} data={gameData} input={input}/>
                 <Select
                   sx={{
-                    mb:10,
                     bg:'secondary',
                     fontFamily:'body',
                     fontWeight:'bold',
@@ -97,7 +96,6 @@ export default function Lineup() {
       </Flex>
       <Button
         variant='tertiary'
-        sx={{m:10}}
         onClick={() => {
           updateGame({type: 'TAKETURN', turn: input, turnType: 'solve', english: englishifySolve(input)})
           liveUpdate({type: 'RESET', uid: uid})

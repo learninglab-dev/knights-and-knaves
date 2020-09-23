@@ -63,7 +63,7 @@ export default function Frame({children, status}) {
         height:'100%',
         width:'100%',
         gridTemplateColumns: '1fr 5fr 1fr',
-        gridTemplateRows: '3fr 6fr 1fr',
+        gridTemplateRows: '3fr 7fr',
       }}
     >
       <Box sx={{gridColumn:'2/span 1', gridRow:'2/span 1'}}>{children}</Box>
@@ -74,8 +74,8 @@ export default function Frame({children, status}) {
           setTab={tab => setOracle({...oracleController, tab: tab})}
           />
       </Box>
-      <Box sx={{gridColumn:'1/span 1', gridRow:'3/span 1', placeSelf:'center end'}}><Credits/></Box>
-      <Box sx={{gridColumn:'3/span 1', gridRow:'3/span 1', placeSelf:'center start'}}><Bug/></Box>
+      <Box sx={{gridColumn:'1/span 1', gridRow:'2/span 1', placeSelf:'end end',pb:20}}><Credits/></Box>
+      <Box sx={{gridColumn:'3/span 1', gridRow:'2/span 1', placeSelf:'end start', pb:20}}><Bug/></Box>
     </Box>
   )
 }

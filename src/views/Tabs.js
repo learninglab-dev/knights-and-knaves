@@ -94,6 +94,7 @@ export default function Tabs({children, activeTab, setTab}){
         sx={{
           width:'100%',
           height:'100%',
+          pt:10,
         }}
       >
         {tabs[active]}
