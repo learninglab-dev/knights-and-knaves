@@ -117,7 +117,7 @@ export default function Ask({ answerer }) {
   return (
     <Flex sx={{
       flexDirection:'column',
-      justifyContent:'center',
+      justifyContent:'space-between',
       alignItems:'center',
       height: '100%',
       width:'100%',
@@ -164,7 +164,7 @@ export default function Ask({ answerer }) {
           </Flex>
         }
       </Flex>
-      <Flex sx={{flexDirection:'row',alignItems:'center', my:3}}>
+      <Flex sx={{flexDirection:'row',alignItems:'center'}}>
         <Heading sx={{fontFamily:'heading',color:connectiveColor,fontSize:'medium', mb:1}}>+</Heading>
         <Select
           sx={{
@@ -190,7 +190,7 @@ export default function Ask({ answerer }) {
           {['AND', 'OR', 'IF', 'IFF'].map(connective => <option value={connective} key={connective}>{connective}</option>)}
         </Select>
       </Flex>
-      <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium', my:4}}>
+      <Heading sx={{fontFamily:'heading',color:'foreground',fontSize:'medium'}}>
         Is it true that {' '}
         <Text as='span' sx={{color: 'secondary'}}>
           <Text as='span' sx={{color: 'secondary'}}>{connective === 'IF'? ' IF ' : ''}</Text>
@@ -205,7 +205,7 @@ export default function Ask({ answerer }) {
       </Heading>
       <Button
         variant='tertiary'
-        sx={{my:4}}
+        sx={{mb:10}}
         onClick={() => {
           updateGame({
             type: 'TAKETURN',

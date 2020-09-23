@@ -8,26 +8,36 @@ export default function History({turns, name}) {
   const solved = useContext(Data).solved
   const history = useHistory()
   const turnsToShow = !turns ? '' : name ? Object.values(turns).filter(obj => obj.answerer === name) : turns
-  const condition = !turns || Object.keys(turnsToShow).length === 0 || turns.constructor !== Object
+  const latest = !turns || Object.keys(turnsToShow).length === 0 || turns.constructor !== Object
                     ? undefined
-                    : 'correct' in turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]]
-                    ? turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]].correct
-                    : turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]].response
+                    : turnsToShow[Object.keys(turnsToShow)[Object.keys(turnsToShow).length-1]]
+
   const Evaluation = () => {
     return (
-      <Flex sx={{flexDirection:'column',justifyContent:'center',alignItems:'center',width:'auto',height:'100%',px:condition !== undefined ? 80 : 0}}>
-          {condition === true
+      <Flex sx={{flexDirection:'column',justifyContent:'center',alignItems:'center',width:'auto',height:'100%',px:latest !== undefined ? 80 : 0}}>
+          {!latest
+            ? <></>
+            : 'correct' in latest
             ? <>
-                <Heading sx={{color:'secondary', fontSize:'large',color:'lightgreen', mb:20}}>Correct!</Heading>
+                <Heading sx={{
+                  color:'secondary',
+                  fontSize:'large',
+                  color: latest.correct ? 'lightgreen' : 'lightred',
+                  mb:20}}>
+                  {latest.correct ? 'Correct!' : 'Wrong!'}
+                </Heading>
                 {solved &&
                   <Button variant='tertiary' onClick={() => {history.push(`/`)}}>
                     <Heading sx={{fontSize:'medium'}}>start over</Heading>
                   </Button>
                 }
                 </>
-            : condition === false
-            ? <Heading sx={{fontSize:'large', color:'lightred'}}>Wrong!</Heading>
-            : <></>
+            : 'response' in latest &&
+              <Heading sx={{
+                fontSize:'large',
+                color: latest.response ? 'lightgreen' : 'lightred', }}>
+                {latest.response ? 'Yes!' : 'No!'}
+              </Heading>
           }
       </Flex>
     )
@@ -54,7 +64,7 @@ export default function History({turns, name}) {
       alignItems: 'flex-start',
       height:'100%'
     }}>
-      {condition !== undefined &&
+      {latest !== undefined &&
         <Evaluation />
       }
       <Flex

@@ -35,6 +35,7 @@ const customStyles = {
       color: '#3D2642',
       fontFamily: '"Nunito", sans-serif',
       fontWeight: 'bold',
+      fontSize: '2vmin',
       ':active': {
         backgroundColor: '#5FB923'
       },
@@ -56,18 +57,21 @@ const customStyles = {
     color: '#F58B00',
     fontFamily: '"Nunito", sans-serif',
     fontWeight: 'bold',
+    fontSize: '2vmin'
   }),
   placeholder: (styles) => ({
     ...styles,
     color: '#C497CF',
     fontFamily: '"Nunito", sans-serif',
     fontWeight: 'bold',
+    fontSize: '2vmin'
   }),
   singleValue: (styles) => ({
     ...styles,
     color: '#F58B00',
     fontFamily: '"Nunito", sans-serif',
     fontWeight: 'bold',
+    fontSize: '2vmin'
   }),
   multiValueRemove: (styles) => ({
     ...styles,

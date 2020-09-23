@@ -28,6 +28,7 @@ export default function Oracle({ controller, setOracle, setTab }) {
     case 'naming':
       return <Naming />
     case 'play':
+
       return (
         <Tabs setTab={setTab} activeTab={controller.tab}>
           <Box id='responses:' sx={{height:'100%', width:'100%'}}>
@@ -77,7 +78,7 @@ export default function Oracle({ controller, setOracle, setTab }) {
                         pb:1,
                         textShadow:' -0.2vmin 0 black, 0 0.2vmin black, 0.2vmin 0 black, 0 -0.2vmin black'
                       }}>THE ORACLE</Heading>
-        <Image src={crystalball} alt='oracle' sx={{width: '100px'}}/>
+        <Image src={crystalball} alt='oracle' sx={{width: '12vmin'}}/>
       </Button>
       {controller.visible &&
         <Flex sx={{gridColumn:'2/span 1' , flexDirection:'row',alignItems:'center',height:'30vh'}}>

@@ -23,7 +23,7 @@ export default function Tabs({children, activeTab, setTab}){
         id='tabsContainer'
         sx={{
           width:'auto',
-          minWidth:160,
+          minWidth:'15%',
           height:'100%',
           flexDirection:'column',
           justifyContent:'flex-start',
@@ -39,8 +39,8 @@ export default function Tabs({children, activeTab, setTab}){
             borderWidth: '0px 0px 3px 0px',
             borderStyle: 'solid',
             color: active == 'one' ? 'secondary' : 'tertiary',
-            px:20,
-            py:15,
+            px:'2vmin',
+            py:'1.5vmin',
             '&:hover': {
               color: active == 'one' ? 'canary' : 'lightgreen',
               borderBottomColor: active == 'one' ? 'canary' : 'lightgreen',
@@ -65,8 +65,8 @@ export default function Tabs({children, activeTab, setTab}){
             borderWidth: '0px 0px 3px 0px',
             borderStyle: 'solid',
             color: active == 'two' ? 'secondary' : 'tertiary',
-            px:20,
-            py:15,
+            px:'2vmin',
+            py:'1.5vmin',
             '&:hover': {
               color: active == 'two' ? 'canary' : 'lightgreen',
               borderBottomColor: active == 'two' ? 'canary' : 'lightgreen',
@@ -94,7 +94,7 @@ export default function Tabs({children, activeTab, setTab}){
         sx={{
           width:'100%',
           height:'100%',
-          pt:10,
+          pt:'1vmin'
         }}
       >
         {tabs[active]}
