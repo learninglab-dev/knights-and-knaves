@@ -29,9 +29,10 @@ export default function Start() {
   const gameData = useContext(Data)
   const history = useHistory()
 
-  useEffect(() => {
-    updateGame({type: 'RESET'})
-  }, [updateGame])
+  // QUESTION: what was the purpose of this? something about enabling going back to start?
+  // useEffect(() => {
+  //   updateGame({type: 'RESET'})
+  // }, [updateGame])
 
   const createGame = () => {
     sessionStorage.removeItem('invalid')
@@ -61,7 +62,7 @@ export default function Start() {
         }}
       >
         <Text
-          sx={{fontFamily:'body',color:'foreground', fontSize:'tiny', mx:20, my:10, width:'60%',overflow:'auto',maxHeight:'30vh'}}
+          sx={{fontFamily:'body',color:'foreground', fontSize:'tiny', mx:20, mb:10, width:'60%',overflow:'auto',maxHeight:'30vh'}}
         >
           <p>Welcome to the island of Knights, Knaves, Monks, & Dragons!</p>
           <p><A href={wikiLink}>Knights & Knaves</A> puzzles are a type of logic puzzle in which you encounter a group of the island's inhabitants, and you must deduce their identities from their statements.</p>

@@ -1,13 +1,19 @@
-import React, {useState} from 'react'
-import {Flex, Box, Heading, Button,} from 'rebass'
+import React from 'react'
+import {
+  Flex,
+  Box,
+  Heading,
+  Button
+} from 'rebass'
 
-export default function Tabs({children, defaultIndex}){
-  const [ tab1, tab2 ] = children
+
+export default function Tabs({children, activeTab, setTab}){
+  const [ responses, instructions ] = children
   const tabs = {
-    one: tab1,
-    two: tab2
+    one: responses,
+    two: instructions
   }
-  const [active, setActive] = useState(defaultIndex ? Object.keys(tabs)[defaultIndex] : Object.keys(tabs)[0])
+
   return (
     <Flex
       id='allContainer'
@@ -22,7 +28,7 @@ export default function Tabs({children, defaultIndex}){
         id='tabsContainer'
         sx={{
           width:'auto',
-          minWidth:160,
+          minWidth:'15%',
           height:'100%',
           flexDirection:'column',
           justifyContent:'flex-start',
@@ -32,53 +38,53 @@ export default function Tabs({children, defaultIndex}){
         <Button
           sx={{
             width:'auto',
-            bg: active == 'one' ? 'text' : 'primary',
+            bg: activeTab === 'one' ? 'text' : 'primary',
             borderRadius: 0,
-            borderBottomColor: active == 'one' ? 'darkorange' : 'primary',
+            borderBottomColor: activeTab === 'one' ? 'darkorange' : 'primary',
             borderWidth: '0px 0px 3px 0px',
             borderStyle: 'solid',
-            color: active == 'one' ? 'secondary' : 'tertiary',
-            px:20,
-            py:15,
+            color: activeTab === 'one' ? 'secondary' : 'tertiary',
+            px:'2vmin',
+            py:'1.5vmin',
             '&:hover': {
-              color: active == 'one' ? 'canary' : 'lightgreen',
-              borderBottomColor: active == 'one' ? 'canary' : 'lightgreen',
+              color: activeTab === 'one' ? 'canary' : 'lightgreen',
+              borderBottomColor: activeTab === 'one' ? 'canary' : 'lightgreen',
             }
           }}
-          onClick = {() => {setActive('one')}}
+          onClick = {() => setTab('one')}
         >
           <Heading
           sx={{
             fontSize:'medium',
             textAlign:'right',
             }}>
-            {tab1.props.id}
+            {responses.props.id}
           </Heading>
         </Button>
         <Button
           sx={{
             width:'auto',
-            bg: active == 'two' ? 'text' : 'primary',
+            bg: activeTab === 'two' ? 'text' : 'primary',
             borderRadius: 0,
-            borderBottomColor:active == 'two' ? 'darkorange' : 'primary',
+            borderBottomColor:activeTab === 'two' ? 'darkorange' : 'primary',
             borderWidth: '0px 0px 3px 0px',
             borderStyle: 'solid',
-            color: active == 'two' ? 'secondary' : 'tertiary',
-            px:20,
-            py:15,
+            color: activeTab === 'two' ? 'secondary' : 'tertiary',
+            px:'2vmin',
+            py:'1.5vmin',
             '&:hover': {
-              color: active == 'two' ? 'canary' : 'lightgreen',
-              borderBottomColor: active == 'two' ? 'canary' : 'lightgreen',
+              color: activeTab === 'two' ? 'canary' : 'lightgreen',
+              borderBottomColor: activeTab === 'two' ? 'canary' : 'lightgreen',
             }
           }}
-          onClick = {() => {setActive('two')}}
+          onClick = {() => setTab('two')}
         >
           <Heading
           sx={{
             fontSize:'medium',
             textAlign:'right',
             }}>
-            {tab2.props.id}
+            {instructions.props.id}
           </Heading>
         </Button>
         <Box
@@ -93,9 +99,10 @@ export default function Tabs({children, defaultIndex}){
         sx={{
           width:'100%',
           height:'100%',
+          pt:'1vmin'
         }}
       >
-        {tabs[active]}
+        {tabs[activeTab]}
       </Flex>
     </Flex>
   )

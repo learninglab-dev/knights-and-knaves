@@ -39,11 +39,12 @@ export default function AskModal({name, show, setAnswerer, setShow, data, input}
           >
             <Image src={close} alt='close' sx={{width:20}}/>
           </Button>
+
+          <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'50%', height:'90%'}}><Ask answerer={name} /></Box>
           <Flex sx={{flexDirection:'column',alignItems:'center', mx:10, mt:'5vh', flexBasis:'15%'}}>
             <Heading sx={{fontSize:'huge', color:'lightblue'}}>{name}</Heading>
             <Character type='mystery' grey={false}/>
           </Flex>
-          <Box sx={{mt:40, mx:30, mt:'5vh', flexBasis:'40%'}}><Ask answerer={name} /></Box>
           <Flex sx={{mt:40, mt:'5vh', flexBasis:'40%',flexDirection:'column',justifyContent:'flex-start',alignItems:'center'}}>
             <Heading sx={{color:'secondary', fontSize:'medium', mb:3}}>responses:</Heading>
             <History turns={data.turns} name={name}/>

@@ -121,7 +121,7 @@ export default function CharacterBuilder() {
               {characters}
             </Flex>
           }
-          <Flex sx={{flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%', mt:40}}>
+          <Flex sx={{flexDirection:'row',alignItems:'center',justifyContent:'center',width:'100%', mt:20}}>
             <Label sx={{width:'auto', height:'auto', mr:3}}>
               <Heading sx={{color: 'primary', fontSize:'medium', textAlign:'right'}}>
                 Number of Islanders
